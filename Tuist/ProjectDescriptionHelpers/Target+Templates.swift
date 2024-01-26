@@ -13,7 +13,7 @@ public extension Target {
         platform: Platform = .iOS,
         product: Product,
         organizationName: String,
-        deploymentTarget: DeploymentTarget = .iOS(targetVersion: "15.0",
+        deploymentTarget: DeploymentTarget = .iOS(targetVersion: "16.0",
                                                   devices: [.iphone],
                                                   supportsMacDesignedForIOS: false),
         dependencies: [TargetDependency] = [],

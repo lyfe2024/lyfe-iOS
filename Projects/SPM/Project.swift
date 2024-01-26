@@ -13,7 +13,7 @@ let spmTarget = Target.makeTarget(
     platform: .iOS,
     product: .framework,
     organizationName: "iOSteam",
-    deploymentTarget: .iOS(targetVersion: "15.0",
+    deploymentTarget: .iOS(targetVersion: "16.0",
                            devices: [.iphone],
                            supportsMacDesignedForIOS: false),
     dependencies: [.SPM.KingFisher],

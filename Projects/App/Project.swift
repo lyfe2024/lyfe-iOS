@@ -6,7 +6,7 @@ let appTarget = Target.makeTarget(
     platform: .iOS,
     product: .app,
     organizationName: "iOSteam",
-    deploymentTarget: .iOS(targetVersion: "15.0",
+    deploymentTarget: .iOS(targetVersion: "16.0",
                            devices: [.iphone],
                            supportsMacDesignedForIOS: false),
     dependencies: [.project(target: "SPM", path: .relativeToRoot("Projects/SPM"))],
