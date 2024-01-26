@@ -11,7 +11,8 @@ let appTarget = Target.makeTarget(
                            supportsMacDesignedForIOS: false),
     dependencies: [.project(target: "SPM", path: .relativeToRoot("Projects/SPM"))],
     infoPlistPath: "Support/Info.plist",
-    scripts: [.swiftLintPath],
+    //    scripts: [.swiftLintPath], // -> lint 적용o
+    scripts: [], // -> lint 적용x
     isResources: true,
     hasTest: true)
 
