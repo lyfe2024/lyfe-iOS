@@ -13,7 +13,7 @@ struct CustomFont {
     static let bold = "Pretendard-Bold"
     static let regular = "Pretendard-Regular.otf"
     static let semiBold = "Pretendard-SemiBold.otf"
-    static let thinkRegular = "Think-Regular.otf"
+    static let thinkRegular = "ThinkRegular"
 }
 
 extension Font {
