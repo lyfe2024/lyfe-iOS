@@ -8,14 +8,6 @@
 
 import SwiftUI
 
-enum CustomFont {
-    case regular
-    case medium
-    case semiBold
-    case bold
-}
-
-
 struct Pretendard {
     static let medium = "Pretendard-Medium"
     static let bold = "Pretendard-Bold"
