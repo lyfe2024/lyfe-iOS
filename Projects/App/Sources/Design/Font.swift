@@ -29,7 +29,7 @@ extension Font {
     static let thinkRegular80: Font = .custom(CustomFont.thinkRegular, size: 80)
     
     // SemiBold
-    
+    static let pretendardSemiBold14: Font = .custom(CustomFont.semiBold, size: 14)
     
     // Medium
 }

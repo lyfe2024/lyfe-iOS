@@ -10,6 +10,10 @@ import SwiftUI
 
 final class TabBarViewModel: ObservableObject {
     @Published var selected: TabInfo = .home
+    
+    func shouldShowImage(for tab: TabInfo) -> Bool {
+        return self.selected == tab
+    }
 }
 
 struct CustomTabBarView: View {
@@ -24,7 +28,7 @@ struct CustomTabBarView: View {
                     tabBarViewModel.selected = item
                     print(item.image)
                 } label: {
-                    if shouldShowImage(for: item) {
+                    if tabBarViewModel.shouldShowImage(for: item) {
                         HStack(spacing: 8) {
                             Image("\(item.image)Fill")
                                 .resizable()
@@ -38,7 +42,6 @@ struct CustomTabBarView: View {
                         .padding(.vertical, 10)
                         .background(Color.MainE86336)
                         .clipShape(RoundedRectangle(cornerRadius: 12))
-                        
                     } else {
                         Image(item.image)
                             .frame(width: 24, height: 24)
@@ -56,11 +59,6 @@ struct CustomTabBarView: View {
         .clipShape(RoundedRectangle(cornerRadius: 20))
         .padding(.horizontal, 20)
     }
-
-    private func shouldShowImage(for tab: TabInfo) -> Bool {
-        return tabBarViewModel.selected == tab
-    }
-
 }
 
 #Preview {

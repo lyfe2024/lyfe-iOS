@@ -57,7 +57,7 @@ struct HomeView: View {
                     Text("여기는 내용 들어옵니다. 최대 2줄까지. 여기는 내용 들어옵니다. 최대 2줄까지. 여기는 내용 들어옵니다. 최대 2줄까지. 여기는 내용 들어옵니다. 최대 2줄까지")
                         .lineLimit(3)
                         .lineSpacing(1.5)
-                        .font(.custom(CustomFont.semiBold, size: 14))
+                        .font(.pretendardSemiBold14)
                 }
             }
         }
