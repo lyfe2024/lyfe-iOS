@@ -22,17 +22,20 @@ struct CustomTabBarView: View {
 
                 Button {
                     tabBarViewModel.selected = item
+                    print(item.image)
                 } label: {
                     if shouldShowImage(for: item) {
-                        HStack(spacing: 4) {
-                            Image(item.image)
+                        HStack(spacing: 8) {
+                            Image("\(item.image)Fill")
+                                .resizable()
+                                .frame(width: 15, height: 15)
                             Text(item.title)
                                 .font(.pretendardBold12)
                                 .foregroundColor(.white)
                         }
-                        .padding(.leading, 10)
-                        .padding(.trailing, 12)
-                        .padding(.vertical, 6)
+                        .padding(.leading, 13)
+                        .padding(.trailing, 15)
+                        .padding(.vertical, 10)
                         .background(Color.MainE86336)
                         .clipShape(RoundedRectangle(cornerRadius: 12))
                         
