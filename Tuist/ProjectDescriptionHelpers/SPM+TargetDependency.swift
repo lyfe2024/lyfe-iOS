@@ -13,5 +13,6 @@ public extension TargetDependency {
 
 public extension TargetDependency.SPM {
     static let KingFisher = TargetDependency.external(name: "Kingfisher")
-    static let Lottie = TargetDependency.external(name: "Lottie")
+    static let Moya = TargetDependency.external(name: "Moya")
+    static let Alamofire = TargetDependency.external(name: "Alamofire")
 }

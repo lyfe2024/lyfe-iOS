@@ -23,41 +23,43 @@ struct HomeView: View {
     @State var photo: String = "CircleSample1"
     
     var body: some View {
-        ZStack(alignment: .topTrailing) {
-            Spacer().frame(height: 20)
-            Text("09.24.")
-                .foregroundColor(.black)
-                .opacity(0.1)
-                .font(.thinkRegular80)
-            
-            VStack(alignment: .leading) {
-                Image("Logo")
+        ScrollView {
+            ZStack(alignment: .topTrailing) {
+                Spacer().frame(height: 20)
+                Text("09.24.")
+                    .foregroundColor(.black)
+                    .opacity(0.1)
+                    .font(.thinkRegular80)
                 
-                Text("여름과 가을 사이 \n두줄일 경우는 이렇게") // 두줄 테스트
-                    .lineSpacing(2)
-                    .font(.pretendardBold28)
-                    .foregroundColor(.MainE86336)
-                
-                Rectangle()
-                    .frame(maxWidth: .infinity)
-                    .frame(height: 350)
-                    .foregroundColor(.gray)
-                
-                HStack {
-                    Text("고민글")
-                        .font(.pretendardBold20)
-                    Spacer()
-                    SequenceView(sequence: $sequence)
-                }
-                
-                VStack(alignment: .leading, spacing: 4) {
-                    ContentUserView(name: $name, time: $time, photo: $photo)
-                    Text("여기 텍스트 기반 피드 제목 들어옵니다. ")
-                        .font(.custom(CustomFont.bold, size: 16))
-                    Text("여기는 내용 들어옵니다. 최대 2줄까지. 여기는 내용 들어옵니다. 최대 2줄까지. 여기는 내용 들어옵니다. 최대 2줄까지. 여기는 내용 들어옵니다. 최대 2줄까지")
-                        .lineLimit(3)
-                        .lineSpacing(1.5)
-                        .font(.pretendardSemiBold14)
+                VStack(alignment: .leading) {
+                    Image("Logo")
+                    
+                    Text("여름과 가을 사이 \n두줄일 경우는 이렇게") // 두줄 테스트
+                        .lineSpacing(2)
+                        .font(.pretendardBold28)
+                        .foregroundColor(.MainE86336)
+                    
+                    Rectangle()
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 350)
+                        .foregroundColor(.gray)
+                    
+                    HStack {
+                        Text("고민글")
+                            .font(.pretendardBold20)
+                        Spacer()
+                        SequenceView(sequence: $sequence)
+                    }
+                    
+                    VStack(alignment: .leading, spacing: 4) {
+                        ContentUserView(name: $name, time: $time, photo: $photo)
+                        Text("여기 텍스트 기반 피드 제목 들어옵니다. ")
+                            .font(.custom(CustomFont.bold, size: 16))
+                        Text("여기는 내용 들어옵니다. 최대 2줄까지. 여기는 내용 들어옵니다. 최대 2줄까지. 여기는 내용 들어옵니다. 최대 2줄까지. 여기는 내용 들어옵니다. 최대 2줄까지")
+                            .lineLimit(3)
+                            .lineSpacing(1.5)
+                            .font(.pretendardSemiBold14)
+                    }
                 }
             }
         }
