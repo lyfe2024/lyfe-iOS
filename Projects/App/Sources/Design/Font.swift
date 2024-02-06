@@ -20,6 +20,7 @@ extension Font {
     // Bold
     static let pretendardBold28: Font = .custom(CustomFont.bold, size: 28)
     static let pretendardBold20: Font = .custom(CustomFont.bold, size: 20)
+    static let pretendardBold18: Font = .custom(CustomFont.bold, size: 18)
     static let pretendardBold14: Font = .custom(CustomFont.bold, size: 14)
     static let pretendardBold12: Font = .custom(CustomFont.bold, size: 12)
     
