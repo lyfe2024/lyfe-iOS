@@ -39,10 +39,8 @@ struct HomeView: View {
                         .font(.pretendardBold28)
                         .foregroundColor(.MainE86336)
                     
-                    Rectangle()
-                        .frame(maxWidth: .infinity)
-                        .frame(height: 350)
-                        .foregroundColor(.gray)
+                    CardSwipeView()
+                        .padding(.bottom, 24)
                     
                     HStack {
                         Text("고민글")

@@ -76,7 +76,6 @@ struct FeedUserView: View {
     var body: some View {
         HStack(spacing: 8) {
             Image(photo)
-                .font(.pretendardBold14)
             VStack(alignment: .leading, spacing: 0){
                 Text(name)
                     .font(.pretendardRegular14)
@@ -93,7 +92,10 @@ struct CommonUserView: View {
         HStack(spacing: 8) {
             Image("CircleSample1")
             Text("유저")
+                .font(.pretendardRegular12)
             Text("몇분전")
+                .font(.pretendardRegular10)
+                .foregroundColor(.GrayB0B0B0)
         }
         
     }
