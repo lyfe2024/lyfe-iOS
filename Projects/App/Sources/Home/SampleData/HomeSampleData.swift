@@ -8,65 +8,53 @@
 
 import Foundation
 
-// 샘플 데이터
+/// 샘플 데이터
 struct HomeSample {
-    let user: String
-    let userImage: String = "PhotoSample"
-    let time: String
+    let userName: String
+    let profile: String = "PhotoSample"
+    let updatedAt: String
     let image: String
     let title: String
+    let content: String
     let whisky: Int
     
-    static let homeSample = [HomeSample(user: "유저이름",
-                                        time: "1분전",
+    /// 샘플 유저1
+    static let sampleUser = HomeSample(userName: "홍길동", updatedAt: "2024-02-10", image: "Sample3", title: "여기 텍스트 기반 피드 제목 들어옵니다. ", content: "여기는 내용 들어옵니다. 여기는 내용 들어옵니다. 여기는 내용 들어옵니다. 여기는 내용 들어옵니다. 여기는 내용 들어옵니다. 여기는 내용 들어옵니다. ", whisky: 11)
+    
+    /// 글 상세 조회 샘플 5명
+    static let homeSample = [HomeSample(userName: "유저이름",
+                                        updatedAt: "1분전",
                                         image: "Sample1",
                                         title: "제목입니다",
+                                        content: "글 내용",
                                         whisky: 40),
-                             HomeSample(user: "유저2",
-                                        time: "2분전",
+                             
+                             HomeSample(userName: "유저2",
+                                        updatedAt: "2분전",
                                         image: "Sample2",
                                         title: "제목입니다제목입니다",
+                                        content: "글 내용", 
                                         whisky: 9),
-                             HomeSample(user: "유저3",
-                                        time: "3분전",
+                             
+                             HomeSample(userName: "유저3",
+                                        updatedAt: "3분전",
                                         image: "Sample3",
                                         title: "제목입니다제목입니다제목입니다",
+                                        content: "글 내용",
                                         whisky: 43),
-                             HomeSample(user: "유저4",
-                                        time: "4분전",
+                             
+                             HomeSample(userName: "유저4",
+                                        updatedAt: "4분전",
                                         image: "Sample4",
                                         title: "제목입니다제목입니다제목입니다제목입니다",
+                                        content: "글 내용",
                                         whisky: 1),
-                             HomeSample(user: "유저5",
-                                        time: "5분전",
+                             
+                             HomeSample(userName: "유저5",
+                                        updatedAt: "5분전",
                                         image: "Sample5",
                                         title: "제목입니다제목입니다제목입니다제목입니다제목입니다",
+                                        content: "글 내용",
                                         whisky: 52)]
-    
-    static let moreSample = [HomeSample(user: "유저6",
-                                       time: "6분전",
-                                       image: "Sample6",
-                                       title: "제목입니다",
-                                       whisky: 40),
-                            HomeSample(user: "유저7",
-                                       time: "7분전",
-                                       image: "Sample7",
-                                       title: "제목입니다제목입니다제목입니다제목입니다제목입니다제목입니다제목입니다제목입니다제목입니다제목입니다제목입니다제목입니다",
-                                       whisky: 9),
-                            HomeSample(user: "유저8",
-                                       time: "8분전",
-                                       image: "Sample8",
-                                       title: "제목입니다제목입니다제목입니다제목입니다제목입니다제목입니다제목입니다제목입니다제목입니다제목입니다제목입니다제목입니다제목입니다제목입니다제목입니다제목입니다제목입니다제목입니다",
-                                       whisky: 43),
-                            HomeSample(user: "유저9",
-                                       time: "9분전",
-                                       image: "Sample9",
-                                       title: "제목입니다제목입니다제목입니다제목입니다",
-                                       whisky: 1),
-                            HomeSample(user: "유저10",
-                                       time: "10분전",
-                                       image: "Sample10",
-                                       title: "제목입니다제목입니다제목입니다제목입니다제목입니다",
-                                       whisky: 52)]
    
 }

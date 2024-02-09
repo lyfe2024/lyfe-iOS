@@ -8,11 +8,15 @@
 
 import SwiftUI
 
+class FeedDeatilViewMode: ObservableObject {
+    @Published var postUser: HomeSample = HomeSample.sampleUser
+}
+
+// 주제 상세 뷰
 struct FeedDetailView: View {
-    // 유저프로필 샘플
-    @State var name: String = "유저이름"
-    @State var time: String = "몇 분전"
-    @State var photo: String = "CircleSample1"
+    @StateObject var feedDetailViewModel = FeedDeatilViewMode()
+    
+    let photoSize = UIScreen.main.bounds.width
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -22,9 +26,15 @@ struct FeedDetailView: View {
                 .padding(.leading, 20)
             
             ZStack(alignment: .bottomLeading) {
-                Image("PhotoSample")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
+                Rectangle()
+                    .fill(.black)
+                    .frame(width: photoSize, height: photoSize)
+                    .overlay {
+                        Image(feedDetailViewModel.postUser.image)
+                            .resizable()
+                            .scaledToFit()
+                            .aspectRatio(contentMode: .fit)
+                    }
                 Text("사진 제목 텍스트 \n두줄까지 들어가고 넘어가는건 어떠떨까요")
                     .font(.pretendardBold18)
                     .foregroundColor(.white)
@@ -32,72 +42,16 @@ struct FeedDetailView: View {
                     .padding(.bottom, 16)
             }
             
-            HStack {
-                HStack {
-                    HStack(spacing: 4){
-                        Image("Whisky")
-                        Text("4")
-                    }
-                    
-                    HStack(spacing: 2) {
-                        Image("Comment")
-                        Text("댓글")
-                        Text("8")
-                    }
-                }
-                
-                Spacer()
-                
-                FeedUserView(name: $name,
-                                time: $time,
-                                photo: $photo)
-            }
+            // 글쓴이 정보뷰
+            PostUserView(postUser: feedDetailViewModel.postUser)
             .padding(.horizontal, 20)
             
-            VStack(alignment: .leading) {
-                CommonUserView()
-                    
-                Text("여기는 내용 들어옵니다. 최대 2줄까지라고 되어 있는데 꼭 2줄 제한을 둬야 할까요? 안해도 괜찮을것 같습니다만.. 글자수로 제한을 둬야 하지 않을까 싶네요?")
-                    .font(.pretendardRegular14)
-                    .lineLimit(2)
-            }
-            .padding(.horizontal, 20)
+            RectangleView()
             
+            // 댓글뷰
+            CommentUserView(sampleUser: feedDetailViewModel.postUser)
+            .padding(.horizontal, 20)
         }
-    }
-}
-
-// 공통으로 사용?
-struct FeedUserView: View {
-    @Binding var name: String
-    @Binding var time: String
-    @Binding var photo: String // 예비
-    
-    var body: some View {
-        HStack(spacing: 8) {
-            Image(photo)
-            VStack(alignment: .leading, spacing: 0){
-                Text(name)
-                    .font(.pretendardRegular14)
-                Text(time)
-                    .font(.pretendardRegular10)
-                    .foregroundColor(.GrayC6C6C6)
-            }
-        }
-    }
-}
-
-struct CommonUserView: View {
-    var body: some View {
-        HStack(spacing: 8) {
-            Image("CircleSample1")
-            Text("유저")
-                .font(.pretendardRegular12)
-            Text("몇분전")
-                .font(.pretendardRegular10)
-                .foregroundColor(.GrayB0B0B0)
-        }
-        
     }
 }
 
