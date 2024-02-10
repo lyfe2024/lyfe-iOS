@@ -24,7 +24,7 @@ struct HomeSample {
     /// 글 상세 조회 샘플 5명
     static let homeSample = [HomeSample(userName: "유저이름",
                                         updatedAt: "1분전",
-                                        image: "Sample1",
+                                        image: "Sample3",
                                         title: "제목입니다",
                                         content: "글 내용",
                                         whisky: 40),
@@ -38,7 +38,7 @@ struct HomeSample {
                              
                              HomeSample(userName: "유저3",
                                         updatedAt: "3분전",
-                                        image: "Sample3",
+                                        image: "Sample1",
                                         title: "제목입니다제목입니다제목입니다",
                                         content: "글 내용",
                                         whisky: 43),

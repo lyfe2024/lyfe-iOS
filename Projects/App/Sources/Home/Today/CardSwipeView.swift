@@ -27,7 +27,7 @@ struct CardSwipeView: View {
     var body: some View {
         ZStack {
             ForEach(cardSwipeViewModel.sampleData.indices, id: \.self) { data in
-                CardView(data: cardSwipeViewModel.sampleData[data])
+                CardView(data: cardSwipeViewModel.sampleData[data], cardValue: CardValue.today)
                     .gesture(
                         DragGesture()
                             .onEnded({ value in
@@ -38,7 +38,6 @@ struct CardSwipeView: View {
                                     
                                     cardSwipeViewModel.activeIndex = data
                                     cardSwipeViewModel.activeIndex = cardSwipeViewModel.activeIndex + 1
-                                    
                                     cardSwipeViewModel.countIndex += 1
                                     
                                     // api 확인하고 무한 추가 시 수정 필요
