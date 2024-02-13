@@ -8,14 +8,12 @@
 
 import SwiftUI
 
-struct DropDownView: View {
+struct DropDownPage: View {
     @State private var selected: HomePicker = .today
     @State var showOptions = false
     
     var body: some View {
-        GeometryReader {
-            let size = $0.size
-            
+        ZStack {
             VStack(spacing: 0) {
                 HStack(spacing: 10) {
                     Image(systemName: "chevron.down")
@@ -25,7 +23,7 @@ struct DropDownView: View {
                     Text(selected.rawValue)
                         .lineLimit(1)
                 }
-                .frame(width: size.width, height: size.height)
+                .frame(width: .infinity, height: 40)
                 .contentShape(.rect)
                 .onTapGesture {
                     withAnimation(.snappy) {
@@ -35,10 +33,10 @@ struct DropDownView: View {
                 
                 if showOptions {
                     OptionView()
+                        .zIndex(2)
                 }
             }
         }
-        .frame(width: .infinity, height: 30)
     }
     
     @ViewBuilder
@@ -49,14 +47,14 @@ struct DropDownView: View {
                     Text(option.rawValue)
                         .foregroundStyle(selected.rawValue == option.rawValue ? Color.primary : Color.gray)
                         .padding(.vertical, 5)
-                    .animation(.none, value: selected)
-                    .onTapGesture {
-                        withAnimation(.snappy) {
-                            selected = option
-                            showOptions = false
+                        .animation(.none, value: selected)
+                        .onTapGesture {
+                            withAnimation(.snappy) {
+                                selected = option
+                                showOptions = false
+                            }
                         }
-                    }
-                    .transition(.move(edge: .top))
+                        .transition(.move(edge: .top))
                 }
             }
             .padding(.vertical, 15)
@@ -68,5 +66,5 @@ struct DropDownView: View {
 }
 
 #Preview {
-    DropDownView()
+    DropDownPage()
 }

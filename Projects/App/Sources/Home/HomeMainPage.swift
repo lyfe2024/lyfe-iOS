@@ -8,12 +8,12 @@
 
 import SwiftUI
 
-struct HomeMainView: View {
+struct HomeMainPage: View {
     var body: some View {
-        HomePickerView()
+        HomePickerPage()
     }
 }
 
 #Preview {
-    HomeMainView()
+    HomeMainPage()
 }

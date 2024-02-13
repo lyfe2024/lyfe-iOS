@@ -27,7 +27,7 @@ class TodayHomeViewModel: ObservableObject {
     @Published var sampleData: HomeSample = HomeSample.sampleUser
 }
 
-struct TodayHomeView: View {
+struct TodayHomePage: View {
     @StateObject var todayHomeViewModel = TodayHomeViewModel()
     
     var body: some View {
@@ -43,8 +43,7 @@ struct TodayHomeView: View {
                     Image("Logo")
                     Spacer().frame(height: 21)
                     
-                    Text("오늘의 주제")
-                        .font(.pretendardBold14)
+                    HomePickerPage()
                     Spacer().frame(height: 9)
                     
                     Text("여름과 가을 사이 \n두줄일 경우는 이렇게")
@@ -143,5 +142,5 @@ struct SequenceView: View {
 }
 
 #Preview {
-    TodayHomeView()
+    TodayHomePage()
 }

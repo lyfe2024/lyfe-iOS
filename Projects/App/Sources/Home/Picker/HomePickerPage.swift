@@ -13,12 +13,12 @@ enum HomePicker: String, CaseIterable {
     case past = "과거 베스트"
 }
 
-struct HomePickerView: View {
+struct HomePickerPage: View {
     @State var selected: HomePicker = .today
     
     var body: some View {
-        VStack {
-            Picker("Choose a color", selection: $selected) {
+        VStack(alignment: .leading) {
+            Picker("주제 선택", selection: $selected) {
                 ForEach(HomePicker.allCases, id: \.self) { selected in
                     Text(selected.rawValue)
                 }
@@ -30,5 +30,5 @@ struct HomePickerView: View {
 }
 
 #Preview {
-    HomePickerView()
+    HomePickerPage()
 }

@@ -15,7 +15,7 @@ enum TabInfo: CaseIterable {
     var view: some View {
         switch self {
         case .home:
-            TodayHomeView()
+            TodayHomePage()
         case .feed:
             Text("feed")
         case .post:

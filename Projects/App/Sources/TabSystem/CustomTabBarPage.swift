@@ -16,7 +16,7 @@ final class TabBarViewModel: ObservableObject {
     }
 }
 
-struct CustomTabBarView: View {
+struct CustomTabBarPage: View {
     @ObservedObject var tabBarViewModel = TabBarViewModel()
     
     var body: some View {
@@ -62,5 +62,5 @@ struct CustomTabBarView: View {
 }
 
 #Preview {
-    CustomTabBarView(tabBarViewModel: TabBarViewModel())
+    CustomTabBarPage(tabBarViewModel: TabBarViewModel())
 }

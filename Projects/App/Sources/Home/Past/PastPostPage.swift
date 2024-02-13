@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct PastPostView: View {
+struct PastPostPage: View {
     var sampleData: HomeSample
     
     var body: some View {
@@ -34,5 +34,5 @@ struct PastPostView: View {
 }
 
 #Preview {
-    PastPostView(sampleData: HomeSample.sampleUser)
+    PastPostPage(sampleData: HomeSample.sampleUser)
 }
