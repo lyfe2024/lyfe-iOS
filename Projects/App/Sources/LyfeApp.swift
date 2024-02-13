@@ -11,7 +11,9 @@ import SwiftUI
 struct LyfeApp: App {
     var body: some Scene {
         WindowGroup {
-            RouteScreen(TestNaviItem.self, rootType: .aaa)
+            RouteScreen(TestNaviItem.self, content: { innerRouter in
+                AAScreen(routeModel: innerRouter)
+            })
         }
     }
 }

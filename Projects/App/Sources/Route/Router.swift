@@ -4,13 +4,12 @@ public class Router<Destination: Routable>: ObservableObject {
     /// Used to programatically control a navigation stack
     @Published public var pathList: [Destination] = .init()
     /// Used to present a view using a sheet
-    @Published public var presentingSheet: Destination?
-    /// Used to present a view using a full screen cover
+    
     @Published public var presentingFullScreenCover: Destination?
     /// Used by presented Router instances to dismiss themselves
     @Published public var isPresented: Binding<Destination?>
     public var isPresenting: Bool {
-        presentingSheet != nil || presentingFullScreenCover != nil
+        presentingFullScreenCover != nil
     }
     
     init(isPresented: Binding<Destination?>) {
@@ -38,15 +37,16 @@ public class Router<Destination: Routable>: ObservableObject {
     public func popToRoot() {
         pathList.removeLast(pathList.count)
     }
-    
+    public func pop(){
+        guard pathList.isEmpty == false else {
+            return 
+        }
+        _ = pathList.removeLast()
+    }
     // Dismisses presented screen or self
     public func dismiss() {
         
-        if !pathList.isEmpty {
-            _ = pathList.removeLast()
-        } else if presentingSheet != nil {
-            presentingSheet = nil
-        } else if presentingFullScreenCover != nil {
+        if presentingFullScreenCover != nil {
             presentingFullScreenCover = nil
         } else {
             isPresented.wrappedValue = nil
@@ -55,10 +55,6 @@ public class Router<Destination: Routable>: ObservableObject {
     
     private func push(_ appRoute: Destination) {
         pathList.append(appRoute)
-    }
-    
-    private func presentSheet(_ route: Destination) {
-        self.presentingSheet = route
     }
     
     private func presentFullScreen(_ route: Destination) {

@@ -1,14 +1,14 @@
 import Foundation
 import SwiftUI
 
-public struct RouteScreen<Destination: Routable>: View {
+public struct RouteScreen<RootV: View, Destination: Routable>: View {
     
     @StateObject var routeModel: Router<Destination> = .init(isPresented: .constant(.none))
     
-    public init(_ routeType: Destination.Type, rootType: Destination) {
-        let router = Router<Destination>(isPresented: .constant(nil))
-        router.routeTo(rootType)
-        self._routeModel = StateObject(wrappedValue: router)
+    private let rootContentV: (Router<Destination>) -> RootV
+    public init(_ routeType: Destination.Type,
+                @ViewBuilder content: @escaping (Router<Destination>) -> RootV) {
+        self.rootContentV = content
     }
     
     public var body: some View {
@@ -16,8 +16,8 @@ public struct RouteScreen<Destination: Routable>: View {
         NavigationStack(path: $routeModel.pathList,
                           root: {
             
-            RouterRootScreen()
-                .navigationDestination(for: Destination.self, 
+            self.rootContentV(routeModel)
+                .navigationDestination(for: Destination.self,
                                        destination: { innerRouteType in
                     routeModel.view(for: innerRouteType)
                 })
