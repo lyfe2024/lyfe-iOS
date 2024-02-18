@@ -32,8 +32,11 @@ extension Color {
     static let Gray393939 = Color("Gray800")
     
     // System
-    static let Blue2D7BF9 = Color("Blue050")
-    static let Green199F3E = Color("Green050")
-    static let YellowFFC55B = Color("Yellow050")
-    static let RedF95454 = Color("Red050")
+    static let blue2D7BF9 = Color("Blue050")
+    static let hreen199F3E = Color("Green050")
+    static let yellowFFC55B = Color("Yellow050")
+    static let redF95454 = Color("Red050")
+    
+    // Background
+    static let backgroundFf5f5f5 = Color("Background")
 }

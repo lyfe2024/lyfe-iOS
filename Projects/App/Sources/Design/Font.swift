@@ -20,13 +20,15 @@ extension Font {
     // Bold
     static let pretendardBold28: Font = .custom(CustomFont.bold, size: 28)
     static let pretendardBold20: Font = .custom(CustomFont.bold, size: 20)
+    static let pretendardBold18: Font = .custom(CustomFont.bold, size: 18)
     static let pretendardBold14: Font = .custom(CustomFont.bold, size: 14)
     static let pretendardBold12: Font = .custom(CustomFont.bold, size: 12)
     
     // Regular
-    static let pretendardRegular14: Font = .custom(CustomFont.regular, size: 14)
-    static let pretendardRegular10: Font = .custom(CustomFont.regular, size: 10)
     static let thinkRegular80: Font = .custom(CustomFont.thinkRegular, size: 80)
+    static let pretendardRegular14: Font = .custom(CustomFont.regular, size: 14)
+    static let pretendardRegular12: Font = .custom(CustomFont.regular, size: 12)
+    static let pretendardRegular10: Font = .custom(CustomFont.regular, size: 10)
     
     // SemiBold
     static let pretendardSemiBold14: Font = .custom(CustomFont.semiBold, size: 14)

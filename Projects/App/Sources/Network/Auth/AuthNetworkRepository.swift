@@ -23,6 +23,7 @@ final class AuthApiImpl: AuthRepository {
     private let provider = MoyaProvider<AuthApi>()
     
     func reissue(token: String) -> AnyPublisher<Void, Moya.MoyaError> {
+        
         provider
             .requestPublisher(.reissueToken(requestModel: .init(token: token)))
             .map { _ -> Void in

@@ -9,9 +9,10 @@ import SwiftUI
 
 @main
 struct LyfeApp: App {
+    @State var test: String = "선택1"
     var body: some Scene {
         WindowGroup {
-            TabBarMainView()
+            TabBarMainPage()
         }
     }
 }
