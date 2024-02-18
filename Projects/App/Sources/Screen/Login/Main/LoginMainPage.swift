@@ -2,7 +2,7 @@
 import Foundation
 import SwiftUI
 
-public struct LoginMainScreen: View {
+public struct LoginMainPage: View {
     
     public var body: some View {
         VStack(content: {
@@ -28,7 +28,7 @@ public struct LoginMainScreen: View {
 }
 
 // MARK: - subviews
-extension LoginMainScreen {
+extension LoginMainPage {
     @ViewBuilder
     private func buttonContainerV() -> some View {
         
@@ -78,5 +78,5 @@ extension LoginMainScreen {
 }
 
 #Preview {
-    LoginMainScreen()
+    LoginMainPage()
 }

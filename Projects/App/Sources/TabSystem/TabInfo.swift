@@ -24,7 +24,7 @@ enum TabInfo: CaseIterable {
             Text("alarm")
         case .profile:
 //            Text("profile")
-            LoginMainScreen()
+            LoginMainPage()
         }
     }
     
