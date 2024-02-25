@@ -12,7 +12,7 @@ struct LyfeApp: App {
     @State var test: String = "선택1"
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            TabBarMainPage()
         }
     }
 }

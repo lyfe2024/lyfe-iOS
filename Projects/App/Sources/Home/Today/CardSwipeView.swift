@@ -23,6 +23,7 @@ class CardSwipeViewModel: ObservableObject {
 struct CardSwipeView: View {
     @StateObject var cardSwipeViewModel = CardSwipeViewModel()
     var height = UIScreen.main.bounds.height * 0.45 // 사진 높이
+    var width = UIScreen.main.bounds.width * 0.8 // 사진 높이
     
     var body: some View {
         ZStack {
@@ -52,11 +53,11 @@ struct CardSwipeView: View {
                     .animation(.easeInOut, value: cardSwipeViewModel.sampleData[data].image)
                     .offset(x: data == cardSwipeViewModel.activeIndex ? 0 : 0 + (CGFloat(data - cardSwipeViewModel.activeIndex) * 16))
                     .frame(height: data == cardSwipeViewModel.activeIndex ? height : height - (CGFloat(data - cardSwipeViewModel.activeIndex) * 16))
+                    .aspectRatio(contentMode: .fit)
                     .opacity(data == 0 ? 1 : 0.6)
                     .disabled(data != 0)
                     .padding(.leading, 16) // 16씩 offset
                     .padding(.trailing, 48)
-                
             }
             .shadow(radius: 10, x: 2, y: 6)
         }

@@ -14,7 +14,7 @@ enum HomePicker: String, CaseIterable {
 }
 
 struct HomePickerPage: View {
-    @State var selected: HomePicker = .today
+    @Binding var selected: HomePicker
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -25,10 +25,17 @@ struct HomePickerPage: View {
             }
             .pickerStyle(MenuPickerStyle())
             .tint(Color.black)
+            .onChange(of: selected) { newValue in
+                if newValue == .today {
+                    TodayHomePage()
+                } else {
+                    PastPostPage()
+                }
+            }
         }
     }
 }
 
 #Preview {
-    HomePickerPage()
+    HomePickerPage(selected: .constant(.past))
 }

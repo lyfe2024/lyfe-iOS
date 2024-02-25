@@ -25,6 +25,7 @@ class TodayHomeViewModel: ObservableObject {
     
     @Published var sequence: ContentSequence = .latest
     @Published var sampleData: HomeSample = HomeSample.sampleUser
+    @Published var postPicker: HomePicker = .today
 }
 
 struct TodayHomePage: View {
@@ -43,7 +44,7 @@ struct TodayHomePage: View {
                     Image("Logo")
                     Spacer().frame(height: 21)
                     
-                    HomePickerPage()
+                    HomePickerPage(selected: $todayHomeViewModel.postPicker)
                     Spacer().frame(height: 9)
                     
                     Text("여름과 가을 사이 \n두줄일 경우는 이렇게")
@@ -62,7 +63,7 @@ struct TodayHomePage: View {
                         SequenceView(todayHomeViewModel: todayHomeViewModel)
                     }
                                         
-                    TroublePostView(sampleData: todayHomeViewModel.sampleData)
+                    HomeCommonPostView(sampleData: todayHomeViewModel.sampleData)
                 }
             }
             .padding(20)
@@ -71,8 +72,9 @@ struct TodayHomePage: View {
     }
 }
 
-// 홈뷰에 있는 고민글 포스트 뷰
-struct TroublePostView: View {
+// 홈뷰에 있는 포스트의 공통 뷰
+//TODO: sampleData 배열화
+struct HomeCommonPostView: View {
     var sampleData: HomeSample
     
     var body: some View {

@@ -17,7 +17,7 @@ enum TabInfo: CaseIterable {
         case .home:
             TodayHomePage()
         case .feed:
-            Text("feed")
+            PhotoFeedDetailPage()
         case .post:
             Text("post")
         case .alarm:

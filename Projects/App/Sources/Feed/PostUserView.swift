@@ -30,14 +30,15 @@ struct PostUserView: View {
             HStack(spacing: 8) {
                 Image(postUser.image)
                     .resizable()
+                    .scaledToFill()
+                    .frame(width: 35, height: 35)
                     .clipShape(Circle())
-                    .frame(width: 32, height: 32)
                     
                 VStack(alignment: .leading, spacing: 0){
                     Text(postUser.userName)
-                        .font(.pretendardBold14)
+                        .font(.pretendardBold16)
                     Text(postUser.updatedAt)
-                        .font(.pretendardRegular10)
+                        .font(.pretendardRegular12)
                         .foregroundColor(.GrayC6C6C6)
                 }
             }

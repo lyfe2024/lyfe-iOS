@@ -9,8 +9,17 @@
 import SwiftUI
 
 struct HomeMainPage: View {
+    @State private var postType: HomePicker = .today
+    
     var body: some View {
-        HomePickerPage()
+        VStack {
+            switch postType {
+            case .today:
+                TodayHomePage()
+            case .past:
+                PastPostPage()
+            }
+        }
     }
 }
 

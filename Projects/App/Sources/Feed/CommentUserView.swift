@@ -8,8 +8,11 @@
 
 import SwiftUI
 
+// TODO: - 뷰 뷴리
 /// 댓글 유저 공통 컴포넌트
 struct CommentUserView: View {
+    @State var commentToggle = false
+    @State var infoButtonTooggle = false
     var sampleUser: HomeSample
     
     var body: some View {
@@ -21,18 +24,24 @@ struct CommentUserView: View {
                     .frame(width: 24, height: 24)
                     .clipShape(Circle())
                 Text("유저")
-                    .font(.pretendardRegular12)
+                    .font(.pretendardRegular14)
                 Text("몇분전")
-                    .font(.pretendardRegular10)
+                    .font(.pretendardRegular12)
                     .foregroundColor(.GrayB0B0B0)
                 
                 Spacer()
                 
                 Button {
                     print("info button tapped")
+                    infoButtonTooggle.toggle()
                 } label: {
                     Image("Info")
                         .frame(width: 24, height: 24)
+                }
+                .overlay {
+                    //TODO: 팝업 확인하기
+                    ModiDeletePopup()
+                        .opacity(infoButtonTooggle ? 1 : 0)
                 }
             }
             
@@ -44,10 +53,52 @@ struct CommentUserView: View {
             // 답글 버튼
             Button {
                 print("답글달기 버튼 tapped")
+                commentToggle.toggle()
             } label: {
                 Text("답글달기")
-                    .font(.pretendardRegular12)
+                    .font(.pretendardRegular14)
                     .foregroundStyle(Color.GrayB0B0B0)
+            }
+            .buttonStyle(PlainButtonStyle())
+            
+            // 답글뷰
+            //TODO: 뷰 분리
+            ForEach (0..<5, id: \.self) { index in
+                if commentToggle {
+                    HStack(alignment: .top, spacing: 8) {
+                        Image(systemName: "arrow.turn.down.right")
+                            .foregroundColor(.Gray9B9B9B)
+                        
+                        VStack(alignment: .leading, spacing: 8) {
+                            HStack(spacing: 8) {
+                                Image("Sample1")
+                                    .resizable()
+                                    .frame(width: 24, height: 24)
+                                    .clipShape(Circle())
+                                Text("유저")
+                                    .font(.pretendardRegular14)
+                                Text("몇분전")
+                                    .font(.pretendardRegular12)
+                                    .foregroundColor(.GrayB0B0B0)
+                                
+                                Spacer()
+                                
+                                Button {
+                                    print("info button tapped")
+                                } label: {
+                                    Image("Info")
+                                        .frame(width: 24, height: 24)
+                                }
+                            }
+                            Text("새벽 라면 맛있게 먹는 방법 공유합니다.")
+                                .font(.pretendardRegular14)
+                        }
+                    }
+                    .padding(.bottom, 8)
+                    .animation(.easeIn, value: commentToggle) // 밖에서 안 먹음..
+                } else {
+                    EmptyView()
+                }
             }
         }
     }

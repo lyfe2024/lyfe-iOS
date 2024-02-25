@@ -19,7 +19,12 @@ struct HomeSample {
     let whisky: Int
     
     /// 샘플 유저1
-    static let sampleUser = HomeSample(userName: "홍길동", updatedAt: "2024-02-10", image: "Sample3", title: "여기 텍스트 기반 피드 제목 들어옵니다. ", content: "여기는 내용 들어옵니다. 여기는 내용 들어옵니다. 여기는 내용 들어옵니다. 여기는 내용 들어옵니다. 여기는 내용 들어옵니다. 여기는 내용 들어옵니다. ", whisky: 11)
+    static let sampleUser = HomeSample(userName: "홍길동",
+                                       updatedAt: "2024-02-10",
+                                       image: "Sample3",
+                                       title: "여기 텍스트 기반 피드 제목 들어옵니다. ",
+                                       content: "국회나 그 위원회의 요구가 있을 때에는 국무총리·국무위원 또는 정부위원은 출석·답변하여야 하며, 국무총리 또는 국무위원이 출석요구를 받은 때에는 국무위원 또는 정부위원으로 하여금 출석·답변하게 할 수 있다. ",
+                                       whisky: 11)
     
     /// 글 상세 조회 샘플 5명
     static let homeSample = [HomeSample(userName: "유저이름",

@@ -24,13 +24,18 @@ struct CardView: View {
                 if cardValue == .today {
                     Image("\(data.image)")
                         .resizable()
+//                        .aspectRatio(contentMode: .fill)
+                        
+//                        .aspectRatio(contentMode: .fit)
+//                        .aspectRatio(1, contentMode: .fit)
+//                        .background(.black.opacity(0.1))
                         .clipShape(RoundedRectangle(cornerRadius: 20))
+                        
                 } else {
                     Image("\(data.image)")
                         .resizable()
-                        .scaledToFill()
                         .frame(height: UIScreen.main.bounds.height * 0.55)
-                        .frame(width: .infinity)
+                        .scaledToFit()
                         .clipShape(RoundedRectangle(cornerRadius: 20))
                 }
             }
@@ -79,5 +84,5 @@ struct CardView: View {
 }
 
 #Preview {
-    CardView(data: HomeSample.homeSample[0], cardValue: CardValue.today)
+    CardView(data: HomeSample.homeSample[1], cardValue: CardValue.today)
 }
