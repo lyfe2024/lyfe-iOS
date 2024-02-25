@@ -24,11 +24,6 @@ struct CardView: View {
                 if cardValue == .today {
                     Image("\(data.image)")
                         .resizable()
-//                        .aspectRatio(contentMode: .fill)
-                        
-//                        .aspectRatio(contentMode: .fit)
-//                        .aspectRatio(1, contentMode: .fit)
-//                        .background(.black.opacity(0.1))
                         .clipShape(RoundedRectangle(cornerRadius: 20))
                         
                 } else {

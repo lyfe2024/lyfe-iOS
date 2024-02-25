@@ -28,7 +28,7 @@ struct ChosePostGeneralView: View {
                 }
             }
             
-            HomeCommonPostView(sampleData: HomeSample.sampleUser)
+            GeneralPostView(sampleData: HomeSample.sampleUser)
                 .padding(8)
                 .background(Color.GrayF9F9F9)
                 .clipShape(RoundedRectangle(cornerRadius: 8))
