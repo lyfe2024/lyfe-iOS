@@ -8,14 +8,14 @@
 
 import SwiftUI
 
-class FeedDeatilViewMode: ObservableObject {
+class PhotoFeedDeatilPageModel: ObservableObject {
     @Published var postUser: HomeSample = HomeSample.sampleUser
+    @Published var popupToggle: Bool = false
 }
 
 // 주제 상세 뷰
 struct PhotoFeedDetailPage: View {
-    @StateObject var feedDetailViewModel = FeedDeatilViewMode()
-    
+    @StateObject var photoFeedDetailPageModel = PhotoFeedDeatilPageModel()
     let photoSize = UIScreen.main.bounds.width
     
     var body: some View {
@@ -30,12 +30,11 @@ struct PhotoFeedDetailPage: View {
                 
                 ZStack(alignment: .bottomLeading) {
                     ZStack {
-                        
                         Rectangle()
                             .fill(.black)
                             .frame(width: photoSize, height: photoSize)
                             .overlay {
-                                Image(feedDetailViewModel.postUser.image)
+                                Image(photoFeedDetailPageModel.postUser.image)
                                     .resizable()
                                     .scaledToFit()
                                     .aspectRatio(contentMode: .fit)
@@ -48,26 +47,34 @@ struct PhotoFeedDetailPage: View {
                             }
                     }
                     
-                    Text("사진 제목 텍스트 \n두줄까지 들어가고 넘어가는건 어떠떨까요")
+                    Text(photoFeedDetailPageModel.postUser.title)
                         .font(.pretendardBold20)
                         .foregroundColor(.white)
                         .padding(.horizontal, 20)
                         .padding(.bottom, 16)
+                        .lineLimit(2)
+                        .lineSpacing(1.5)
                 }
                 
                 // 글쓴이 정보뷰
-                PostUserView(postUser: feedDetailViewModel.postUser)
+                PostUserView(postUser: photoFeedDetailPageModel.postUser)
                 .padding(.horizontal, 20)
                 
                 RectangleView()
                 
-                // TODO: 댓글 랜덤 수정
-                ForEach(0..<10, id:\.self) { index in
-                    CommentUserView(sampleUser: feedDetailViewModel.postUser)
-                    Divider()
-                        .padding(.vertical, 8)
+                LazyVStack {
+                    ForEach(0..<10, id:\.self) { index in
+                        CommentUserPage(sampleUser: photoFeedDetailPageModel.postUser, commentUser: HomeSample.homeSample, infoButtonTooggle: photoFeedDetailPageModel.popupToggle)
+                        Divider()
+                            .padding(.vertical, 4)
+                    }
                 }
                 .padding(.horizontal, 20)
+            }
+        }
+        .onTapGesture {
+            if photoFeedDetailPageModel.popupToggle {
+                photoFeedDetailPageModel.popupToggle = false
             }
         }
     }

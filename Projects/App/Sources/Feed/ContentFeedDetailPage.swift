@@ -10,6 +10,8 @@ import SwiftUI
 
 class ContentFeedDetailPageModel: ObservableObject {
     @Published var postUser: HomeSample = HomeSample.sampleUser
+    @Published var commentUser: [HomeSample] = HomeSample.homeSample
+    @Published var popupToggle: Bool = false
 }
 
 struct ContentFeedDetailPage: View {
@@ -40,11 +42,19 @@ struct ContentFeedDetailPage: View {
                     RectangleView()
                 }
                 
-                VStack {
-                    CommentUserView(sampleUser: contentFeedDetailPageModel.postUser)
+                LazyVStack {
+                    ForEach (contentFeedDetailPageModel.commentUser, id: \.self) { index in
+                        CommentUserPage(sampleUser: contentFeedDetailPageModel.postUser,
+                                        commentUser: HomeSample.homeSample,
+                                        infoButtonTooggle: contentFeedDetailPageModel.popupToggle)
+                    }
                 }
             }
             .padding(.horizontal, 20)
+        }
+        .onTapGesture {
+            print("\(contentFeedDetailPageModel.popupToggle)")
+            contentFeedDetailPageModel.popupToggle = true
         }
     }
 }

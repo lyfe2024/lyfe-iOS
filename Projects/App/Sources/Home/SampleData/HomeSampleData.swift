@@ -9,7 +9,7 @@
 import Foundation
 
 /// 샘플 데이터
-struct HomeSample {
+struct HomeSample: Hashable {
     let userName: String
     let profile: String = "PhotoSample"
     let updatedAt: String
