@@ -8,8 +8,8 @@
 
 import SwiftUI
 
-/// 포스트 작성한 글쓴이에 대한 공통 뷰
-struct PostUserView: View {
+// 글쓴이 뷰
+struct PostUserComponent: View {
     var postUser: HomeSample
     
     var body: some View {
@@ -47,5 +47,5 @@ struct PostUserView: View {
 }
 
 #Preview {
-    PostUserView(postUser: HomeSample.sampleUser)
+    PostUserComponent(postUser: HomeSample.sampleUser)
 }

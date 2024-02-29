@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct RectangleView: View {
+struct RectangleComponent: View {
     var body: some View {
         Rectangle()
             .fill(Color.GrayF9F9F9)
@@ -19,5 +19,5 @@ struct RectangleView: View {
 }
 
 #Preview {
-    RectangleView()
+    RectangleComponent()
 }

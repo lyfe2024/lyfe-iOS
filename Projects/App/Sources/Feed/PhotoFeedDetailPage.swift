@@ -13,7 +13,7 @@ class PhotoFeedDeatilPageModel: ObservableObject {
     @Published var popupToggle: Bool = false
 }
 
-// 주제 상세 뷰
+// 사진 피드 상세 뷰
 struct PhotoFeedDetailPage: View {
     @StateObject var photoFeedDetailPageModel = PhotoFeedDeatilPageModel()
     let photoSize = UIScreen.main.bounds.width
@@ -57,10 +57,10 @@ struct PhotoFeedDetailPage: View {
                 }
                 
                 // 글쓴이 정보뷰
-                PostUserView(postUser: photoFeedDetailPageModel.postUser)
+                PostUserComponent(postUser: photoFeedDetailPageModel.postUser)
                 .padding(.horizontal, 20)
                 
-                RectangleView()
+                RectangleComponent()
                 
                 LazyVStack {
                     ForEach(0..<10, id:\.self) { index in

@@ -8,8 +8,6 @@
 
 import SwiftUI
 
-// TODO: - 뷰 뷴리
-
 class CommentUserPageModel: ObservableObject {
     @Published var commentToggle = false
 }

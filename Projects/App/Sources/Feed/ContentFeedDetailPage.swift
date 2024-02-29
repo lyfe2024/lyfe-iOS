@@ -14,8 +14,8 @@ class ContentFeedDetailPageModel: ObservableObject {
     @Published var popupToggle: Bool = false
 }
 
+// 글 피드 상세 뷰
 struct ContentFeedDetailPage: View {
-    
     @StateObject var contentFeedDetailPageModel = ContentFeedDetailPageModel()
     
     var body: some View {
@@ -37,10 +37,11 @@ struct ContentFeedDetailPage: View {
                         .font(.pretendardRegular18)
                         .lineSpacing(1.5)
                     
-                    PostUserView(postUser: contentFeedDetailPageModel.postUser)
-                    
-                    RectangleView()
+                    PostUserComponent(postUser: contentFeedDetailPageModel.postUser)
                 }
+                .padding(.horizontal, 20)
+                
+                RectangleComponent()
                 
                 LazyVStack {
                     ForEach (contentFeedDetailPageModel.commentUser, id: \.self) { index in
@@ -49,8 +50,9 @@ struct ContentFeedDetailPage: View {
                                         infoButtonTooggle: contentFeedDetailPageModel.popupToggle)
                     }
                 }
+                .padding(.horizontal, 20)
             }
-            .padding(.horizontal, 20)
+            
         }
         .onTapGesture {
             print("\(contentFeedDetailPageModel.popupToggle)")
