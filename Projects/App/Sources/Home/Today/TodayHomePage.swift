@@ -38,7 +38,7 @@ struct TodayHomePage: View {
                 Spacer()
                 SequenceView(todayHomeViewModel: todayHomeViewModel)
             }
-            GeneralPostView(sampleData: todayHomeViewModel.sampleData)
+            GeneralPostPage(sampleData: todayHomeViewModel.sampleData)
         }
     }
 }

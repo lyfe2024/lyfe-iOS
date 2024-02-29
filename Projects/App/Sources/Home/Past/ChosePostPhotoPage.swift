@@ -1,14 +1,15 @@
 //
-//  ChosePostGeneralView.swift
+//  ChosePostPhotoView.swift
 //  Lyfe
 //
-//  Created by 박서연 on 2024/02/25.
+//  Created by 박서연 on 2024/02/24.
 //  Copyright © 2024 iOSteam. All rights reserved.
 //
 
 import SwiftUI
 
-struct ChosePostGeneralView: View {
+struct ChosePostPhotoPage: View {
+    
     @State private var chosenPost: [Int] = [0, 1, 2]
     @State private var startChosenNumber = 0
     
@@ -21,17 +22,13 @@ struct ChosePostGeneralView: View {
                 ForEach(chosenPost, id: \.self) { chosen in
                     Rectangle()
                         .fill(chosen == startChosenNumber ? Color.MainE86336 : Color.GrayDDDDDD)
-                        .frame(width: .infinity)
                         .frame(height: 4)
                         .clipShape(RoundedRectangle(cornerRadius: 4))
                         .padding(chosen == startChosenNumber ? chosenEdge : noneEdge)
                 }
             }
-            
-            GeneralPostView(sampleData: HomeSample.sampleUser)
-                .padding(8)
-                .background(Color.GrayF9F9F9)
-                .clipShape(RoundedRectangle(cornerRadius: 8))
+            CardView(data: HomeSample.homeSample[startChosenNumber], cardValue: .past)
+                .frame(maxWidth: .infinity)
         }
         .gesture(
             DragGesture()
@@ -48,5 +45,5 @@ struct ChosePostGeneralView: View {
 }
 
 #Preview {
-    ChosePostGeneralView()
+    ChosePostPhotoPage()
 }

@@ -10,7 +10,7 @@ import SwiftUI
 
 // 홈뷰에 있는 포스트의 공통 뷰
 //TODO: sampleData 배열화
-struct GeneralPostView: View {
+struct GeneralPostPage: View {
     var sampleData: HomeSample
     
     var body: some View {
@@ -51,5 +51,5 @@ struct GeneralPostView: View {
     }
 }
 #Preview {
-    GeneralPostView(sampleData: HomeSample.sampleUser)
+    GeneralPostPage(sampleData: HomeSample.sampleUser)
 }

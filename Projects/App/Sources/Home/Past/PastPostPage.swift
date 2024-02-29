@@ -25,13 +25,13 @@ struct PastPostPage: View {
                     .lineLimit(2)
                     .layoutPriority(2)
                 
-                ChosePostPhotoView()
+                ChosePostPhotoPage()
                     .layoutPriority(1)
                 
                 Divider()
                     .padding(.vertical, 12)
                 
-                ChosePostGeneralView()
+                ChosePostGeneralPage()
                     .layoutPriority(0)
             }
             .padding(16)
