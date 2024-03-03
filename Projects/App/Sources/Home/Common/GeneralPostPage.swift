@@ -33,7 +33,7 @@ struct GeneralPostPage: View {
             Text(sampleData.content)
                 .lineSpacing(1.5)
                 .lineLimit(2)
-                .font(.bold(14))
+                .font(.medium(14))
             
             HStack(spacing: 16) {
                 HStack(spacing: 2) {

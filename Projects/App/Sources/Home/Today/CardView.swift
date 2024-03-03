@@ -47,10 +47,9 @@ struct CardView: View {
                                 .frame(width: 32, height: 32)
                             VStack(alignment: .leading, spacing: 4) {
                                 Text("\(data.userName)")
-                                    .font(.bold(14))
+                                    .font(.bold(16))
                                 Text("\(data.updatedAt)")
-                                    .font(.regular(10))
-                                // 폰트 미적용!!
+                                    .font(.regular(12))
                             }
                             .foregroundStyle(.white)
                             Spacer()
@@ -62,11 +61,10 @@ struct CardView: View {
                             HStack {
                                 Image("WhiteWine")
                                 Text("\(data.whisky)")
-                                // 폰트 미적용
                             }
                             Text("\(data.title)")
                                 .lineLimit(2)
-                                .font(.bold(20))
+                                .font(.bold(22))
                         }
                         .padding(10)
                         .foregroundColor(.white)

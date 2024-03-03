@@ -16,6 +16,7 @@ enum ContentSequence {
 class TodayHomeViewModel: ObservableObject {
     @Published var sequence: ContentSequence = .latest
     @Published var sampleData: HomeSample = HomeSample.sampleUser
+    @Published var homeSample: [HomeSample] = HomeSample.homeSample
 }
 
 struct TodayHomePage: View {
@@ -34,11 +35,19 @@ struct TodayHomePage: View {
             
             HStack {
                 Text("고민글")
-                    .font(.bold(20))
+                    .font(.bold(24))
                 Spacer()
                 SequenceView(todayHomeViewModel: todayHomeViewModel)
             }
-            GeneralPostPage(sampleData: todayHomeViewModel.sampleData)
+            
+            LazyVStack {
+                ForEach(Array(todayHomeViewModel.homeSample.enumerated()), id: \.offset) { index, value in
+                    GeneralPostPage(sampleData: todayHomeViewModel.homeSample[index])
+                    Divider()
+                        .opacity(index == 4 ? 0 : 1)
+                }
+                
+            }
         }
     }
 }
@@ -54,7 +63,7 @@ struct SequenceView: View {
             } label: {
                 Text("최신순")
                     .foregroundColor(todayHomeViewModel.sequence == .latest ? .MainE86336 : .GrayC6C6C6)
-                    .font(todayHomeViewModel.sequence == .latest ? .bold(14) : .regular(14))
+                    .font(todayHomeViewModel.sequence == .latest ? .bold(16) : .regular(16))
             }
                 
             Text("|")
@@ -65,7 +74,7 @@ struct SequenceView: View {
             } label: {
                 Text("인기순")
                     .foregroundColor(todayHomeViewModel.sequence == .popular ? .MainE86336 : .GrayC6C6C6)
-                    .font(todayHomeViewModel.sequence == .popular ? .bold(14) : .regular(14))
+                    .font(todayHomeViewModel.sequence == .popular ? .bold(16) : .regular(16))
             }
         }
     }
