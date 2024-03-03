@@ -47,9 +47,9 @@ struct CardView: View {
                                 .frame(width: 32, height: 32)
                             VStack(alignment: .leading, spacing: 4) {
                                 Text("\(data.userName)")
-                                    .font(.pretendardBold14)
+                                    .font(.bold(14))
                                 Text("\(data.updatedAt)")
-                                    .font(.pretendardRegular10)
+                                    .font(.regular(10))
                                 // 폰트 미적용!!
                             }
                             .foregroundStyle(.white)
@@ -66,8 +66,7 @@ struct CardView: View {
                             }
                             Text("\(data.title)")
                                 .lineLimit(2)
-                                .font(.pretendardBold20)
-                            
+                                .font(.bold(20))
                         }
                         .padding(10)
                         .foregroundColor(.white)

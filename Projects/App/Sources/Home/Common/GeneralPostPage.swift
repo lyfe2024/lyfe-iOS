@@ -21,18 +21,19 @@ struct GeneralPostPage: View {
                     .frame(width: 24, height: 24)
                     .clipShape(Circle())
                 Text(sampleData.userName)
-                    .font(.pretendardBold14)
+                    .font(.bold(14))
                 Text(sampleData.updatedAt)
-                    .font(.pretendardRegular10)
+                    .font(.regular(10))
                     .foregroundColor(.GrayC6C6C6)
             }
+            .frame(maxWidth: .infinity, alignment: .leading)
 
             Text(sampleData.title)
-                .font(.custom(CustomFont.bold, size: 16))
+                .font(.bold(16))
             Text(sampleData.content)
                 .lineSpacing(1.5)
                 .lineLimit(2)
-                .font(.pretendardSemiBold14)
+                .font(.bold(14))
             
             HStack(spacing: 16) {
                 HStack(spacing: 2) {
@@ -46,10 +47,11 @@ struct GeneralPostPage: View {
                 }
             }
             .foregroundColor(Color.GrayB0B0B0)
-            .font(.pretendardRegular14)
+            .font(.regular(14))
         }
+        .frame(maxWidth: .infinity)
     }
 }
 #Preview {
-    GeneralPostPage(sampleData: HomeSample.sampleUser)
+    GeneralPostPage(sampleData: HomeSample.homeSample[1])
 }

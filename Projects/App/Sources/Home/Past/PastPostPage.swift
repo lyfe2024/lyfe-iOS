@@ -20,7 +20,7 @@ struct PastPostPage: View {
         VStack(alignment: .leading) {
             VStack(alignment: .leading) {
                 Text("여기에 과거 주제 내용 \n문장 들어갑니다.")
-                    .font(.pretendardBold22)
+                    .font(.bold(22))
                     .foregroundColor(.black)
                     .lineLimit(2)
                     .layoutPriority(2)

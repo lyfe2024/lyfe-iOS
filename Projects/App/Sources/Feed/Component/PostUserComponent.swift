@@ -36,9 +36,9 @@ struct PostUserComponent: View {
                     
                 VStack(alignment: .leading, spacing: 0){
                     Text(postUser.userName)
-                        .font(.pretendardBold16)
+                        .font(.bold(16))
                     Text(postUser.updatedAt)
-                        .font(.pretendardRegular12)
+                        .font(.regular(12))
                         .foregroundColor(.GrayC6C6C6)
                 }
             }

@@ -8,37 +8,59 @@
 
 import SwiftUI
 
-struct CustomFont {
-    static let medium = "Pretendard-Medium"
-    static let bold = "Pretendard-Bold"
-    static let regular = "Pretendard-Regular.otf"
-    static let semiBold = "Pretendard-SemiBold.otf"
-    static let thinkRegular = "ThinkRegular"
-}
-
 extension Font {
-    // Bold
-    static let pretendardBold28: Font = .custom(CustomFont.bold, size: 28)
-    static let pretendardBold20: Font = .custom(CustomFont.bold, size: 20)
-    static let pretendardBold22: Font = .custom(CustomFont.bold, size: 22)
-    static let pretendardBold18: Font = .custom(CustomFont.bold, size: 18)
-    static let pretendardBold16: Font = .custom(CustomFont.bold, size: 16)
-    static let pretendardBold14: Font = .custom(CustomFont.bold, size: 14)
-    static let pretendardBold12: Font = .custom(CustomFont.bold, size: 12)
+    static func bold(_ size: CGFloat) -> Font {
+        return LyfeFontFamily.Pretendard.bold.swiftUIFont(size: size)
+    }
     
-    // Regular
-    static let thinkRegular80: Font = .custom(CustomFont.thinkRegular, size: 80)
-    static let pretendardRegular18: Font = .custom(CustomFont.regular, size: 18)
-    static let pretendardRegular16: Font = .custom(CustomFont.regular, size: 16)
-    static let pretendardRegular14: Font = .custom(CustomFont.regular, size: 14)
-    static let pretendardRegular12: Font = .custom(CustomFont.regular, size: 12)
-    static let pretendardRegular10: Font = .custom(CustomFont.regular, size: 10)
+    static func medium(_ size: CGFloat) -> Font {
+        return LyfeFontFamily.Pretendard.medium.swiftUIFont(size: size)
+    }
     
-    // SemiBold
-    static let pretendardSemiBold14: Font = .custom(CustomFont.semiBold, size: 14)
+    static func regular(_ size: CGFloat) -> Font {
+        return LyfeFontFamily.Pretendard.regular.swiftUIFont(size: size)
+    }
     
-    // Medium
+    static func semiBold(_ size: CGFloat) -> Font {
+        return LyfeFontFamily.Pretendard.semiBold.swiftUIFont(size: size)
+    }
+    
+    static func thinkingRegular(_ size: CGFloat) -> Font {
+        return LyfeFontFamily.Think.regular.swiftUIFont(size: size)
+    }
 }
 
+//struct CustomFont {
+//    static let medium = "Pretendard-Medium"
+//    static let bold = "Pretendard-Bold"
+//    static let regular = "Pretendard-Regular.otf"
+//    static let semiBold = "Pretendard-SemiBold.otf"
+//    static let thinkRegular = "ThinkRegular"
+//}
+//
+//extension Font {
+//    // Bold
+//    static let pretendardBold28: Font = .custom(CustomFont.bold, size: 28)
+//    static let pretendardBold20: Font = .custom(CustomFont.bold, size: 20)
+//    static let pretendardBold22: Font = .custom(CustomFont.bold, size: 22)
+//    static let pretendardBold18: Font = .custom(CustomFont.bold, size: 18)
+//    static let pretendardBold16: Font = .custom(CustomFont.bold, size: 16)
+//    static let pretendardBold14: Font = .custom(CustomFont.bold, size: 14)
+//    static let pretendardBold12: Font = .custom(CustomFont.bold, size: 12)
+//    
+//    // Regular
+//    static let thinkRegular80: Font = .custom(CustomFont.thinkRegular, size: 80)
+//    static let pretendardRegular18: Font = .custom(CustomFont.regular, size: 18)
+//    static let pretendardRegular16: Font = .custom(CustomFont.regular, size: 16)
+//    static let pretendardRegular14: Font = .custom(CustomFont.regular, size: 14)
+//    static let pretendardRegular12: Font = .custom(CustomFont.regular, size: 12)
+//    static let pretendardRegular10: Font = .custom(CustomFont.regular, size: 10)
+//    
+//    // SemiBold
+//    static let pretendardSemiBold14: Font = .custom(CustomFont.semiBold, size: 14)
+//    
+//    // Medium
+//}
+//
 
 

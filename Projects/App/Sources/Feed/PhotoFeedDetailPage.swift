@@ -24,7 +24,7 @@ struct PhotoFeedDetailPage: View {
             
             VStack(alignment: .leading) {
                 Text("여기에 오늘의 주제문장 들어갑니다.")
-                    .font(.pretendardBold22)
+                    .font(.bold(22))
                     .foregroundColor(.MainE86336)
                     .padding(.leading, 20)
                 
@@ -48,7 +48,7 @@ struct PhotoFeedDetailPage: View {
                     }
                     
                     Text(photoFeedDetailPageModel.postUser.title)
-                        .font(.pretendardBold20)
+                        .font(.bold(20))
                         .foregroundColor(.white)
                         .padding(.horizontal, 20)
                         .padding(.bottom, 16)

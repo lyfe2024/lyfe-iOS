@@ -26,7 +26,7 @@ struct TodayHomePage: View {
             Text("여름과 가을 사이 \n두줄일 경우는 이렇게")
                 .lineSpacing(2)
                 .layoutPriority(1)
-                .font(.pretendardBold28)
+                .font(.bold(28))
                 .foregroundColor(.MainE86336)
             
             CardSwipeView()
@@ -34,7 +34,7 @@ struct TodayHomePage: View {
             
             HStack {
                 Text("고민글")
-                    .font(.pretendardBold20)
+                    .font(.bold(20))
                 Spacer()
                 SequenceView(todayHomeViewModel: todayHomeViewModel)
             }
@@ -54,7 +54,7 @@ struct SequenceView: View {
             } label: {
                 Text("최신순")
                     .foregroundColor(todayHomeViewModel.sequence == .latest ? .MainE86336 : .GrayC6C6C6)
-                    .font(todayHomeViewModel.sequence == .latest ? .pretendardBold14 : .pretendardRegular14)
+                    .font(todayHomeViewModel.sequence == .latest ? .bold(14) : .regular(14))
             }
                 
             Text("|")
@@ -65,7 +65,7 @@ struct SequenceView: View {
             } label: {
                 Text("인기순")
                     .foregroundColor(todayHomeViewModel.sequence == .popular ? .MainE86336 : .GrayC6C6C6)
-                    .font(todayHomeViewModel.sequence == .popular ? .pretendardBold14 : .pretendardRegular14)
+                    .font(todayHomeViewModel.sequence == .popular ? .bold(14) : .regular(14))
             }
         }
     }

@@ -35,7 +35,7 @@ struct HomeMainPage: View {
                 Text("\(homePickerPageModel.date)")
                     .foregroundColor(.black)
                     .opacity(0.1)
-                    .font(.thinkRegular80)
+                    .font(.thinkingRegular(80))
                 VStack(alignment: .leading) {
                     Image("Logo")
                     Spacer().frame(height: 21)

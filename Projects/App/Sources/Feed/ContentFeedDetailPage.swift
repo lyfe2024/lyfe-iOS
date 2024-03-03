@@ -25,16 +25,16 @@ struct ContentFeedDetailPage: View {
             VStack {
                 VStack(alignment: .leading, spacing: 16) {
                     Text("여기에 오늘의 주제문장 들어갑니다.")
-                        .font(.pretendardBold22)
+                        .font(.bold(22))
                         .foregroundColor(.MainE86336)
                     
                     Text("\(contentFeedDetailPageModel.postUser.title) 두줄까지 들어가고 넘어가는 건 어떨까요")
-                        .font(.pretendardBold20)
+                        .font(.bold(20))
                         .lineLimit(2)
                         .lineSpacing(2.4)
                     
                     Text(contentFeedDetailPageModel.postUser.content)
-                        .font(.pretendardRegular18)
+                        .font(.regular(18))
                         .lineSpacing(1.5)
                     
                     PostUserComponent(postUser: contentFeedDetailPageModel.postUser)

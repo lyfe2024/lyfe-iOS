@@ -63,7 +63,7 @@ struct ButtonView: View {
             Text(title)
                 .padding(.vertical, 5)
                 .foregroundColor(.Gray727272)
-                .font(.pretendardRegular14)
+                .font(.regular(14))
         }
         .buttonStyle(PlainButtonStyle())
     }

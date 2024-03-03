@@ -24,9 +24,9 @@ struct UserProfileComponent: View {
                     .scaledToFit()
                     .clipShape(Circle())
                 Text(name)
-                    .font(.pretendardRegular14)
+                    .font(.regular(14))
                 Text(time)
-                    .font(.pretendardRegular12)
+                    .font(.regular(12))
                     .foregroundColor(.GrayB0B0B0)
                 
                 Spacer()
@@ -41,7 +41,7 @@ struct UserProfileComponent: View {
             }
             
             Text(content)
-                .font(.pretendardRegular14)
+                .font(.regular(14))
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .overlay(alignment: .topTrailing) {
                     FeedPopup(popupType: .doubleBtn, isPopup: infoToggle)

@@ -34,7 +34,7 @@ struct CustomTabBarPage: View {
                                 .resizable()
                                 .frame(width: 15, height: 15)
                             Text(item.title)
-                                .font(.pretendardBold12)
+                                .font(.bold(12))
                                 .foregroundColor(.white)
                         }
                         .padding(.leading, 13)

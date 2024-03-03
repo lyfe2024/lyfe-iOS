@@ -29,7 +29,7 @@ struct CommentUserPage: View {
                 commentUserPageModel.commentToggle.toggle()
             } label: {
                 Text("답글달기")
-                    .font(.pretendardRegular14)
+                    .font(.regular(14))
                     .foregroundStyle(Color.GrayB0B0B0)
             }
             .buttonStyle(PlainButtonStyle())

@@ -17,7 +17,7 @@ struct DropDownPage: View {
             VStack(spacing: 0) {
                 HStack(spacing: 10) {
                     Image(systemName: "chevron.down")
-                        .font(.pretendardBold14)
+                        .font(.bold(14))
                         .foregroundColor(.black)
                         .rotationEffect(.init(degrees: showOptions ? -180 : 0))
                     Text(selected.rawValue)

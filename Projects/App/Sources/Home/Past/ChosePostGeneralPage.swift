@@ -27,10 +27,11 @@ struct ChosePostGeneralPage: View {
                 }
             }
             
-            GeneralPostPage(sampleData: HomeSample.sampleUser)
+            GeneralPostPage(sampleData: HomeSample.homeSample[startChosenNumber])
                 .padding(8)
                 .background(Color.GrayF9F9F9)
                 .clipShape(RoundedRectangle(cornerRadius: 8))
+                
         }
         .gesture(
             DragGesture()
