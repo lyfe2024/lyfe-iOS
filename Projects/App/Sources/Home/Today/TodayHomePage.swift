@@ -8,9 +8,9 @@
 
 import SwiftUI
 
-enum ContentSequence {
-    case latest
-    case popular
+enum ContentSequence: String, CaseIterable {
+    case latest = "최신순"
+    case popular = "인기순"
 }
 
 class TodayHomeViewModel: ObservableObject {
@@ -61,7 +61,7 @@ struct SequenceView: View {
             Button {
                 todayHomeViewModel.sequence = .latest
             } label: {
-                Text("최신순")
+                Text(ContentSequence.latest.rawValue)
                     .foregroundColor(todayHomeViewModel.sequence == .latest ? .MainE86336 : .GrayC6C6C6)
                     .font(todayHomeViewModel.sequence == .latest ? .bold(16) : .regular(16))
             }
@@ -72,7 +72,7 @@ struct SequenceView: View {
             Button {
                 todayHomeViewModel.sequence = .popular
             } label: {
-                Text("인기순")
+                Text(ContentSequence.popular.rawValue)
                     .foregroundColor(todayHomeViewModel.sequence == .popular ? .MainE86336 : .GrayC6C6C6)
                     .font(todayHomeViewModel.sequence == .popular ? .bold(16) : .regular(16))
             }

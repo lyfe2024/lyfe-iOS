@@ -61,5 +61,40 @@ struct HomeSample: Hashable {
                                         title: "제목입니다제목입니다제목입니다제목입니다제목입니다",
                                         content: "글 내용",
                                         whisky: 52)]
+    
+    static let homeSample2 = [HomeSample(userName: "유저이름",
+                                        updatedAt: "1분전",
+                                        image: "Sample1",
+                                        title: "제목입니다",
+                                        content: "글 내용",
+                                        whisky: 40),
+                             
+                             HomeSample(userName: "유저2",
+                                        updatedAt: "2분전",
+                                        image: "Sample2",
+                                        title: "제목입니다제목입니다",
+                                        content: "글 내용",
+                                        whisky: 9),
+                             
+                             HomeSample(userName: "유저3",
+                                        updatedAt: "3분전",
+                                        image: "Sample3",
+                                        title: "제목입니다제목입니다제목입니다",
+                                        content: "글 내용",
+                                        whisky: 43),
+                             
+                             HomeSample(userName: "유저4",
+                                        updatedAt: "4분전",
+                                        image: "Sample4",
+                                        title: "제목입니다제목입니다제목입니다제목입니다",
+                                        content: "글 내용",
+                                        whisky: 1),
+                             
+                             HomeSample(userName: "유저5",
+                                        updatedAt: "5분전",
+                                        image: "Sample5",
+                                        title: "제목입니다제목입니다제목입니다제목입니다제목입니다",
+                                        content: "글 내용",
+                                        whisky: 52)]
    
 }
