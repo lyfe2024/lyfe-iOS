@@ -16,7 +16,7 @@ final class TabBarViewModel: ObservableObject {
     }
 }
 
-struct CustomTabBarView: View {
+struct CustomTabBarPage: View {
     @ObservedObject var tabBarViewModel = TabBarViewModel()
     
     var body: some View {
@@ -34,7 +34,7 @@ struct CustomTabBarView: View {
                                 .resizable()
                                 .frame(width: 15, height: 15)
                             Text(item.title)
-                                .font(.pretendardBold12)
+                                .font(.bold(12))
                                 .foregroundColor(.white)
                         }
                         .padding(.leading, 13)
@@ -62,5 +62,5 @@ struct CustomTabBarView: View {
 }
 
 #Preview {
-    CustomTabBarView(tabBarViewModel: TabBarViewModel())
+    CustomTabBarPage(tabBarViewModel: TabBarViewModel())
 }

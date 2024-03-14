@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct TabBarMainView: View {
+struct TabBarMainPage: View {
     @StateObject private var tabBarViewModel = TabBarViewModel()
     
     var body: some View {
@@ -21,12 +21,12 @@ struct TabBarMainView: View {
         .overlay {
             VStack {
                 Spacer()
-                CustomTabBarView(tabBarViewModel: tabBarViewModel)
+                CustomTabBarPage(tabBarViewModel: tabBarViewModel)
             }
         }
     }
 }
 
 #Preview {
-    TabBarMainView()
+    TabBarMainPage()
 }

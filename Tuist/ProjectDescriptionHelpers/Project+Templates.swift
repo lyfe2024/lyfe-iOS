@@ -43,6 +43,10 @@ public extension Project {
         return Project(
             name: name,
             organizationName: organizationName,
+            options: .options(
+                defaultKnownRegions: ["en", "ko"],
+                developmentRegion: "ko"
+            ),
             settings: setting,
             targets: targets,
             schemes: scheme,
