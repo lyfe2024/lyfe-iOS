@@ -31,9 +31,9 @@
 
 <div align="center">
 
-| [iOS](https://github.com/syss220211) | [iOS](https://github.com/rainbow1106) | [Leader & Server](https://github.com/sectionr0) |
-| :-----------------------------------: | :-----------------------------------: | :----------------------------------------: |
-| <img src="https://avatars.githubusercontent.com/u/110394722?v=4" width="200"> | <img src="https://avatars.githubusercontent.com/u/6710386?v=4" width="200"> | <img src="https://avatars.githubusercontent.com/u/55054505?v=4" width="200"> |
+| [iOS](https://github.com/syss220211) | [iOS](https://github.com/rainbow1106) | [Leader & Server](https://github.com/sectionr0) | [iOS](https://github.com/koserim) |
+| :-----------------------------------: | :-----------------------------------: | :----------------------------------------: | :----------------------------------------: |
+| <img src="https://avatars.githubusercontent.com/u/110394722?v=4" width="200"> | <img src="https://avatars.githubusercontent.com/u/6710386?v=4" width="200"> | <img src="https://avatars.githubusercontent.com/u/55054505?v=4" width="200"> | <img src="https://avatars.githubusercontent.com/u/37361629?v=4" width="200"> |
 
 </div>
 
