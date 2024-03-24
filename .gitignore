@@ -142,6 +142,10 @@ Tuist/Dependencies
 # XCconfig
 **.xcconfig
 
+# Signing
+Signing/
+master.key
+
 # Swift Package Manager
 **/*.package.resolved
 # Add this line if you want to avoid checking in source code from Swift Package Manager dependencies.
