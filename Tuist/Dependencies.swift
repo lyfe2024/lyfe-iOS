@@ -18,7 +18,9 @@ let dependencies = Dependencies(
             .remote(url: "https://github.com/Alamofire/Alamofire.git",
                     requirement:.upToNextMajor(from: "5.8.1")),
             .remote(url: "https://github.com/Moya/Moya.git",
-                    requirement: .upToNextMajor(from: "15.0.3"))
+                    requirement: .upToNextMajor(from: "15.0.3")),
+            .remote(url: "https://github.com/kakao/kakao-ios-sdk",
+                    requirement: .upToNextMajor(from: "2.0.0"))
         ]
     ),
 

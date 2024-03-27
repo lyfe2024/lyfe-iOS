@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-enum Login: CaseIterable {
+enum Login: String, CaseIterable {
     case kakao
     case google
     case apple
