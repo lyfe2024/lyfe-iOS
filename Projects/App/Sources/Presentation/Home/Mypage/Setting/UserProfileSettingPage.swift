@@ -29,9 +29,17 @@ struct UserProfileSettingPage: View {
                     .frame(width: 80, height: 80)
                     .clipShape(Circle())
                 
-                Image("mainColor_PlusButton")
-                    .frame(alignment: .bottomTrailing)
-                
+                Button {
+                    print("프로필 수정 버튼 tapped")
+                } label: {
+                    Image("mainColor_PlusButton")
+                        .alignmentGuide(.bottom, computeValue: { dimension in
+                            dimension[.bottom] * 0.8
+                        })
+                        .alignmentGuide(.trailing, computeValue: { dimension in
+                            dimension[.bottom] * 0.7
+                        })
+                }
             }
         }
     }

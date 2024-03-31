@@ -9,5 +9,6 @@ import ProjectDescription
 import ProjectDescriptionHelpers
 
 let workspace = Workspace(name: "Lyfe", projects: ["Projects/App",
-                                                    "Projects/SPM"], additionalFiles: ["README.md"])
+                                                   "Projects/SPM",
+                                                   "Projects/DesignSystem",], additionalFiles: ["README.md"])
 
