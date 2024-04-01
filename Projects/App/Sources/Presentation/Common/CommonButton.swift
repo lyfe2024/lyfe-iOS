@@ -38,6 +38,9 @@ struct CommonButton: View {
             RoundedRectangle(cornerRadius: 10)
                 .foregroundStyle(isEnable ? Color.MainE86336 : Color.GrayF5F5F5)
         )
+        .onTapGesture {
+            action?()
+        }
     }
 }
 

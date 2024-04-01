@@ -10,6 +10,8 @@ import SwiftUI
 import Combine
 
 final class NicknamePageModel: ObservableObject {
+    private let networkService = AuthNetwork()
+
     @Published var text: String = ""
     @Published var isCharacterAvailable: Bool = false
     @Published var isSymbolAvailable: Bool = true
@@ -24,8 +26,21 @@ final class NicknamePageModel: ObservableObject {
             .store(in: &cancellables)
     }
     
+    func checkNickname(completion: @escaping () -> Void) {
+        networkService
+            .checkNickname(text) { result in
+                switch result {
+                case .success(let data):
+                    completion()
+                case .failure(let error):
+                    // TODO: - Error 인 경우 토스트 노출
+                    debugPrint(error.localizedDescription)
+                }
+            }
+    }
+    
     private func validateText(_ value: String) {
-        let pattern = "^[ㄱ-힣a-zA-Z0-9]+$"
+        let pattern = "^(?=.*[0-9])(?=.*[ㄱ-힣a-zA-Z])[ㄱ-힣a-zA-Z0-9]+$"
         if let _ = value.range(of: pattern, options: .regularExpression) {
             isCharacterAvailable = true
             isSymbolAvailable = true
@@ -115,13 +130,16 @@ struct NicknamePage: View {
                 )
                 .height(48)
                 .tap {
-                    // move to next page 
+                    viewModel.checkNickname() {
+                        // move to next page 
+                    }
                 }
             
             Spacer()
                 .frame(height: 24)
         }
         .padding(.horizontal, 20)
+        .navigationBarBackButtonHidden()
     }
     
     private func getValidationColor() -> Color {
@@ -129,7 +147,7 @@ struct NicknamePage: View {
             return Color.GrayC6C6C6
         }
         if viewModel.isCharacterAvailable && viewModel.isSymbolAvailable {
-            return Color.blue2D7BF9
+            return Color.hreen199F3E
         }
         return Color.redF95454
     }
