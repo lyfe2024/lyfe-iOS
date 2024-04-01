@@ -20,7 +20,7 @@ struct LyfeApp: App {
     var body: some Scene {
         WindowGroup {
             RouterView {
-                LoginMainPage()
+                TabBarMainPage()
             }
             .onOpenURL(perform: { url in
                 if AuthApi.isKakaoTalkLoginUrl(url) {
