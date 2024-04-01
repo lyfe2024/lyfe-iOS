@@ -24,6 +24,7 @@ struct CardSwipeView: View {
     @StateObject var cardSwipeViewModel = CardSwipeViewModel()
     var height = UIScreen.main.bounds.height * 0.45 // 사진 높이
     var width = UIScreen.main.bounds.width * 0.8 // 사진 높이
+    let colorArray: [Color] = [.GrayF9F9F9, .GrayDDDDDD,  .GrayC6C6C6, .GrayB0B0B0]
     
     var body: some View {
         ZStack {
