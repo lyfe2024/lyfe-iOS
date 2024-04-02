@@ -27,6 +27,7 @@ struct RouterView<Content: View>: View {
             .onAppear {
                 router.navigateTo(.login)
             }
+            .navigationBarTitle("", displayMode: .inline)
         }
         .environmentObject(router)
     }

@@ -139,7 +139,9 @@ struct NicknamePage: View {
                 .frame(height: 24)
         }
         .padding(.horizontal, 20)
-        .navigationBarBackButtonHidden()
+        .navigationBackButton {
+            router.navigateBack()
+        }
     }
     
     private func getValidationColor() -> Color {
@@ -154,12 +156,12 @@ struct NicknamePage: View {
     
     private func getImage() -> Image {
         if viewModel.text.isEmpty {
-            return Image("Check")
+            return Image("check")
         }
         if viewModel.isCharacterAvailable && viewModel.isSymbolAvailable {
-            return Image("Check")
+            return Image("check")
         }
-        return Image("Unavailable")
+        return Image("unavailable")
     }
 }
 
