@@ -30,6 +30,7 @@ extension Color {
     static let Gray5E5E5E = Color("Gray600")
     static let Gray4B4B4B = Color("Gray700")
     static let Gray393939 = Color("Gray800")
+    static let Gray363636 = Color("Gray363636")
     
     // System
     static let blue2D7BF9 = Color("Blue050")
@@ -39,4 +40,7 @@ extension Color {
     
     // Background
     static let backgroundFf5f5f5 = Color("Background")
+    
+    // ThirdParty
+    static let kakaoBackground = Color("KakaoBackground")
 }

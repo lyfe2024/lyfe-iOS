@@ -24,6 +24,7 @@ struct TabBarMainPage: View {
                 CustomTabBarPage(tabBarViewModel: tabBarViewModel)
             }
         }
+        .navigationBarBackButtonHidden()
     }
 }
 
