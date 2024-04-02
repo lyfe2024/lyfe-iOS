@@ -28,24 +28,12 @@ struct CustomTabBarPage: View {
                     tabBarViewModel.selected = item
                     print(item.image)
                 } label: {
-                    if tabBarViewModel.shouldShowImage(for: item) {
-                        HStack(spacing: 8) {
-                            Image("\(item.image)Fill")
-                                .resizable()
-                                .frame(width: 15, height: 15)
-                            Text(item.title)
-                                .font(.bold(12))
-                                .foregroundColor(.white)
-                        }
-                        .padding(.leading, 13)
-                        .padding(.trailing, 15)
-                        .padding(.vertical, 10)
-                        .background(Color.MainE86336)
-                        .clipShape(RoundedRectangle(cornerRadius: 12))
-                    } else {
-                        Image(item.image)
-                            .frame(width: 24, height: 24)
-                    }
+                    
+                    Image("\(item.image)Fill")
+                        .padding(.horizontal, 12)
+                        .padding(.vertical, 6)
+                        .background(tabBarViewModel.shouldShowImage(for: item) ? Color.MainE86336 : .clear)
+                        .clipShape(tabBarViewModel.shouldShowImage(for: item) ? RoundedRectangle(cornerRadius: 12) : RoundedRectangle(cornerRadius: 0))
                 }
                 .onTapGesture {
                     tabBarViewModel.selected = item
@@ -54,7 +42,7 @@ struct CustomTabBarPage: View {
                 Spacer()
             }
         }
-        .padding(.vertical, 11)
+        .padding(.vertical, 10)
         .background(Color.Gray393939)
         .clipShape(RoundedRectangle(cornerRadius: 20))
         .padding(.horizontal, 20)

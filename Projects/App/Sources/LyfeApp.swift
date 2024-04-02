@@ -14,7 +14,9 @@ struct LyfeApp: App {
     @State var test: String = "선택1"
     
     init() {
-        KakaoSDK.initSDK(appKey: "16a28ff83fdcfecd2f4a6b6e8962aa6d")
+        if let kakaoApiKey = Bundle.main.object(forInfoDictionaryKey: "KAKAO_API_KEY") as? String {
+            KakaoSDK.initSDK(appKey: kakaoApiKey)
+        }
     }
     
     var body: some Scene {

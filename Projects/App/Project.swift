@@ -9,7 +9,8 @@ let appTarget = Target.makeTarget(
     deploymentTarget: .iOS(targetVersion: "16.0",
                            devices: [.iphone],
                            supportsMacDesignedForIOS: false),
-    dependencies: [.project(target: "SPM", path: .relativeToRoot("Projects/SPM"))],
+    dependencies: [.project(target: "SPM", path: .relativeToRoot("Projects/SPM")),
+                   .project(target: "DesignSystem", path: .relativeToRoot("Projects/DesignSystem"))],
     infoPlistPath: "Support/Info.plist",
     //    scripts: [.swiftLintPath], // -> lint 적용o
     scripts: [], // -> lint 적용x
