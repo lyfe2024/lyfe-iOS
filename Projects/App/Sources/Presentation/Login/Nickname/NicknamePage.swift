@@ -33,7 +33,7 @@ final class NicknamePageModel: ObservableObject {
         networkService
             .checkNickname(text) { result in
                 switch result {
-                case .success(let data):
+                case .success:
                     completion()
                 case .failure(let error):
                     // TODO: - Error 인 경우 토스트 노출
