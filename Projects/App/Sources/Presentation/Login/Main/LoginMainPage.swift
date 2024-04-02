@@ -55,21 +55,19 @@ struct LoginMainPage: View {
                 
                 VStack(spacing: 12) {
                     ForEach(Login.allCases, id: \.self) { type in
-                        NavigationLink(destination: NicknamePage()) {
-                            LoginButton(type: type)
-                                .onTapGesture {
-                                    switch type {
-                                    case .kakao:
-                                        viewModel.kakaoLogin() { token in
-                                            router.navigateTo(.nickname(token))
-                                        }
-                                    case .apple:
-                                        viewModel.googleLogin()
-                                    case .google:
-                                        viewModel.appleLogin()
+                        LoginButton(type: type)
+                            .onTapGesture {
+                                switch type {
+                                case .kakao:
+                                    viewModel.kakaoLogin() { token in
+                                        router.navigateTo(.nickname(token))
                                     }
+                                case .apple:
+                                    viewModel.googleLogin()
+                                case .google:
+                                    viewModel.appleLogin()
                                 }
-                        }
+                            }
                     }
                 }
             }

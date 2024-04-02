@@ -15,6 +15,7 @@ class Router: ObservableObject {
         case tabView
         case login
         case nickname(String)
+        case term(String, String)
     }
     
     // Used to programatically control our navigation stack
@@ -27,8 +28,12 @@ class Router: ObservableObject {
             TabBarMainPage()
         case .login:
             LoginMainPage()
-        case .nickname:
-            NicknamePage()
+        case .nickname(let token):
+            let viewModel = NicknamePageModel(token: token)
+            NicknamePage(viewModel: viewModel)
+        case .term(let token, let nickname):
+            let viewModel = TermPageModel(token: token, nickname: nickname)
+            TermPage(viewModel: viewModel)
         }
     }
     

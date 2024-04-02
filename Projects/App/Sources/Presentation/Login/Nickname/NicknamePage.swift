@@ -11,14 +11,17 @@ import Combine
 
 final class NicknamePageModel: ObservableObject {
     private let networkService = AuthNetwork()
-
+    private(set) var token: String
+    
     @Published var text: String = ""
     @Published var isCharacterAvailable: Bool = false
     @Published var isSymbolAvailable: Bool = true
     
     private var cancellables = [AnyCancellable]()
     
-    init() {
+    init(token: String) {
+        self.token = token
+        
         $text
             .sink { [weak self] value in
                 self?.validateText(value)
@@ -52,8 +55,12 @@ final class NicknamePageModel: ObservableObject {
 }
 
 struct NicknamePage: View {
-    @StateObject var viewModel = NicknamePageModel()
+    @ObservedObject var viewModel: NicknamePageModel
     @EnvironmentObject var router: Router
+    
+    init(viewModel: NicknamePageModel) {
+        self.viewModel = viewModel
+    }
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -131,7 +138,9 @@ struct NicknamePage: View {
                 .height(48)
                 .tap {
                     viewModel.checkNickname() {
-                        // move to next page 
+                        router.navigateTo(
+                            .term(viewModel.token, viewModel.text)
+                        )
                     }
                 }
             
@@ -166,5 +175,5 @@ struct NicknamePage: View {
 }
 
 #Preview {
-    NicknamePage()
+    NicknamePage(viewModel: .init(token: ""))
 }
