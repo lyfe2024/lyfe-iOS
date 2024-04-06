@@ -16,6 +16,7 @@ class PhotoFeedDeatilPageModel: ObservableObject {
 // 사진 피드 상세 뷰
 struct PhotoFeedDetailPage: View {
     @StateObject var photoFeedDetailPageModel = PhotoFeedDeatilPageModel()
+    @EnvironmentObject var router: Router
     let photoSize = UIScreen.main.bounds.width
     
     var body: some View {
@@ -77,9 +78,17 @@ struct PhotoFeedDetailPage: View {
                 photoFeedDetailPageModel.popupToggle = false
             }
         }
+        .navigationBackButton {
+            router.navigateBack()
+        }
+        .navigationRightButton(image: "Info_black") {
+            print("info button tapped")
+        }
     }
 }
 
 #Preview {
-    PhotoFeedDetailPage()
+    NavigationStack {
+        PhotoFeedDetailPage()
+    }
 }

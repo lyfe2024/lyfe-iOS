@@ -17,6 +17,7 @@ class ContentFeedDetailPageModel: ObservableObject {
 // 글 피드 상세 뷰
 struct ContentFeedDetailPage: View {
     @StateObject var contentFeedDetailPageModel = ContentFeedDetailPageModel()
+    @EnvironmentObject var router: Router
     
     var body: some View {
         ScrollView {
@@ -58,9 +59,17 @@ struct ContentFeedDetailPage: View {
             print("\(contentFeedDetailPageModel.popupToggle)")
             contentFeedDetailPageModel.popupToggle = true
         }
+        .navigationBackButton {
+            router.navigateBack()
+        }
+        .navigationRightButton(image: "Info_black") {
+            print("info button tapped")
+        }
     }
 }
 
 #Preview {
-    ContentFeedDetailPage()
+    NavigationStack {
+        ContentFeedDetailPage()
+    }
 }
