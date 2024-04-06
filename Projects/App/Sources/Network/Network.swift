@@ -24,6 +24,7 @@ class NetworkService {
     func request<T: Decodable>(
         _ endpoint: String,
         method: HTTPMethod,
+        parameters: [String: Any]? = nil,
         completion: @escaping (Result<T, NetworkError>) -> Void
     ) {
         guard NetworkReachabilityManager()?.isReachable == true else {
@@ -34,9 +35,9 @@ class NetworkService {
         
         AF.request(url,
                    method: method,
-                   parameters: nil,
-                   encoding: URLEncoding.default,
-                   headers: ["Content-Type":"application/json", "Accept":"application/json"])
+                   parameters: parameters,
+                   encoding: parameters == nil ? URLEncoding.default : JSONEncoding.default,
+                   headers: ["Content-Type":"application/json"])
             .validate(statusCode: 200..<300)
             .response { response in
                 switch response.result {
@@ -51,7 +52,7 @@ class NetworkService {
                     }
                 case .failure(let error):
                     debugPrint(error.localizedDescription)
-                    completion(.failure(.response)) // TODO : 에러 형식에 맞게 수정 필요
+                    completion(.failure(.response))
                 }
         }
     }
