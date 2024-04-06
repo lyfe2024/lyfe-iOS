@@ -1,14 +1,15 @@
 //
-//  PopupDemo.swift
-//  DesignSystem
+//  DesignSystemTest.swift
+//  Lyfe
 //
 //  Created by 박서연 on 2024/04/06.
 //  Copyright © 2024 iOSteam. All rights reserved.
 //
 
 import SwiftUI
+import DesignSystem
 
-struct PopupDemo: View {
+struct DesignSystemTest: View {
     @State private var isShowing: Bool = false
     @State private var isShowingTest: Bool = false
     
@@ -49,10 +50,9 @@ struct PopupDemo: View {
         } cancelButton: {
             isShowingTest.toggle()
         }
-
     }
 }
 
 #Preview {
-    PopupDemo()
+    DesignSystemTest()
 }

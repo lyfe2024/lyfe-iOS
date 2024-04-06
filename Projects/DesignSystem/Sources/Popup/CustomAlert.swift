@@ -19,73 +19,76 @@ public struct CustomAlertView: ViewModifier {
     private let type: CustomAlert
     private let title: String
     private let desc: String
-    private let leftButton: (() -> Void)?
-    private let rightButton: (() -> Void)?
+    private let confirmButton: (() -> Void)?
+    private let cancelButton: (() -> Void)?
+    
+    init(isShowing: Binding<Bool>,
+         type: CustomAlert,
+         title: String,
+         desc: String,
+         confirmButton: (() -> Void)? = nil,
+         cancelButton: (() -> Void)? = nil) {
+        
+        self._isShowing = isShowing
+        self.type = type
+        self.title = title
+        self.desc = desc
+        self.confirmButton = confirmButton
+        self.cancelButton = cancelButton
+    }
+    
     
     public func body(content: Content) -> some View {
         content
             .overlay {
-                
+                ZStack{
+                    Color.black
+                        .opacity(0.25)
+                        .ignoresSafeArea()
+                    
+                    VStack(alignment: .leading, spacing: desc.isEmpty ? 16 : 0) {
+                        Text(title)
+                            .font(.bold(18))
+                            .padding(.vertical, 10)
+
+                        if !desc.isEmpty {
+                            Text(desc)
+                                .font(.medium(16))
+                                .padding(.vertical, 8)
+                            
+                            Spacer().frame(height: 16)
+                        }
+                        
+                        switch type {
+                        case .firstButton(let title):
+                            Text(title)
+                                .setButtonModifier(textColor: .white, backgroundColor: Color.MainE86336)
+                                .onTapGesture {
+                                    confirmButton?()
+                                }
+                            
+                        case .doubleButton(let leftTitle, let rightTitle):
+                            HStack(spacing: 16) {
+                                Text(leftTitle)
+                                    .setButtonModifier(textColor: Color.Gray5E5E5E, backgroundColor: Color.GrayF5F5F5)
+                                    .onTapGesture {
+                                        cancelButton?()
+                                    }
+                                Text(rightTitle)
+                                    .setButtonModifier(textColor: .white, backgroundColor: Color.MainE86336)
+                                    .onTapGesture {
+                                        confirmButton?()
+                                    }
+                            }
+                        }
+                    }
+                    .padding(16)
+                    .background(.white)
+                    .clipShape(RoundedRectangle(cornerRadius: 20))
+                    .padding(.horizontal, 30)
+                }
+                .opacity(isShowing ? 1 : 0)
+                .animation(.easeIn, value: isShowing)
             }
     }
 }
-
-
-/*
- struct CommonButton: View {
-     private var title: String
-     private var leadingImage: Image?
-     private var isEnable: Bool = true
-     private var height: CGFloat = 48
-     private var action: (() -> Void)?
-     
-     init(title: String, leadingImage: Image? = nil) {
-         self.title = title
-     }
-     
-     var body: some View {
-         HStack(alignment: .center, spacing: 8) {
-             Spacer()
-             
-             leadingImage?
-                 .resizable()
-                 .frame(width: 20, height: 20)
-             
-             Text(title)
-                 .font(.bold(16))
-                 .foregroundStyle(isEnable ? Color.white : Color.Gray727272)
-             
-             Spacer()
-         }
-         .frame(height: height)
-         .background(
-             RoundedRectangle(cornerRadius: 10)
-                 .foregroundStyle(isEnable ? Color.MainE86336 : Color.GrayF5F5F5)
-         )
-         .onTapGesture {
-             action?()
-         }
-     }
- }
-
- extension CommonButton {
-     func enable(_ isEnable: Bool) -> Self {
-         var copy = self
-         copy.isEnable = isEnable
-         return copy
-     }
-     
-     func height(_ height: CGFloat) -> Self {
-         var copy = self
-         copy.height = height
-         return copy
-     }
-     
-     func tap(action: @escaping (() -> Void)) -> Self {
-         var copy = self
-         copy.action = action
-         return copy
-     }
- }
-
- */
