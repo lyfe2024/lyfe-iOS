@@ -7,9 +7,12 @@
 //
 
 import SwiftUI
+import PhotosUI
 
 final class PostPhotoPageModel: ObservableObject {
     @Published var title: String = ""
+    @Published var selectedImage: PhotosPickerItem? = nil
+    @Published var selectedPhotoData: Data?
 }
 
 struct PostPhotoPage: View {
@@ -24,20 +27,45 @@ struct PostPhotoPage: View {
             Spacer()
                 .frame(height: 16)
             
-            ZStack {
-                RoundedRectangle(cornerRadius: 10)
-                    .foregroundStyle(Color.GrayF5F5F5)
-                
-                VStack(alignment: .center, spacing: 8) {
-                    Image("plus")
-                        .resizable()
-                        .frame(width: 44, height: 44)
-                    Text("사진 업로드")
-                        .font(.semiBold(16))
+            PhotosPicker(selection: $viewModel.selectedImage) {
+                ZStack {
+                    RoundedRectangle(cornerRadius: 10)
+                        .foregroundStyle(Color.GrayF5F5F5)
+                    
+                    VStack(alignment: .center, spacing: 8) {
+                        Image("plus")
+                            .resizable()
+                            .frame(width: 44, height: 44)
+                        
+                        Text("사진 업로드")
+                            .foregroundStyle(.black)
+                            .font(.semiBold(16))
+                    }
+                    
+                    if let selectedPhoto = viewModel.selectedPhotoData,
+                       let image = UIImage(data: selectedPhoto) {
+                        Image(uiImage: image)
+                            .resizable()
+                            .compositingGroup()
+                            .clipped()
+                            .mask {
+                                RoundedRectangle(cornerRadius: 10)
+                            }
+                    }
+                }
+                .aspectRatio(
+                    viewModel.selectedPhotoData == nil ? 320/152 : 1,
+                    contentMode: .fit
+                )
+                .frame(maxWidth: .infinity)
+            }
+            .onChange(of: viewModel.selectedImage) { newItem in
+                Task {
+                    if let data = try? await newItem?.loadTransferable(type: Data.self) {
+                        viewModel.selectedPhotoData = data
+                    }
                 }
             }
-            .aspectRatio(320/152, contentMode: .fit)
-            .frame(maxWidth: .infinity)
             
             Spacer()
                 .frame(height: 24)
@@ -67,9 +95,12 @@ struct PostPhotoPage: View {
             
             CommonButton(title: "다음")
                 .height(48)
-                .enable(false)
+                .enable(
+                    !viewModel.title.isEmpty
+                    && viewModel.selectedPhotoData != nil
+                )
                 .tap {
-                    
+                    // save photo 
                 }
             Spacer()
                 .frame(height: 24)
