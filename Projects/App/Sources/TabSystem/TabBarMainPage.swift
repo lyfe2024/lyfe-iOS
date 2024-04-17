@@ -29,7 +29,7 @@ struct TabBarMainPage: View {
         .overlay {
             if tabBarViewModel.selected == .post {
                 VStack {
-                    PostMainPage()
+                    // PostMainPage()
                 }
             }
         }
