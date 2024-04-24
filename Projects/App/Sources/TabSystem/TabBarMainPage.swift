@@ -16,21 +16,23 @@ struct TabBarMainPage: View {
             ForEach(TabInfo.allCases, id: \.self) { tab in
                 if tab != .post {
                     tab.view
+                } else {
+                    tabBarViewModel.defaultTab.view
                 }
             }
             .toolbarBackground(.hidden, for: .tabBar)
         }
         .overlay {
-            VStack {
-                Spacer()
-                CustomTabBarPage(tabBarViewModel: tabBarViewModel)
+            if tabBarViewModel.selected == .post {
+                PostMainPage() {
+                    tabBarViewModel.selected = tabBarViewModel.defaultTab
+                }
             }
         }
         .overlay {
-            if tabBarViewModel.selected == .post {
-                VStack {
-                    // PostMainPage()
-                }
+            VStack {
+                Spacer()
+                CustomTabBarPage(tabBarViewModel: tabBarViewModel)
             }
         }
         .navigationBarBackButtonHidden()
