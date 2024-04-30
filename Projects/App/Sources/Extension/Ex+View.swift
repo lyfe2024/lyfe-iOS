@@ -36,14 +36,15 @@ extension View {
     }
     
     func customNavigationTitle(title: String) -> some View {
-        VStack(alignment: .leading) {
-            Text(title)
-                .font(.bold(24))
-                .padding(.vertical, 12)
-                .padding(.init(top: 10, leading: 0, bottom: 10, trailing: 0))
-            
-            self
-        }
+        self
+            .toolbar {
+                ToolbarItem(placement: .topBarLeading, content: {
+                    Text(title)
+                        .font(.bold(24))
+                        .padding(.vertical, 6)
+                        .foregroundStyle(Color.black)
+                })
+            }
     }
     
     func navigationRightButton(image: String, _ action: @escaping () -> Void) -> some View {
@@ -65,7 +66,7 @@ extension View {
                 ToolbarItem(placement: .topBarLeading, content: {
                     Text(title)
                         .font(.bold(24))
-                        .padding(.vertical, 12)
+                        .padding(.vertical, 6)
                         .foregroundStyle(Color.black)
                 })
                             
@@ -73,7 +74,7 @@ extension View {
                     Button(action: action, label: {
                         Text(text)
                             .font(.semiBold(16))
-                            .padding(.vertical, 8)
+                            .padding(.vertical, 4)
                             .foregroundStyle(Color.MainE86336)
                     })
                 }

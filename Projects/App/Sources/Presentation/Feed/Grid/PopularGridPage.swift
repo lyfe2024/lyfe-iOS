@@ -20,13 +20,14 @@ struct PopularGridPage: View {
     var body: some View {
         VStack(alignment: .leading) {
             Picker("주제 선택", selection: $selected) {
-                ForEach(FeedPicker.allCases, id: \.self) { selected in
-                    Text(selected.rawValue)
-                        .tag(selected)
+                ForEach(FeedPicker.allCases, id: \.self) { option in
+                    Text(option.rawValue)
+                        .tag(option.rawValue)
                 }
             }
             .tint(Color.black)
-            
+            .pickerStyle(.menu)
+
             switch selected {
             case .whiskey:
                 WhiskeyGridPage()
