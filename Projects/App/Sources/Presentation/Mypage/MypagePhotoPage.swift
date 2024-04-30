@@ -11,7 +11,6 @@ import SwiftUI
 struct MypagePhotoPage: View {
     var body: some View {
         VStack {
-            Text("MypagePhotoPage")
             NoneUserPage()
         }
     }

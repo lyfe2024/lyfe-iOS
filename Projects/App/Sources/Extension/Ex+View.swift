@@ -35,6 +35,17 @@ extension View {
         }
     }
     
+    func customNavigationTitle(title: String) -> some View {
+        VStack(alignment: .leading) {
+            Text(title)
+                .font(.bold(24))
+                .padding(.vertical, 12)
+                .padding(.init(top: 10, leading: 0, bottom: 10, trailing: 0))
+            
+            self
+        }
+    }
+    
     func navigationRightButton(image: String, _ action: @escaping () -> Void) -> some View {
         self
             .toolbar {
@@ -46,5 +57,27 @@ extension View {
                     })
                 }
             }
+    }
+    
+    func navigationTitleWithRightButton(title: String, text: String, _ action: @escaping () -> Void) -> some View {
+        self
+            .toolbar {
+                ToolbarItem(placement: .topBarLeading, content: {
+                    Text(title)
+                        .font(.bold(24))
+                        .padding(.vertical, 12)
+                        .foregroundStyle(Color.black)
+                })
+                            
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button(action: action, label: {
+                        Text(text)
+                            .font(.semiBold(16))
+                            .padding(.vertical, 8)
+                            .foregroundStyle(Color.MainE86336)
+                    })
+                }
+            }
+            .padding(.vertical, 10)
     }
 }

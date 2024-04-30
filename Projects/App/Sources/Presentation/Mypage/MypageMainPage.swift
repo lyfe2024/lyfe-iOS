@@ -25,6 +25,7 @@ class MypageSectionPageModel: ObservableObject {
 struct MypageMainPage: View {
     
     @StateObject var mypageSectionPageModel = MypageSectionPageModel()
+    @EnvironmentObject var router: Router
     
     var body: some View {
         ScrollView {
@@ -40,20 +41,27 @@ struct MypageMainPage: View {
                     HStack {
                         Image("\(mypageSectionPageModel.sampleUser.image)")
                             .resizable()
+                            .scaledToFill()
                             .frame(width: 48, height: 48)
-                            .scaledToFit()
                             .clipShape(Circle())
                         Text("익명의 쿼카")
                             .font(.bold(20))
                     }
+                    
                     MypageDivideComponent(mypageSectionPageModel: mypageSectionPageModel)
                 }
             }
+            .padding(.horizontal, 20)
         }
-        .padding(.horizontal, 20)
+        .navigationTitleWithRightButton(title: "마이페이지", text: "설정", {
+            print("설정 tapped!!!!")
+        })
+        
     }
 }
 
 #Preview {
-    MypageMainPage()
+    NavigationStack {
+        MypageMainPage()
+    }
 }
