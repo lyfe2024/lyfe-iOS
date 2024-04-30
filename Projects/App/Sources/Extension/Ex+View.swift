@@ -34,4 +34,17 @@ extension View {
             self
         }
     }
+    
+    func navigationRightButton(image: String, _ action: @escaping () -> Void) -> some View {
+        self
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button(action: action, label: {
+                        Image(image)
+                            .resizable()
+                            .frame(width: 24, height: 24)
+                    })
+                }
+            }
+    }
 }

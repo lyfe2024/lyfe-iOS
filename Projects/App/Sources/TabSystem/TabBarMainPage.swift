@@ -14,9 +14,20 @@ struct TabBarMainPage: View {
     var body: some View {
         TabView(selection: $tabBarViewModel.selected) {
             ForEach(TabInfo.allCases, id: \.self) { tab in
-                tab.view
+                if tab != .post {
+                    tab.view
+                } else {
+                    tabBarViewModel.defaultTab.view
+                }
             }
             .toolbarBackground(.hidden, for: .tabBar)
+        }
+        .overlay {
+            if tabBarViewModel.selected == .post {
+                PostMainPage() {
+                    tabBarViewModel.selected = tabBarViewModel.defaultTab
+                }
+            }
         }
         .overlay {
             VStack {
