@@ -33,8 +33,8 @@ struct UserExperiencePage: View {
                         Text(placeholder)
                             .font(.medium(16))
                             .padding(.vertical, 8)
-                            .padding(12)
-                            .foregroundColor(Color.GrayC6C6C6)
+                            .padding(14)
+                            .foregroundColor(content.isEmpty ? Color.GrayC6C6C6 : Color.black)
                     }
                 }
                 .frame(maxWidth: .infinity, maxHeight: 176)
