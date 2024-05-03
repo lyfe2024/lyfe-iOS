@@ -13,6 +13,7 @@ final class UserProfileSettingPageModel: ObservableObject {
 }
 
 struct UserProfileSettingPage: View {
+    @EnvironmentObject var router: Router
     @StateObject var userProfileSettingPageModel = UserProfileSettingPageModel()
     @State var nicknameDummy = ""
     
@@ -52,9 +53,14 @@ struct UserProfileSettingPage: View {
             CommonButton(title: "완료")
         }
         .padding(.horizontal, 20)
+        .navigationBackButton {
+            router.navigateBack()
+        }
     }
 }
 
 #Preview {
-    UserProfileSettingPage()
+    NavigationStack {
+        UserProfileSettingPage()
+    }
 }

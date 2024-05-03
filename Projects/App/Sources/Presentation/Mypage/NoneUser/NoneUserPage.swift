@@ -33,7 +33,6 @@ struct NoneUserPage: View {
                 .font(.medium(14))
             Spacer()
         }
-        .frame(height: .infinity)
     }
 }
 

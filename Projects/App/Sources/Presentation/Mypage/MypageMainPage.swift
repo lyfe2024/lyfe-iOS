@@ -44,8 +44,20 @@ struct MypageMainPage: View {
                             .scaledToFill()
                             .frame(width: 48, height: 48)
                             .clipShape(Circle())
-                        Text("익명의 쿼카")
-                            .font(.bold(20))
+                        VStack(alignment: .leading, spacing: 0) {
+                            Text("설정된닉넴123")
+                                .font(.bold(20))
+                                .padding(.vertical, 6)
+                            
+                            Text("프로필 수정")
+                                .font(.semiBold(12))
+                                .padding(.vertical, 3)
+                                .foregroundStyle(Color.GrayB0B0B0)
+                                .onTapGesture {
+                                    router.navigateTo(.setting)
+                                    print("설정페이지로 이동")
+                                }
+                        }
                     }
                     
                     MypageDivideComponent(mypageSectionPageModel: mypageSectionPageModel)
@@ -54,7 +66,7 @@ struct MypageMainPage: View {
             .padding(.horizontal, 20)
         }
         .navigationTitleWithRightButton(title: "마이페이지", text: "설정", {
-            print("설정 tapped!!!!")
+            router.navigateTo(.setting)
         })
         
     }

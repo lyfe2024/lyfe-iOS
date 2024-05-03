@@ -35,18 +35,6 @@ extension View {
         }
     }
     
-    func customNavigationTitle(title: String) -> some View {
-        self
-            .toolbar {
-                ToolbarItem(placement: .topBarLeading, content: {
-                    Text(title)
-                        .font(.bold(24))
-                        .padding(.vertical, 6)
-                        .foregroundStyle(Color.black)
-                })
-            }
-    }
-    
     func navigationRightButton(image: String, _ action: @escaping () -> Void) -> some View {
         self
             .toolbar {
