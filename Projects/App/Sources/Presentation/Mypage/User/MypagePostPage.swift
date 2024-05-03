@@ -8,11 +8,6 @@
 
 import SwiftUI
 
-struct PublicSample {
-    static let title = "여기 텍스트 기반 피드 제목 들어옵니다. "
-    static let content = "여기는 내용 들어옵니다. 최대 2줄까지. 여기는 내용 들어옵니다. 최대 2줄까지. 여기는 내용 들어옵니다. 최대 2줄까지. 여기는 내용 들어옵니다. 최대 2줄까지"
-}
-
 class MyPagePostPageModel: ObservableObject {
     @Published var sampleData = HomeSample.sampleUser
 }
