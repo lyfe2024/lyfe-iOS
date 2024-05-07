@@ -44,13 +44,17 @@ struct PostPhotoPage: View {
                     
                     if let selectedPhoto = viewModel.selectedPhotoData,
                        let image = UIImage(data: selectedPhoto) {
-                        Image(uiImage: image)
-                            .resizable()
-                            .compositingGroup()
-                            .clipped()
-                            .mask {
-                                RoundedRectangle(cornerRadius: 10)
-                            }
+                        GeometryReader { geometry in
+                            Image(uiImage: image)
+                                .resizable()
+                                .scaledToFill()
+                                .compositingGroup()
+                                .frame(width: geometry.size.width, height: geometry.size.height)
+                                .clipped()
+                                .mask {
+                                    RoundedRectangle(cornerRadius: 10)
+                                }
+                        }
                     }
                 }
                 .aspectRatio(
