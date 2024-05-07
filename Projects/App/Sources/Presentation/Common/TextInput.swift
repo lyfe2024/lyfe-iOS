@@ -10,11 +10,13 @@ import SwiftUI
 
 struct TextInput: View {
     private var text: Binding<String>
-    private var placeHolderText: String = ""
+    private var placeholder: String = ""
     private var trailingImage: Image = Image("CloseCircleFill")
     private var tapTrailingImage: (() -> Void)?
     private var maxCount: Int?
     private var isError: Bool = false
+    private var font: Font = .bold(16)
+    private var placeholderFont: Font = .bold(16)
 
     init(text: Binding<String>) {
         self.text = text
@@ -25,12 +27,12 @@ struct TextInput: View {
             TextField(
                 "",
                 text: text,
-                prompt: Text(placeHolderText)
+                prompt: Text(placeholder)
                     .foregroundColor(Color.GrayC6C6C6)
-                    .font(.bold(16)),
+                    .font(placeholderFont),
                 axis: .horizontal
             )
-            .font(.bold(16))
+            .font(font)
             .foregroundStyle(getTextColor())
             .padding(.leading, 12)
             .padding(.top, 12)
@@ -91,6 +93,24 @@ extension TextInput {
     func tapTrailingImage(action: @escaping (() -> Void)) -> Self {
         var copy = self
         copy.tapTrailingImage = action
+        return copy
+    }
+    
+    func font(_ font: Font) -> Self {
+        var copy = self
+        copy.font = font
+        return copy
+    }
+    
+    func placeholder(_ placeholder: String) -> Self {
+        var copy = self
+        copy.placeholder = placeholder
+        return copy
+    }
+    
+    func placeholderFont(_ font: Font) -> Self {
+        var copy = self
+        copy.placeholderFont = font
         return copy
     }
 }

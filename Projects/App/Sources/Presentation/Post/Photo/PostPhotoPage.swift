@@ -97,7 +97,7 @@ struct PostPhotoPage: View {
             
             Spacer()
             
-            CommonButton(title: "다음")
+            CommonButton(title: "게시")
                 .height(48)
                 .enable(
                     !viewModel.title.isEmpty

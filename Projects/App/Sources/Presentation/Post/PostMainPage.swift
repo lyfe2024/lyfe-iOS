@@ -75,6 +75,10 @@ struct PostMainPage: View {
                     RoundedRectangle(cornerRadius: 12)
                         .foregroundStyle(Color.MainE86336)
                 )
+                .onTapGesture {
+                    tapDimView?()
+                    router.navigateTo(.postText)
+                }
                 
                 Spacer()
                     .frame(height: 100)
