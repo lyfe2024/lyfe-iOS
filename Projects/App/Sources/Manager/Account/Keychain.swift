@@ -16,7 +16,7 @@ final class Keychain {
             kSecValueData as String: data
         ]
 
-        SecItemDelete(query as CFDictionary)
+        SecItemAdd(query as CFDictionary, nil)
     }
 
     static func load(key: String) -> Data? {
