@@ -25,7 +25,7 @@ struct RouterView<Content: View>: View {
                 router.view(for: route)
             }
             .onAppear {
-                router.navigateTo(.login)
+                router.navigateTo(.tabView)
             }
             .navigationBarTitle("", displayMode: .inline)
         }
