@@ -59,5 +59,7 @@ struct CommentUserPage: View {
 }
 
 #Preview {
-    CommentUserPage(sampleUser: HomeSample.sampleUser, commentUser: HomeSample.homeSample, infoButtonTooggle: false)
+    CommentUserPage(sampleUser: HomeSample.sampleUser,
+                    commentUser: HomeSample.homeSample,
+                    infoButtonTooggle: false)
 }
