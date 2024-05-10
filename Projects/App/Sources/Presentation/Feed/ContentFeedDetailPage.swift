@@ -7,127 +7,63 @@
 //
 
 import SwiftUI
-import Combine
-import Kingfisher
-
-enum BoardType: String {
-    case board = "BOARD"
-    case boardPicture = "BOARD_PICTURE"
-}
 
 class ContentFeedDetailPageModel: ObservableObject {
-    @Published var realPostUser: BoardResponseDTO?
-    
-    @Published var postUser: HomeSample = HomeSample.sampleUser // 임시
+    @Published var postUser: HomeSample = HomeSample.sampleUser
     @Published var commentUser: [HomeSample] = HomeSample.homeSample
     @Published var popupToggle: Bool = false
-    
-    private let networkService = BoardNetwork()
-    private var cancellables = [AnyCancellable]()
-    
-    func getBoardDetail() {
-        networkService
-            .boardDetail("31") { result in
-                switch result {
-                case .success(let data):
-                    self.realPostUser = data
-                case .failure(let error):
-                    debugPrint(error.localizedDescription)
-                }
-            }
-    }
 }
 
+// 글 피드 상세 뷰
 struct ContentFeedDetailPage: View {
-    @StateObject var viewModel = ContentFeedDetailPageModel()
+    @StateObject var contentFeedDetailPageModel = ContentFeedDetailPageModel()
     @EnvironmentObject var router: Router
-    let photoSize = UIScreen.main.bounds.width
     
     var body: some View {
         ScrollView {
+            Spacer().frame(height: 16)
             
-            VStack(alignment: .leading) {
-                Text(viewModel.realPostUser?.topic ?? "")
-                    .font(.bold(22))
-                    .foregroundColor(.MainE86336)
-                Spacer().frame(height: 16)
-                
-                switch viewModel.realPostUser?.boardType {
-                case BoardType.board.rawValue:
-                    VStack(alignment: .leading, spacing: 16) {
-                        Text(viewModel.realPostUser?.title ?? "")
-                            .font(.bold(20))
-                            .lineLimit(2)
-                            .lineSpacing(2.4)
-                        
-                        Text(viewModel.realPostUser?.content ?? "")
-                            .font(.regular(18))
-                            .lineSpacing(1.5)
-                    }
-                case BoardType.boardPicture.rawValue:
-                    VStack(alignment: .leading) {
-                        ZStack(alignment: .bottomLeading) {
-                            ZStack {
-                                Rectangle()
-                                    .fill(Color.Gray393939)
-                                    .frame(width: photoSize, height: photoSize)
-                                    .overlay {
-                                        if let profileURLString = viewModel.realPostUser?.imageUrl,
-                                           let profileURL = URL(string: profileURLString) {
-                                            KFImage(profileURL)
-                                                .resizable()
-                                                .scaledToFit()
-                                                .aspectRatio(contentMode: .fit)
-                                        }
-                                        
-                                        ZStack {
-                                            LinearGradient(gradient: Gradient(colors: [Color.clear, Color.black]),
-                                                           startPoint: .top, endPoint: .bottom)
-                                        }
-                                    }
-                            }
-                            
-                            Text(viewModel.postUser.title)
-                                .font(.bold(20))
-                                .foregroundColor(.white)
-                                .padding(.horizontal, 20)
-                                .padding(.bottom, 16)
-                                .lineLimit(2)
-                                .lineSpacing(1.5)
-                        }
-                    }
-                default:
-                    Text("Default")
+            VStack {
+                VStack(alignment: .leading, spacing: 16) {
+                    Text("여기에 오늘의 주제문장 들어갑니다.")
+                        .font(.bold(22))
+                        .foregroundColor(.MainE86336)
+                    
+                    Text("\(contentFeedDetailPageModel.postUser.title) 두줄까지 들어가고 넘어가는 건 어떨까요")
+                        .font(.bold(20))
+                        .lineLimit(2)
+                        .lineSpacing(2.4)
+                    
+                    Text(contentFeedDetailPageModel.postUser.content)
+                        .font(.regular(18))
+                        .lineSpacing(1.5)
+                    
+                    PostUserComponent(postUser: contentFeedDetailPageModel.postUser)
                 }
+                .padding(.horizontal, 20)
                 
-                PostUserComponent(viewModel: viewModel)
-            }
-            .padding(.horizontal, 20)
-            
-            RectangleComponent()
-            
-            LazyVStack {
-                ForEach (viewModel.commentUser, id: \.self) { index in
-                    CommentUserPage(sampleUser: viewModel.postUser,
-                                    commentUser: HomeSample.homeSample,
-                                    infoButtonTooggle: viewModel.popupToggle)
+                RectangleComponent()
+                
+                LazyVStack {
+                    ForEach (contentFeedDetailPageModel.commentUser, id: \.self) { index in
+                        CommentUserPage(sampleUser: contentFeedDetailPageModel.postUser,
+                                        commentUser: HomeSample.homeSample,
+                                        infoButtonTooggle: contentFeedDetailPageModel.popupToggle)
+                    }
                 }
+                .padding(.horizontal, 20)
             }
-            .padding(.horizontal, 20)
             
         }
-        .onAppear {
-            viewModel.getBoardDetail()
+        .onTapGesture {
+            print("\(contentFeedDetailPageModel.popupToggle)")
+            contentFeedDetailPageModel.popupToggle = true
         }
         .navigationBackButton {
             router.navigateBack()
         }
         .navigationRightButton(image: "Info_black") {
             print("info button tapped")
-        }
-        .onTapGesture {
-            print("\(viewModel.popupToggle)")
-            viewModel.popupToggle = true
         }
     }
 }
