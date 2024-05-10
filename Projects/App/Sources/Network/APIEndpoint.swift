@@ -32,4 +32,9 @@ struct APIEndpoint {
         }
         return url.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? url
     }
+    
+    static func boardDetail(_ boardID: String) -> String{
+        let url = base + "/boards/detail/\(boardID)"
+        return url
+    }
 }
