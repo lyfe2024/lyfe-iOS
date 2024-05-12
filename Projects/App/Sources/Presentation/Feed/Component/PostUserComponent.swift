@@ -7,48 +7,38 @@
 //
 
 import SwiftUI
-import Kingfisher
 
 // 글쓴이 뷰
 struct PostUserComponent: View {
-    @ObservedObject var viewModel: ContentFeedDetailPageModel
+    var postUser: HomeSample
     
     var body: some View {
         HStack {
             HStack(spacing: 8) {
                 HStack(spacing: 4){
                     Image("BlackWine")
-                    Text("\(viewModel.realPostUser?.whiskyCount ?? 0)")
+                    Text("\(postUser.whisky)")
                 }
                 HStack(spacing: 2) {
                     Image("BlackComment")
                     Text("댓글")
-                    Text("\(viewModel.realPostUser?.commentCount ?? 0)")
+                    Text("\(postUser.whisky)") // commentCount
                 }
             }
-            .font(.semiBold(14))
-            .padding(.vertical, 4)
             
             Spacer()
             HStack(spacing: 8) {
-                if let profileURLString = viewModel.realPostUser?.user?.profile,
-                   let profileURL = URL(string: profileURLString) {
-                    KFImage(profileURL)
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: 32, height: 32)
-                        .clipShape(Circle())
-                } else {
-                    // 기본 이미지 ??
-                }
+                Image(postUser.image)
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: 35, height: 35)
+                    .clipShape(Circle())
                     
                 VStack(alignment: .leading, spacing: 0){
-                    Text(viewModel.realPostUser?.user?.username ?? "")
-                        .font(.bold(14))
-                        .padding(.vertical, 4)
-                    Text(viewModel.realPostUser?.updateAt ?? "몇 분전")
-                        .font(.regular(10))
-                        .padding(.vertical, 3)
+                    Text(postUser.userName)
+                        .font(.bold(16))
+                    Text(postUser.updatedAt)
+                        .font(.regular(12))
                         .foregroundColor(.GrayC6C6C6)
                 }
             }
@@ -56,6 +46,6 @@ struct PostUserComponent: View {
     }
 }
 
-//#Preview {
-//    PostUserComponent(viewModel: ContentFeedDetailPageModel())
-//}
+#Preview {
+    PostUserComponent(postUser: HomeSample.sampleUser)
+}
