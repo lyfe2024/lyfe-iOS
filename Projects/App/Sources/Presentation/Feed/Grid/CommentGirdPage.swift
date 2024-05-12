@@ -17,6 +17,7 @@ struct CommentGirdPage: View {
             LazyVGrid(columns: colums, spacing: 12, content: {
                 ForEach(HomeSample.homeSample2, id: \.self) { index in
                     GirdCardPage(data: index)
+//                    Text("여기는 CommentGirdPage")
                 }
             })
         }

@@ -13,7 +13,9 @@ final class UserProfileSettingPageModel: ObservableObject {
 }
 
 struct UserProfileSettingPage: View {
+    @EnvironmentObject var router: Router
     @StateObject var userProfileSettingPageModel = UserProfileSettingPageModel()
+    @State var nicknameDummy = ""
     
     var body: some View {
         VStack {
@@ -21,6 +23,8 @@ struct UserProfileSettingPage: View {
                 .font(.bold(24))
                 .padding(.vertical, 12)
                 .frame(maxWidth: .infinity, alignment: .leading)
+            
+            Spacer().frame(height: 24)
             
             ZStack(alignment: .bottomTrailing) {
                 Image("\(userProfileSettingPageModel.sampleData.image)")
@@ -41,10 +45,22 @@ struct UserProfileSettingPage: View {
                         })
                 }
             }
+            
+            Spacer().frame(height: 32)
+            
+            TextInput(text: $nicknameDummy) // 닉네임관련 수정 후 반영..
+            Spacer()
+            CommonButton(title: "완료")
+        }
+        .padding(.horizontal, 20)
+        .navigationBackButton {
+            router.navigateBack()
         }
     }
 }
 
 #Preview {
-    UserProfileSettingPage()
+    NavigationStack {
+        UserProfileSettingPage()
+    }
 }

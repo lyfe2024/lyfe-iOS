@@ -16,6 +16,8 @@ class Router: ObservableObject {
         case login
         case nickname(String)
         case term(String, String)
+        case mypage
+        case setting
     }
     
     // Used to programatically control our navigation stack
@@ -34,6 +36,10 @@ class Router: ObservableObject {
         case .term(let token, let nickname):
             let viewModel = TermPageModel(token: token, nickname: nickname)
             TermPage(viewModel: viewModel)
+        case .mypage:
+            MypageMainPage()
+        case .setting:
+            UserSettingPage()
         }
     }
     

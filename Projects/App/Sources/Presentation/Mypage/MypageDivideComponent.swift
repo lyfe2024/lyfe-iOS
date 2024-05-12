@@ -19,6 +19,7 @@ struct MypageDivideComponent: View {
                         .frame(maxWidth: .infinity, alignment: .center)
                         .foregroundColor(mypageSectionPageModel.userChoiced == choiced ? .MainE86336 : .GrayC6C6C6)
                         .font(mypageSectionPageModel.userChoiced == choiced ? .bold(18) : .medium(18))
+                    
                     Rectangle()
                         .frame(height: 2)
                         .foregroundColor(mypageSectionPageModel.userChoiced == choiced ? .MainE86336 : .clear)
