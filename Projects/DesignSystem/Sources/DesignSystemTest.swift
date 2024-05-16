@@ -24,19 +24,8 @@ struct DesignSystemTest: View {
             LyfeTab.ic_home_fill
                 .background(.yellow)
             
-            Image(systemName: "heart")
-            Image("\(DesignSystemAsset.icAddCircle.swiftUIImage)")
-                .padding(20)
-                .background(.blue)
-            DesignSystemAsset.icAddCircle.swiftUIImage
-                .padding(20)
-                .background(.blue)
-                
-        }
-        .onAppear {
-//            print(DesignSystemAsset.icHome.name)
-            print(type(of: DesignSystemAsset.icHomeFill.image))
-            print(type(of: DesignSystemAsset.icHomeFill.swiftUIImage))
+            LyfeCommon.ic_black_arrow_back
+            LyfeCommon.ic_alarm_notification
         }
     }
 }

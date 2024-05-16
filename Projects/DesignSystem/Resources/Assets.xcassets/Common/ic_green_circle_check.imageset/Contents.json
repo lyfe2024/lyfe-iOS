@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "ic_green_circle_check.svg",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
