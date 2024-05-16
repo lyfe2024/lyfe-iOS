@@ -82,8 +82,8 @@ struct ContentFeedDetailPage: View {
             }
             .sheet(isPresented: $contentFeedDetailPageModel.commentState, content: {
                 CommentComponent(userName: .constant("안녕"),
-                                 contentFeedDetailPageModel: contentFeedDetailPageModel)
-                .presentationDetents([.height(200)])
+                                 viewModel: contentFeedDetailPageModel)
+                .presentationDetents([.height(104)])
             })
     }
 }
