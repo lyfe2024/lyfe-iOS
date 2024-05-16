@@ -11,11 +11,11 @@ import DesignSystem
 
 struct CommentComponent: View {
     @Binding var userName: String
-    @State var comment: String = ""
+    @State private var comment: String = ""
     @FocusState private var focuseField: FocuseField?
     @ObservedObject var viewModel: ContentFeedDetailPageModel
     
-    enum FocuseField {
+    private enum FocuseField {
         case comment
     }
     

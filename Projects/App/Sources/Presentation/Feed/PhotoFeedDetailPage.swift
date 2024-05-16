@@ -15,7 +15,7 @@ class PhotoFeedDeatilPageModel: ObservableObject {
 
 // 사진 피드 상세 뷰
 struct PhotoFeedDetailPage: View {
-    @StateObject var photoFeedDetailPageModel = PhotoFeedDeatilPageModel()
+    @StateObject private var photoFeedDetailPageModel = PhotoFeedDeatilPageModel()
     @EnvironmentObject var router: Router
     let photoSize = UIScreen.main.bounds.width
     
