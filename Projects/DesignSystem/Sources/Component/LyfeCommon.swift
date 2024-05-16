@@ -27,4 +27,6 @@ public struct LyfeCommon {
     static let ic_red_disable = DesignSystemAsset.icRedDisable.swiftUIImage
     static let ic_whtie_whisky_fill = DesignSystemAsset.icWhiteWhiskyFill.swiftUIImage
     static let ic_alarm_notification = DesignSystemAsset.icAlarmNotification.swiftUIImage
+    static let ic_white_text = DesignSystemAsset.icWhieText.swiftUIImage
+    static let ic_whie_gallery = DesignSystemAsset.icWhiteGallery.swiftUIImage
 }
