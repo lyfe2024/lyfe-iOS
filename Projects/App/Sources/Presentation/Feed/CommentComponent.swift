@@ -12,7 +12,12 @@ import DesignSystem
 struct CommentComponent: View {
     @Binding var userName: String
     @State var comment: String = ""
+    @FocusState private var focuseField: FocuseField?
     @ObservedObject var viewModel: ContentFeedDetailPageModel
+    
+    enum FocuseField {
+        case comment
+    }
     
     var body: some View {
         VStack(spacing: 4) {
@@ -39,12 +44,7 @@ struct CommentComponent: View {
                     .padding(.vertical, 4)
                     .lineLimit(3)
                     .frame(height: 56)
-                    .onAppear {
-                        print("onappear")
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                            UIApplication.shared.sendAction(#selector(UIResponder.becomeFirstResponder), to: nil, from: nil, for: nil)
-                        }
-                    }
+                    .focused($focuseField, equals: .comment)
                 
                 Button {
                     viewModel.commentState.toggle()
@@ -63,6 +63,9 @@ struct CommentComponent: View {
             )
         }
         .padding(.horizontal, 12)
+        .onAppear {
+            focuseField = .comment
+        }
     }
 }
 
