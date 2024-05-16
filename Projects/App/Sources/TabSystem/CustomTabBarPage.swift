@@ -8,9 +8,23 @@
 
 import SwiftUI
 import DesignSystem
+import Combine
+
 
 final class TabBarViewModel: ObservableObject {
     @Published var selected: TabInfo = .home
+    @Published var defaultTab: TabInfo = .home
+    
+    private var cancellables = [AnyCancellable]()
+
+    init() {
+        $selected
+            .sink { [weak self] selectedTab in
+                guard selectedTab != .post else { return }
+                self?.defaultTab = selectedTab
+            }
+            .store(in: &cancellables)
+    }
     
     func shouldShowImage(for tab: TabInfo) -> Bool {
         return self.selected == tab
