@@ -21,7 +21,7 @@ struct TabBarMainPage: View {
         .overlay {
             VStack {
                 Spacer()
-                CustomTabBarPage(tabBarViewModel: tabBarViewModel)
+                CustomTabBarPage(viewModel: tabBarViewModel)
             }
         }
         .navigationBarBackButtonHidden()

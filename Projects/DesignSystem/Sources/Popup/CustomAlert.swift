@@ -62,7 +62,7 @@ public struct CustomAlertView: ViewModifier {
                         switch type {
                         case .firstButton(let title):
                             Text(title)
-                                .setButtonModifier(textColor: .white, backgroundColor: Color.MainE86336)
+                                .setButtonModifier(textColor: .white, backgroundColor: Color.mainE86336)
                                 .onTapGesture {
                                     confirmButton?()
                                 }
@@ -70,12 +70,12 @@ public struct CustomAlertView: ViewModifier {
                         case .doubleButton(let leftTitle, let rightTitle):
                             HStack(spacing: 16) {
                                 Text(leftTitle)
-                                    .setButtonModifier(textColor: Color.Gray5E5E5E, backgroundColor: Color.GrayF5F5F5)
+                                    .setButtonModifier(textColor: Color.gray5E5E5E, backgroundColor: Color.grayF5F5F5)
                                     .onTapGesture {
                                         cancelButton?()
                                     }
                                 Text(rightTitle)
-                                    .setButtonModifier(textColor: .white, backgroundColor: Color.MainE86336)
+                                    .setButtonModifier(textColor: .white, backgroundColor: Color.mainE86336)
                                     .onTapGesture {
                                         confirmButton?()
                                     }

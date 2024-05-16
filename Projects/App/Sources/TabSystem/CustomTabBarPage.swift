@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import DesignSystem
 
 final class TabBarViewModel: ObservableObject {
     @Published var selected: TabInfo = .home
@@ -17,7 +18,7 @@ final class TabBarViewModel: ObservableObject {
 }
 
 struct CustomTabBarPage: View {
-    @ObservedObject var tabBarViewModel = TabBarViewModel()
+    @ObservedObject var viewModel = TabBarViewModel()
     
     var body: some View {
         HStack {
@@ -25,30 +26,35 @@ struct CustomTabBarPage: View {
                 Spacer()
 
                 Button {
-                    tabBarViewModel.selected = item
-                    print(item.image)
+                    viewModel.selected = item
                 } label: {
-                    
-                    Image("\(item.image)Fill")
-                        .padding(.horizontal, 12)
-                        .padding(.vertical, 6)
-                        .background(tabBarViewModel.shouldShowImage(for: item) ? Color.MainE86336 : .clear)
-                        .clipShape(tabBarViewModel.shouldShowImage(for: item) ? RoundedRectangle(cornerRadius: 12) : RoundedRectangle(cornerRadius: 0))
+                    if viewModel.selected == item {
+                        item.image_fill
+                            .padding(.horizontal, 12)
+                            .padding(.vertical, 6)
+                            .background(Color.mainE86336)
+                            .clipShape(RoundedRectangle(cornerRadius: 12))
+                    } else {
+                        item.image
+                            .padding(.horizontal, 12)
+                            .padding(.vertical, 6)
+                    }
                 }
                 .onTapGesture {
-                    tabBarViewModel.selected = item
+                    viewModel.selected = item
                 }
 
                 Spacer()
             }
         }
+
         .padding(.vertical, 10)
-        .background(Color.Gray393939)
+        .background(Color.gray393939)
         .clipShape(RoundedRectangle(cornerRadius: 20))
         .padding(.horizontal, 20)
     }
 }
 
 #Preview {
-    CustomTabBarPage(tabBarViewModel: TabBarViewModel())
+    CustomTabBarPage(viewModel: TabBarViewModel())
 }
