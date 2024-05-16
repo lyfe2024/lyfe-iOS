@@ -8,6 +8,12 @@
 
 import Foundation
 
+struct PublicSample {
+    static let title = "여기 텍스트 기반 피드 제목 들어옵니다. "
+    static let content = "여기는 내용 들어옵니다. 최대 2줄까지. 여기는 내용 들어옵니다. 최대 2줄까지. 여기는 내용 들어옵니다. 최대 2줄까지. 여기는 내용 들어옵니다. 최대 2줄까지"
+    static let comment = "여기에 댓글을 달면 어떻게 되는지 한번 봅시다.여기 길어지면 이거 자동으로 늘어나려나 오 되dasdasfasfasfasfsfasf"
+}
+
 /// 샘플 데이터
 struct HomeSample: Hashable {
     let userName: String
