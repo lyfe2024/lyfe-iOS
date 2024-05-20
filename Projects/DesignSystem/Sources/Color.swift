@@ -10,7 +10,7 @@ import Foundation
 import SwiftUI
 
 extension Color {
-    // Main
+ 
     public static let mainFFD0BB = Color(asset: DesignSystemAsset.main100)
     public static let mainFFB191 = Color(asset: DesignSystemAsset.main200)
     public static let mainFF936C = Color(asset: DesignSystemAsset.main300)
@@ -32,7 +32,7 @@ extension Color {
     public static let gray4B4B4B = Color(asset: DesignSystemAsset.gray700)
     public static let gray393939 = Color(asset: DesignSystemAsset.gray700)
     public static let gray363636 = Color(asset: DesignSystemAsset.gray363636)
-    
+
     // System
     public static let blue2D7BF9 = Color(asset: DesignSystemAsset.blue050)
     public static let green199F3E = Color(asset: DesignSystemAsset.green050)

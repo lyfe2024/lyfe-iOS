@@ -7,11 +7,17 @@
 //
 
 import SwiftUI
+import DesignSystem
 
 struct CommentComponent: View {
     @Binding var userName: String
-    @State var comment: String = ""
-    @ObservedObject var contentFeedDetailPageModel: ContentFeedDetailPageModel
+    @State private var comment: String = ""
+    @FocusState private var focuseField: FocuseField?
+    @ObservedObject var viewModel: ContentFeedDetailPageModel
+    
+    private enum FocuseField {
+        case comment
+    }
     
     var body: some View {
         VStack(spacing: 4) {
@@ -23,7 +29,7 @@ struct CommentComponent: View {
                 
                 Spacer()
                 Button {
-                    contentFeedDetailPageModel.commentState.toggle()
+                    viewModel.commentState.toggle()
                 } label: {
                     Text("취소")
                         .foregroundStyle(Color.Gray727272)
@@ -32,15 +38,16 @@ struct CommentComponent: View {
                 }
             }
             
-            HStack(spacing: 4) {
+            HStack(alignment: .bottom, spacing: 4) {
                 TextEditor(text: $comment)
                     .font(.medium(14))
                     .padding(.vertical, 4)
                     .lineLimit(3)
-                    .frame(height: 80)
+                    .frame(height: 56)
+                    .focused($focuseField, equals: .comment)
                 
                 Button {
-                    contentFeedDetailPageModel.commentState.toggle()
+                    viewModel.commentState.toggle()
                 } label: {
                     Image("ic_arrowup_white")
                         .frame(width: 20, height: 20)
@@ -48,17 +55,17 @@ struct CommentComponent: View {
                         .clipShape(Circle())
                 }
                 .frame(width: 32, height: 32)
-                .alignmentGuide(.bottom, computeValue: { dimension in
-                    dimension[.bottom] * 0.1
-                })
             }
-            .padding(.init(top: 12, leading: 8, bottom: 8, trailing: 0))
+            .padding(.init(top: 8, leading: 8, bottom: 8, trailing: 8))
             .overlay(
                 RoundedRectangle(cornerRadius: 8)
                     .stroke(Color.MainE86336, lineWidth: 1)
             )
         }
         .padding(.horizontal, 12)
+        .onAppear {
+            focuseField = .comment
+        }
     }
 }
 
@@ -77,5 +84,5 @@ struct UserNameView: View {
 }
 
 #Preview {
-    CommentComponent(userName: .constant("유저이름"), contentFeedDetailPageModel: ContentFeedDetailPageModel())
+    CommentComponent(userName: .constant("유저이름"), viewModel: ContentFeedDetailPageModel())
 }

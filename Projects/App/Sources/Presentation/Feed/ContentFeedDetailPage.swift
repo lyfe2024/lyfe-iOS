@@ -17,7 +17,7 @@ class ContentFeedDetailPageModel: ObservableObject {
 
 // 글 피드 상세 뷰
 struct ContentFeedDetailPage: View {
-    @StateObject var contentFeedDetailPageModel = ContentFeedDetailPageModel()
+    @StateObject private var contentFeedDetailPageModel = ContentFeedDetailPageModel()
     @EnvironmentObject var router: Router
     
     var body: some View {
@@ -82,8 +82,8 @@ struct ContentFeedDetailPage: View {
             }
             .sheet(isPresented: $contentFeedDetailPageModel.commentState, content: {
                 CommentComponent(userName: .constant("안녕"),
-                                 contentFeedDetailPageModel: contentFeedDetailPageModel)
-                .presentationDetents([.height(200)])
+                                 viewModel: contentFeedDetailPageModel)
+                .presentationDetents([.height(104)])
             })
     }
 }
