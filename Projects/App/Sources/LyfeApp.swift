@@ -29,7 +29,6 @@ struct LyfeApp: App {
 //                    print(AuthController.handleOpenUrl(url: url))
 //                }
 //            })
-            ContentFeedDetailPage()
         }
         
     }

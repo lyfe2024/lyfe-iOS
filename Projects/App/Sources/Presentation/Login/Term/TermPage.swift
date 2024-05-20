@@ -59,6 +59,21 @@ final class TermPageModel: ObservableObject {
     func moveToTermDetail(_ term: Term) {
         
     }
+    
+    func join(completion: @escaping () -> Void) {
+        networkService
+            .join(token, nickname: nickname) { result in
+                switch result {
+                case .success(let data):
+                    AccountStorage.shared.accessToken = data.accessToken
+                    AccountStorage.shared.refreshToken = data.refreshToken
+                    completion()
+                case .failure(let error):
+                    debugPrint(error.localizedDescription)
+                    return
+                }
+            }
+    }
 }
 
 struct TermPage: View {
@@ -144,7 +159,9 @@ struct TermPage: View {
                 )
                 .height(48)
                 .tap {
-                    // move to next page
+                    viewModel.join() {
+                        router.replaceNavigationStack(.tabView)
+                    }
                 }
             
             Spacer()
