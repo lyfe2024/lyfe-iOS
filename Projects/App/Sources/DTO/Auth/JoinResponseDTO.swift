@@ -1,15 +1,14 @@
 //
-//  LoginResponseDTO.swift
+//  JoinResponseDTO.swift
 //  Lyfe
 //
-//  Created by 고세림 on 3/24/24.
+//  Created by 고세림 on 4/16/24.
 //  Copyright © 2024 iOSteam. All rights reserved.
 //
 
 import Foundation
 
-struct LoginResponseDTO: Decodable {
+struct JoinResponseDTO: Decodable {
     var accessToken: String?
     var refreshToken: String?
-    var userToken: String?
 }
