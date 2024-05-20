@@ -19,8 +19,7 @@ struct DivideFeedPage: View {
                         .frame(maxWidth: .infinity, alignment: .center)
                         .foregroundColor(gridPageModel.userChoiced == choiced ? .MainE86336 : .GrayC6C6C6)
                         .font(gridPageModel.userChoiced == choiced ? .bold(18) : .medium(18))
-                        .padding(.vertical, 10) // lineHeight(28 맞춤용)
-                        
+                        .padding(.vertical, 5)
                     
                     Rectangle()
                         .frame(height: 2)

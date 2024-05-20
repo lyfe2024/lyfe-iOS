@@ -18,6 +18,8 @@ class Router: ObservableObject {
         case term(String, String)
         case postPhoto
         case postText
+        case mypage
+        case setting
     }
     
     // Used to programatically control our navigation stack
@@ -42,6 +44,10 @@ class Router: ObservableObject {
         case .postText:
             let viewModel = PostTextPageModel()
             PostTextPage(viewModel: viewModel)
+        case .mypage:
+            MypageMainPage()
+        case .setting:
+            UserSettingPage()
         }
     }
     

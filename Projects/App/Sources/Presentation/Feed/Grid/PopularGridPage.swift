@@ -20,13 +20,15 @@ struct PopularGridPage: View {
     var body: some View {
         VStack(alignment: .leading) {
             Picker("주제 선택", selection: $selected) {
-                ForEach(FeedPicker.allCases, id: \.self) { selected in
-                    Text(selected.rawValue)
-                        .tag(selected)
+                ForEach(FeedPicker.allCases, id: \.self) { option in
+                    Text(option.rawValue)
+                        .tag(option)
                 }
             }
             .tint(Color.black)
-            
+            .pickerStyle(.menu)
+
+            // picker가 현재 데이터 식별값이 없어서 제대로 작동하지 않는것 같음
             switch selected {
             case .whiskey:
                 WhiskeyGridPage()
