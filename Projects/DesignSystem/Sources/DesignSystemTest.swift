@@ -11,6 +11,7 @@ import SwiftUI
 struct DesignSystemTest: View {
     var body: some View {
         Text("Font Test")
+            .applyFont(font: .body2)
     }
 }
 
