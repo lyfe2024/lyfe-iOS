@@ -12,6 +12,7 @@ import DesignSystem
 struct DesignSystemTest: View {
     @State private var isShowing: Bool = false
     @State private var isShowingTest: Bool = false
+    private var testIcon: TabInfo = .alarm
     
     let title: String = "로그인"
     let desc: String = "반응을 남기려면 로그인이 필요해요"
@@ -19,9 +20,8 @@ struct DesignSystemTest: View {
     
     var body: some View {
         ZStack {
-            Color.yellow
+            Color.mainFFD0BB
                 .ignoresSafeArea()
-            
             
             VStack {
                 Text("isShowing")
@@ -33,6 +33,11 @@ struct DesignSystemTest: View {
                     .onTapGesture {
                         isShowingTest.toggle()
                     }
+                
+                LyfeTab.ic_home
+                    .padding(10)
+                    .background(Color.yellow)
+                LyfeTab.ic_home_fill
             }
         }
         .customAlert(isShowing: $isShowing,

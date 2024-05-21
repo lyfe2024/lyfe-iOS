@@ -11,6 +11,7 @@ import Foundation
 protocol AuthNetworkInterface {
     func kakaoLogin(_ token: String, completion: @escaping (Result<LoginResponseDTO, NetworkError>) -> Void)
     func checkNickname(_ value: String, completion: @escaping (Result<CheckNicknameResponseDTO, NetworkError>) -> Void)
+    func join(_ userToken: String, nickname: String, completion: @escaping (Result<JoinResponseDTO, NetworkError>) -> Void)
 }
 
 final class AuthNetwork: NetworkService, AuthNetworkInterface {
@@ -33,5 +34,17 @@ final class AuthNetwork: NetworkService, AuthNetworkInterface {
         request(endpoint, method: .get) { (result: Result<CheckNicknameResponseDTO, NetworkError>) in
              completion(result)
         }
+    }
+    
+    func join(_ userToken: String, nickname: String, completion: @escaping (Result<JoinResponseDTO, NetworkError>) -> Void) {
+        let endpoint = APIEndpoint.join()
+        
+        var parameters: [String: Any] = [:]
+        parameters["userToken"] = userToken
+        parameters["nickname"] = nickname
+        
+        request(endpoint, method: .post, parameters: parameters) { (result: Result<JoinResponseDTO, NetworkError>) in
+            completion(result)
+       }
     }
 }

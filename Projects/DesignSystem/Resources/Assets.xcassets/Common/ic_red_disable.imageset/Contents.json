@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "ic_red_disable.svg",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

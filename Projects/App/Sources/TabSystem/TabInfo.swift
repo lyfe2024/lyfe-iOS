@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import DesignSystem
 
 enum TabInfo: CaseIterable {
     case home, feed, post, alarm, profile
@@ -17,7 +18,7 @@ enum TabInfo: CaseIterable {
         case .home:
             HomeMainPage()
         case .feed:
-            PhotoFeedDetailPage()
+            GridSectionPage()
         case .post:
             Text("post")
         case .alarm:
@@ -42,18 +43,33 @@ enum TabInfo: CaseIterable {
         }
     }
     
-    var image: String {
+    var image: Image {
         switch self {
         case .home:
-            return "Home"
+            return LyfeTab.ic_home
         case .feed:
-            return "Feed"
+            return LyfeTab.ic_alarm
         case .post:
-            return "Post"
+            return LyfeTab.ic_add_circle
         case .alarm:
-            return "Alarm"
+            return LyfeTab.ic_alarm
         case .profile:
-            return "Profile"
+            return LyfeTab.ic_user
+        }
+    }
+    
+    var image_fill: Image {
+        switch self {
+        case .home:
+            return LyfeTab.ic_home_fill
+        case .feed:
+            return LyfeTab.ic_album_fill
+        case .post:
+            return LyfeTab.ic_add_circle_fill
+        case .alarm:
+            return LyfeTab.ic_alarm_fill
+        case .profile:
+            return LyfeTab.ic_user_fill
         }
     }
 }

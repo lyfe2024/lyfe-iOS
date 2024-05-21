@@ -9,6 +9,7 @@
 import SwiftUI
 import Combine
 import Kingfisher
+import DesignSystem
 
 enum BoardType {
     case board
@@ -20,6 +21,7 @@ class ContentFeedDetailPageModel: ObservableObject {
     @Published var boardType: BoardType?
     @Published var postUser: HomeSample = HomeSample.sampleUser // 임시
     @Published var commentUser: [HomeSample] = HomeSample.homeSample
+    @Published var commentState: Bool = false
     @Published var popupToggle: Bool = false
     
     private let networkService = BoardNetwork()
@@ -42,7 +44,7 @@ class ContentFeedDetailPageModel: ObservableObject {
 }
 
 struct ContentFeedDetailPage: View {
-    @StateObject var viewModel = ContentFeedDetailPageModel()
+    @StateObject private var viewModel = ContentFeedDetailPageModel()
     @EnvironmentObject var router: Router
     let photoSize = UIScreen.main.bounds.width
     
@@ -51,7 +53,7 @@ struct ContentFeedDetailPage: View {
             
             VStack(alignment: .leading) {
                 Text(viewModel.realPostUser?.topic ?? "")
-                    .font(.bold(22))
+                    .applyFont(font: .heading4)
                     .foregroundColor(.MainE86336)
                 Spacer().frame(height: 16)
                 
@@ -60,13 +62,11 @@ struct ContentFeedDetailPage: View {
                     case .board:
                         VStack(alignment: .leading, spacing: 16) {
                             Text(viewModel.realPostUser?.title ?? "")
-                                .font(.bold(20))
+                                .applyFont(font: .title2)
                                 .lineLimit(2)
-                                .lineSpacing(2.4)
                             
                             Text(viewModel.realPostUser?.content ?? "")
-                                .font(.regular(18))
-                                .lineSpacing(1.5)
+                                .applyFont(font: .body2)
                         }
                     case .board_picture:
                         VStack(alignment: .leading) {
@@ -92,12 +92,12 @@ struct ContentFeedDetailPage: View {
                                 }
                                 
                                 Text(viewModel.postUser.title)
-                                    .font(.bold(20))
+                                    .applyFont(font: .title1)
                                     .foregroundColor(.white)
                                     .padding(.horizontal, 20)
                                     .padding(.bottom, 16)
                                     .lineLimit(2)
-                                    .lineSpacing(1.5)
+
                             }
                         }
                     }
@@ -129,9 +129,28 @@ struct ContentFeedDetailPage: View {
             print("info button tapped")
         }
         .onTapGesture {
-            print("\(viewModel.popupToggle)")
             viewModel.popupToggle = true
         }
+        
+        Text("댓글을 남겨보세요")
+            .applyFont(font: .body2)
+            .foregroundStyle(Color.GrayC6C6C6)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .contentShape(Rectangle())
+            .padding(12)
+            .overlay(
+                RoundedRectangle(cornerRadius: 8)
+                    .stroke(Color.GrayC6C6C6, lineWidth: 1)
+            )
+            .padding(.horizontal, 12)
+            .onTapGesture {
+                viewModel.commentState.toggle()
+            }
+            .sheet(isPresented: $viewModel.commentState,
+                   content: { CommentComponent(userName: .constant("안녕"),
+                                               viewModel: viewModel)
+                .presentationDetents([.height(104)])
+            })
     }
 }
 

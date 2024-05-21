@@ -11,4 +11,5 @@ import Foundation
 struct LoginResponseDTO: Decodable {
     var accessToken: String?
     var refreshToken: String?
+    var userToken: String?
 }
