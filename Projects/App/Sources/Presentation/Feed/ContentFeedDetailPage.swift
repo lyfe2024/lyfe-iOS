@@ -42,7 +42,7 @@ class ContentFeedDetailPageModel: ObservableObject {
 }
 
 struct ContentFeedDetailPage: View {
-    @StateObject var viewModel = ContentFeedDetailPageModel()
+    @StateObject private var contentFeedDetailPageModel = ContentFeedDetailPageModel()
     @EnvironmentObject var router: Router
     let photoSize = UIScreen.main.bounds.width
     
@@ -128,10 +128,26 @@ struct ContentFeedDetailPage: View {
         .navigationRightButton(image: "Info_black") {
             print("info button tapped")
         }
-        .onTapGesture {
-            print("\(viewModel.popupToggle)")
-            viewModel.popupToggle = true
-        }
+        
+        Text("댓글을 남겨보세요")
+            .font(.medium(16))
+            .padding(.vertical, 4)
+            .foregroundStyle(Color.GrayC6C6C6)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(12)
+            .overlay(
+                RoundedRectangle(cornerRadius: 8)
+                    .stroke(Color.GrayC6C6C6, lineWidth: 1)
+            )
+            .padding(.horizontal, 12)
+            .onTapGesture {
+                contentFeedDetailPageModel.commentState.toggle()
+            }
+            .sheet(isPresented: $contentFeedDetailPageModel.commentState, content: {
+                CommentComponent(userName: .constant("안녕"),
+                                 viewModel: contentFeedDetailPageModel)
+                .presentationDetents([.height(104)])
+            })
     }
 }
 

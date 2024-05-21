@@ -23,6 +23,12 @@ struct APIEndpoint {
         return build(url: url)
     }
     
+    // 회원가입
+    static func join() -> String {
+        let url = base + "/auth/join"
+        return build(url: url)
+    }
+    
     private static func build(url: String, parameters: [String: Any] = [:]) -> String {
         var url = url
         for (index, parameter) in parameters.enumerated() {

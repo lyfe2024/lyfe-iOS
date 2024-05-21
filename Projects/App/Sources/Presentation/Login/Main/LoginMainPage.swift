@@ -12,14 +12,20 @@ final class LoginMainPageModel: ObservableObject {
     private let authNetwork = AuthNetwork()
     private let kakaoLoginManager = KakaoLoginManager()
     
-    func kakaoLogin(completion: @escaping (String) -> Void) {
+    func kakaoLogin(completion: @escaping (String?) -> Void) {
         kakaoLoginManager.login() { [weak self] token in
             self?.authNetwork
                 .kakaoLogin(token) { result in
                     switch result {
                     case .success(let data):
-                        guard let token = data.accessToken else { return }
-                        completion(token)
+                        if let userToken = data.userToken {
+                            completion(userToken)
+                        } else if let accessToken = data.accessToken,
+                                  let refreshToken = data.refreshToken {
+                            AccountStorage.shared.accessToken = accessToken
+                            AccountStorage.shared.refreshToken = refreshToken
+                            completion(nil)
+                        }
                     case .failure(let error):
                         debugPrint(error.localizedDescription)
                         return
@@ -60,7 +66,11 @@ struct LoginMainPage: View {
                                 switch type {
                                 case .kakao:
                                     viewModel.kakaoLogin() { token in
-                                        router.navigateTo(.nickname(token))
+                                        if let token = token {
+                                            router.navigateTo(.nickname(token))
+                                        } else {
+                                            router.replaceNavigationStack(.tabView)
+                                        }
                                     }
                                 case .apple:
                                     viewModel.googleLogin()
