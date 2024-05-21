@@ -10,10 +10,6 @@ import SwiftUI
 import Combine
 import Kingfisher
 
-import SwiftUI
-import Combine
-import Kingfisher
-
 enum BoardType {
     case board
     case board_picture
