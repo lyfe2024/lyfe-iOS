@@ -1,10 +1,9 @@
-//
-//  FeedDetailView.swift
-//  Lyfe
-//
-//  Created by 박서연 on 2024/02/04.
-//  Copyright © 2024 iOSteam. All rights reserved.
-//
+////
+////  FeedDetailView.swift
+////  Lyfe
+////
+////  Created by 박서연 on 2024/02/04.
+////  Copyright © 2024 iOSteam. All rights reserved.
 
 import SwiftUI
 
