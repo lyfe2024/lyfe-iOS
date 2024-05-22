@@ -9,6 +9,8 @@
 import SwiftUI
 
 struct PostMainPage: View {
+    @EnvironmentObject var router: Router
+
     var tapDimView: (() -> Void)?
     
     init(tapDimView: (() -> Void)? = nil) {
@@ -45,6 +47,10 @@ struct PostMainPage: View {
                     RoundedRectangle(cornerRadius: 12)
                         .foregroundStyle(Color.MainE86336)
                 )
+                .onTapGesture {
+                    tapDimView?()
+                    router.navigateTo(.postPhoto)
+                }
                 
                 HStack {
                     Spacer()
@@ -69,6 +75,10 @@ struct PostMainPage: View {
                     RoundedRectangle(cornerRadius: 12)
                         .foregroundStyle(Color.MainE86336)
                 )
+                .onTapGesture {
+                    tapDimView?()
+                    router.navigateTo(.postText)
+                }
                 
                 Spacer()
                     .frame(height: 100)
