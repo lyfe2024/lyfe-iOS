@@ -31,7 +31,7 @@ public enum LyfeFont {
 }
 
 extension LyfeFont {
-    public var nmae: String {
+    public var name: String {
         switch self {
         case .heading1:
             return DesignSystemFontFamily.Pretendard.bold.name
@@ -165,7 +165,7 @@ public struct FontModifier: ViewModifier {
     
     public func body(content: Content) -> some View {
         content
-            .font(.custom(font.nmae, size: font.size))
+            .font(.custom(font.name, size: font.size))
             .padding(.vertical, (font.lineHeight - font.size) / 2)
     }
 }
