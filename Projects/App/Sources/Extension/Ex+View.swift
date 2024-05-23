@@ -35,6 +35,19 @@ extension View {
         }
     }
     
+    func navigationBackButtonWithTitle(title: Text, action: @escaping () -> Void) -> some View {
+        self.navigationBarBackButtonHidden()
+            .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    Button(action: action, label: {
+                        Image("arrowBack")
+                            .resizable()
+                            .frame(width: 24, height: 24)
+                    })
+                }
+            }
+    }
+    
     func navigationRightButton(image: String, _ action: @escaping () -> Void) -> some View {
         self
             .toolbar {

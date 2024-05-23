@@ -24,9 +24,13 @@ enum Term {
 }
 
 final class TermPageModel: ObservableObject {
-    private let networkService = AuthNetwork()
+    private let authNetworkService = AuthNetwork()
+    private let policyNetworkService = PolicyNetwork()
+    
     private var token: String
     private var nickname: String
+    private var termTitle: String = ""
+    private var termContent: String = ""
     
     @Published var isAllChecked: Bool = false
     @Published var isTermChecked: Bool = false
@@ -61,7 +65,7 @@ final class TermPageModel: ObservableObject {
     }
     
     func join(completion: @escaping () -> Void) {
-        networkService
+        authNetworkService
             .join(token, nickname: nickname) { result in
                 switch result {
                 case .success(let data):
@@ -74,6 +78,41 @@ final class TermPageModel: ObservableObject {
                 }
             }
     }
+    
+    func load(_ type: Term) {
+        switch type {
+        case .term:
+            loadTerm()
+        case .personalInfo:
+            loadPersonalInfoAgreement()
+        }
+    }
+    
+    private func loadTerm() {
+        policyNetworkService
+            .term { [weak self] result in
+                switch result {
+                case .success(let data):
+                    self?.termTitle = data.title ?? ""
+                    self?.termContent = data.content ?? ""
+                case .failure(let error):
+                    debugPrint(error.localizedDescription)
+                }
+            }
+    }
+    
+    private func loadPersonalInfoAgreement() {
+        policyNetworkService
+            .personalInfoAgreement { [weak self] result in
+                switch result {
+                case .success(let data):
+                    self?.termTitle = data.title ?? ""
+                    self?.termContent = data.content ?? ""
+                case .failure(let error):
+                    debugPrint(error.localizedDescription)
+                }
+            }
+    }
 }
 
 struct TermPage: View {
@@ -82,7 +121,6 @@ struct TermPage: View {
     
     @State var isTermChecked: Bool = false
 
-    
     init(viewModel: TermPageModel) {
         self.viewModel = viewModel
     }

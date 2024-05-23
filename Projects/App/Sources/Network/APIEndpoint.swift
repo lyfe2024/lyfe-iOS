@@ -29,6 +29,23 @@ struct APIEndpoint {
         return build(url: url)
     }
     
+    static func boardDetail(_ boardID: String) -> String {
+        let url = base + "/boards/detail/\(boardID)"
+        return url
+    }
+    
+    // 이용 약관 조회
+    static func term() -> String {
+        let url = base + "/policy/TERM"
+        return url
+    }
+    
+    // 개인 정보 수집 동의 조회
+    static func personalInfoAgreement() -> String {
+        let url = base + "/policy/PERSONAL_INFO_AGREEMENT"
+        return url
+    }
+    
     private static func build(url: String, parameters: [String: Any] = [:]) -> String {
         var url = url
         for (index, parameter) in parameters.enumerated() {
@@ -38,9 +55,5 @@ struct APIEndpoint {
         }
         return url.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? url
     }
-    
-    static func boardDetail(_ boardID: String) -> String{
-        let url = base + "/boards/detail/\(boardID)"
-        return url
-    }
+
 }
