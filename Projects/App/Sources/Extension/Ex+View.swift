@@ -39,11 +39,18 @@ extension View {
         self.navigationBarBackButtonHidden()
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
-                    Button(action: action, label: {
-                        Image("arrowBack")
-                            .resizable()
-                            .frame(width: 24, height: 24)
-                    })
+                    HStack(spacing: 16) {
+                        Button(action: action, label: {
+                            Image("arrowBack")
+                                .resizable()
+                                .frame(width: 24, height: 24)
+                        })
+                        
+                        title
+                            .font(.bold(18))
+                            
+                        Spacer()
+                    }
                 }
             }
     }
