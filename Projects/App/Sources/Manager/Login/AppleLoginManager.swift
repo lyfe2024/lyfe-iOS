@@ -10,7 +10,7 @@ import Foundation
 import AuthenticationServices
 
 final class AppleLoginManager: NSObject {
-    
+    var completion: ((String, String) -> Void)?
     
     func login() {
         let request = ASAuthorizationAppleIDProvider().createRequest()
@@ -26,17 +26,12 @@ final class AppleLoginManager: NSObject {
 extension AppleLoginManager: ASAuthorizationControllerDelegate {
     func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
         switch authorization.credential {
-        case let appleIDCredential as ASAuthorizationAppleIDCredential:
-            let userIdentifier = appleIDCredential.user
-            let fullName = appleIDCredential.fullName
-            let email = appleIDCredential.email
-            print("ASAuthorizationAppleIDCredential") // 여기로들어옴
-            print(userIdentifier, fullName, email)
-        case let passwordCredential as ASPasswordCredential:
-            let username = passwordCredential.user
-            let password = passwordCredential.password
-            print("ASPasswordCredential")
-            print(username, password)
+        case let credential as ASAuthorizationAppleIDCredential:
+            let user = credential.user
+            if let authorizationCode = credential.authorizationCode,
+                let code = String(data: authorizationCode, encoding: .utf8) {
+                completion?(user, code)
+            }
         default:
             break
         }
