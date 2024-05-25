@@ -29,6 +29,12 @@ struct APIEndpoint {
         return build(url: url)
     }
     
+    // 토큰 재발행
+    static func reissue() -> String {
+        let url = base + "/auth/reissue"
+        return url
+    }
+    
     private static func build(url: String, parameters: [String: Any] = [:]) -> String {
         var url = url
         for (index, parameter) in parameters.enumerated() {
@@ -41,6 +47,11 @@ struct APIEndpoint {
     
     static func boardDetail(_ boardID: String) -> String{
         let url = base + "/boards/detail/\(boardID)"
+        return url
+    }
+    
+    static func boards() -> String {
+        let url = base + "/boards"
         return url
     }
 }

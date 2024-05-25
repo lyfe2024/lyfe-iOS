@@ -9,8 +9,17 @@
 import SwiftUI
 
 final class PostTextPageModel: ObservableObject {
+    private let networkService = BoardNetwork()
+    
     @Published var title: String = ""
     @Published var content: String = ""
+    
+    func save() {
+        networkService
+            .boards(.board, title: title, content: content, topicId: 1) { _ in
+                print("successed")
+            }
+    }
 }
 
 struct PostTextPage: View {
@@ -109,7 +118,7 @@ struct PostTextPage: View {
                     && !viewModel.content.isEmpty
                 )
                 .tap {
-                    // save text
+                    viewModel.save()
                 }
             Spacer()
                 .frame(height: 24)

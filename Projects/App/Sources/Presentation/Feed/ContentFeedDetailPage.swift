@@ -11,9 +11,9 @@ import Combine
 import Kingfisher
 import DesignSystem
 
-enum BoardType {
-    case board
-    case board_picture
+enum BoardType: String {
+    case board = "BOARD"
+    case board_picture = "BOARD_PICTURE"
 }
 
 class ContentFeedDetailPageModel: ObservableObject {

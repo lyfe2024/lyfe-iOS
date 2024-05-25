@@ -37,7 +37,8 @@ class NetworkService {
                    method: method,
                    parameters: parameters,
                    encoding: parameters == nil ? URLEncoding.default : JSONEncoding.default,
-                   headers: ["Content-Type":"application/json"])
+                   headers: ["Content-Type":"application/json"],
+                   interceptor: NetworkRequestInterceptor())
             .validate(statusCode: 200..<300)
             .response { response in
                 switch response.result {
