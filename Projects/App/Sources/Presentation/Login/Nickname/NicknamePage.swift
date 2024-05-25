@@ -8,6 +8,7 @@
 
 import SwiftUI
 import Combine
+import DesignSystem
 
 final class NicknamePageModel: ObservableObject {
     private let networkService = AuthNetwork()
@@ -29,14 +30,14 @@ final class NicknamePageModel: ObservableObject {
             .store(in: &cancellables)
     }
     
-    func checkNickname(completion: @escaping () -> Void) {
+    func checkNickname(completion: @escaping (Bool) -> Void) {
         networkService
             .checkNickname(text) { result in
                 switch result {
                 case .success:
-                    completion()
+                    completion(true)
                 case .failure(let error):
-                    // TODO: - Error 인 경우 토스트 노출
+                    completion(false)
                     debugPrint(error.localizedDescription)
                 }
             }
@@ -57,6 +58,7 @@ final class NicknamePageModel: ObservableObject {
 struct NicknamePage: View {
     @ObservedObject var viewModel: NicknamePageModel
     @EnvironmentObject var router: Router
+    @State private var showToast: Bool = false
     
     init(viewModel: NicknamePageModel) {
         self.viewModel = viewModel
@@ -137,10 +139,14 @@ struct NicknamePage: View {
                 )
                 .height(48)
                 .tap {
-                    viewModel.checkNickname() {
-                        router.navigateTo(
-                            .term(viewModel.token, viewModel.text)
-                        )
+                    viewModel.checkNickname() { success in
+                        if success {
+                            router.navigateTo(
+                                .term(viewModel.token, viewModel.text)
+                            )
+                        } else {
+                            showToast = true
+                        }
                     }
                 }
             
@@ -151,6 +157,7 @@ struct NicknamePage: View {
         .navigationBackButton {
             router.navigateBack()
         }
+        .showToast("사용중인 닉네임입니다.", show: $showToast)
     }
     
     private func getValidationColor() -> Color {

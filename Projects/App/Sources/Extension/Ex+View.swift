@@ -47,4 +47,26 @@ extension View {
                 }
             }
     }
+    
+    func navigationTitleWithRightButton(title: String, text: String, _ action: @escaping () -> Void) -> some View {
+        self
+            .toolbar {
+                ToolbarItem(placement: .topBarLeading, content: {
+                    Text(title)
+                        .font(.bold(24))
+                        .padding(.vertical, 6)
+                        .foregroundStyle(Color.black)
+                })
+                            
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button(action: action, label: {
+                        Text(text)
+                            .font(.semiBold(16))
+                            .padding(.vertical, 4)
+                            .foregroundStyle(Color.MainE86336)
+                    })
+                }
+            }
+            .padding(.vertical, 10)
+    }
 }

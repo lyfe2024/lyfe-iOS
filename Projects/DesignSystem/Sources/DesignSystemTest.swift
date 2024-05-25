@@ -11,8 +11,7 @@ import SwiftUI
 struct DesignSystemTest: View {
     var body: some View {
         Text("Font Test")
-            .font(.bold(50))
-            .background(Color.MainE86336)
+            .applyFont(font: .body2)
     }
 }
 

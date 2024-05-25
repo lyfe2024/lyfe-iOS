@@ -14,7 +14,6 @@ enum HomePicker: String, CaseIterable {
 }
 
 class HomeMainPageModel: ObservableObject {
-    // 오늘 날짜..?
     static let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "MM.dd."
@@ -36,6 +35,7 @@ struct HomeMainPage: View {
                     .foregroundColor(.black)
                     .opacity(0.1)
                     .font(.thinkingRegular(80))
+                
                 VStack(alignment: .leading) {
                     Image("Logo")
                     Spacer().frame(height: 21)

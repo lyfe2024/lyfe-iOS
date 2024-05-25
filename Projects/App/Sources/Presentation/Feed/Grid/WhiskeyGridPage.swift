@@ -17,6 +17,7 @@ struct WhiskeyGridPage: View {
             LazyVGrid(columns: colums, spacing: 12, content: {
                 ForEach(HomeSample.homeSample, id: \.self) { index in
                     GirdCardPage(data: index)
+//                    Text("여기는 WhiskeyGridPage")
                 }
             })
         }
