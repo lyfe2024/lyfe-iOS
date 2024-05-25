@@ -21,6 +21,15 @@ enum Term {
             return "개인정보 수집 및 이용 (필수)"
         }
     }
+    
+    var icon: String {
+        switch self {
+        case .term:
+            return "💾"
+        case .personalInfo:
+            return "🔫"
+        }
+    }
 }
 
 final class TermPageModel: ObservableObject {
@@ -29,8 +38,8 @@ final class TermPageModel: ObservableObject {
     
     private var token: String
     private var nickname: String
-    private var termTitle: String = ""
-    private var termContent: String = ""
+    private(set) var termTitle: String = ""
+    private(set) var termContent: String = ""
     
     @Published var isAllChecked: Bool = false
     @Published var isTermChecked: Bool = false
@@ -79,35 +88,28 @@ final class TermPageModel: ObservableObject {
             }
     }
     
-    func load(_ type: Term) {
-        switch type {
-        case .term:
-            loadTerm()
-        case .personalInfo:
-            loadPersonalInfoAgreement()
-        }
-    }
-    
-    private func loadTerm() {
+    func loadTerm(completion: @escaping () -> Void) {
         policyNetworkService
             .term { [weak self] result in
                 switch result {
                 case .success(let data):
                     self?.termTitle = data.title ?? ""
                     self?.termContent = data.content ?? ""
+                    completion()
                 case .failure(let error):
                     debugPrint(error.localizedDescription)
                 }
             }
     }
     
-    private func loadPersonalInfoAgreement() {
+    func loadPersonalInfoAgreement(completion: @escaping () -> Void) {
         policyNetworkService
             .personalInfoAgreement { [weak self] result in
                 switch result {
                 case .success(let data):
                     self?.termTitle = data.title ?? ""
                     self?.termContent = data.content ?? ""
+                    completion()
                 case .failure(let error):
                     debugPrint(error.localizedDescription)
                 }
@@ -179,14 +181,18 @@ struct TermPage: View {
                 isChecked: $viewModel.isTermChecked,
                 term: .term
             ) { term in
-                viewModel.moveToTermDetail(term)
+                viewModel.loadTerm {
+                    moveToTermDetail(term)
+                }
             }
             
             SingleTermView(
                 isChecked: $viewModel.isPersonalInfoChecked,
                 term: .personalInfo
             ) { term in
-                viewModel.moveToTermDetail(term)
+                viewModel.loadPersonalInfoAgreement {
+                    moveToTermDetail(term)
+                }
             }
             
             Spacer()
@@ -209,6 +215,16 @@ struct TermPage: View {
         .navigationBackButton {
             router.navigateBack()
         }
+    }
+    
+    func moveToTermDetail(_ term: Term) {
+        router.navigateTo(
+            .termDetail(
+                term.icon,
+                viewModel.termTitle,
+                viewModel.termContent
+            )
+        )
     }
 }
 
