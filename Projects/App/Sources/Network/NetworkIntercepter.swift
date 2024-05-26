@@ -44,8 +44,7 @@ final class NetworkRequestInterceptor: RequestInterceptor {
                    method: .post,
                    parameters: parameters,
                    encoding: JSONEncoding.default,
-                   headers: ["Content-Type":"application/json",
-                             "Authorization": "Bearer \(String(describing: AccountStorage.shared.accessToken))"])
+                   headers: ["Content-Type":"application/json"])
             .validate(statusCode: 200..<300)
             .response { response in
                 switch response.result {
@@ -64,7 +63,7 @@ final class NetworkRequestInterceptor: RequestInterceptor {
                     }
                 case .failure(let error):
                     debugPrint(error.localizedDescription)
-                    // TODO: 로그아웃 후 재로그인 유도 ?
+                    // TODO: 로그아웃 후 재로그인 유도 -> refreshToken도 만료된 경우
                 }
         }
     }
