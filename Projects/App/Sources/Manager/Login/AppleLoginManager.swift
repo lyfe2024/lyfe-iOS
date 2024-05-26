@@ -27,10 +27,11 @@ extension AppleLoginManager: ASAuthorizationControllerDelegate {
     func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
         switch authorization.credential {
         case let credential as ASAuthorizationAppleIDCredential:
-            let user = credential.user
             if let authorizationCode = credential.authorizationCode,
-                let code = String(data: authorizationCode, encoding: .utf8) {
-                completion?(user, code)
+               let code = String(data: authorizationCode, encoding: .utf8),
+               let token = credential.identityToken,
+               let tokenString = String(data: token, encoding: .utf8) {
+                completion?(tokenString, code)
             }
         default:
             break
