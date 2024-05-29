@@ -17,7 +17,7 @@ class ContentFeedDetailPageModel: ObservableObject {
 
 // 글 피드 상세 뷰
 struct ContentFeedDetailPage: View {
-    @StateObject private var contentFeedDetailPageModel = ContentFeedDetailPageModel()
+    @StateObject private var viewModel = ContentFeedDetailPageModel()
     @EnvironmentObject var router: Router
     
     var body: some View {
@@ -30,34 +30,34 @@ struct ContentFeedDetailPage: View {
                         .font(.bold(20))
                         .foregroundColor(.MainE86336)
                     
-                    Text("\(contentFeedDetailPageModel.postUser.title) 두줄까지 들어가고 넘어가는 건 어떨까요")
+                    Text("\(viewModel.postUser.title) 두줄까지 들어가고 넘어가는 건 어떨까요")
                         .font(.bold(18))
                         .lineLimit(2)
                         .padding(.vertical, 5)
                     
-                    Text(contentFeedDetailPageModel.postUser.content)
+                    Text(viewModel.postUser.content)
                         .font(.regular(16))
                         .padding(.vertical, 4)
                     
-                    PostUserComponent(postUser: contentFeedDetailPageModel.postUser)
+                    PostUserComponent(postUser: viewModel.postUser)
                 }
                 .padding(.horizontal, 20)
                 
                 RectangleComponent(color: Color.grayF9F9F9, height: 8)
                 
                 LazyVStack {
-                    ForEach (contentFeedDetailPageModel.commentUser, id: \.self) { index in
-                        CommentUserPage(sampleUser: contentFeedDetailPageModel.postUser,
+                    ForEach (viewModel.commentUser, id: \.self) { index in
+                        CommentUserPage(sampleUser: viewModel.postUser,
                                         commentUser: HomeSample.homeSample,
-                                        infoButtonTooggle: contentFeedDetailPageModel.popupToggle)
+                                        infoButtonTooggle: viewModel.popupToggle)
                     }
                 }
                 .padding(.horizontal, 20)
             }
         }
         .onTapGesture {
-            print("\(contentFeedDetailPageModel.popupToggle)")
-            contentFeedDetailPageModel.popupToggle = true
+            print("\(viewModel.popupToggle)")
+            viewModel.popupToggle = true
         }
         .navigationBackButton {
             router.navigateBack()
@@ -78,11 +78,11 @@ struct ContentFeedDetailPage: View {
             )
             .padding(.horizontal, 12)
             .onTapGesture {
-                contentFeedDetailPageModel.commentState.toggle()
+                viewModel.commentState.toggle()
             }
-            .sheet(isPresented: $contentFeedDetailPageModel.commentState, content: {
+            .sheet(isPresented: $viewModel.commentState, content: {
                 CommentComponent(userName: .constant("안녕"),
-                                 viewModel: contentFeedDetailPageModel)
+                                 viewModel: viewModel)
                 .presentationDetents([.height(104)])
             })
     }

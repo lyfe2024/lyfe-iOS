@@ -15,7 +15,7 @@ class PhotoFeedDeatilPageModel: ObservableObject {
 
 // 사진 피드 상세 뷰
 struct PhotoFeedDetailPage: View {
-    @StateObject private var photoFeedDetailPageModel = PhotoFeedDeatilPageModel()
+    @StateObject private var viewModel = PhotoFeedDeatilPageModel()
     @EnvironmentObject var router: Router
     let photoSize = UIScreen.main.bounds.width
     
@@ -35,7 +35,7 @@ struct PhotoFeedDetailPage: View {
                             .fill(.black)
                             .frame(width: photoSize, height: photoSize)
                             .overlay {
-                                Image(photoFeedDetailPageModel.postUser.image)
+                                Image(viewModel.postUser.image)
                                     .resizable()
                                     .scaledToFit()
                                     .aspectRatio(contentMode: .fit)
@@ -48,7 +48,7 @@ struct PhotoFeedDetailPage: View {
                             }
                     }
                     
-                    Text(photoFeedDetailPageModel.postUser.title)
+                    Text(viewModel.postUser.title)
                         .font(.bold(20))
                         .foregroundColor(.white)
                         .padding(.horizontal, 20)
@@ -58,14 +58,14 @@ struct PhotoFeedDetailPage: View {
                 }
                 
                 // 글쓴이 정보뷰
-                PostUserComponent(postUser: photoFeedDetailPageModel.postUser)
+                PostUserComponent(postUser: viewModel.postUser)
                 .padding(.horizontal, 20)
                 
                 RectangleComponent(color: Color.grayF9F9F9, height: 8)
                 
                 LazyVStack {
                     ForEach(0..<10, id:\.self) { index in
-                        CommentUserPage(sampleUser: photoFeedDetailPageModel.postUser, commentUser: HomeSample.homeSample, infoButtonTooggle: photoFeedDetailPageModel.popupToggle)
+                        CommentUserPage(sampleUser: viewModel.postUser, commentUser: HomeSample.homeSample, infoButtonTooggle: viewModel.popupToggle)
                         Divider()
                             .padding(.vertical, 4)
                     }
@@ -74,8 +74,8 @@ struct PhotoFeedDetailPage: View {
             }
         }
         .onTapGesture {
-            if photoFeedDetailPageModel.popupToggle {
-                photoFeedDetailPageModel.popupToggle = false
+            if viewModel.popupToggle {
+                viewModel.popupToggle = false
             }
         }
         .navigationBackButton {

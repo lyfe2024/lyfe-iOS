@@ -30,14 +30,17 @@ struct HomeMainPage: View {
                         .foregroundColor(.black)
                         .opacity(0.1)
                         .font(.thinkingRegular(80))
+                        .padding(.top, 16)
                     
                     VStack(alignment: .leading) {
                         Image("Logo")
-                        Spacer().frame(height: 21)
-                        Text("길어지면 두줄이 되는 오늘의 주제입니다.")
+                            .padding(.vertical, 16)
+
+                        Text("길어지면 두줄이 되는 오늘의 주제입니다")
                             .applyFont(font: .heading2)
                             .foregroundStyle(Color.mainE86336)
                             .lineLimit(2)
+                            .padding(.bottom, 8)
                             
                         CardSwipeView()
                         Spacer().frame(height: 32)
@@ -46,6 +49,8 @@ struct HomeMainPage: View {
                 .padding(.horizontal, 20)
                 
                 RectangleComponent(color: Color.grayDDDDDD, height: 8)
+                    .opacity(0.5)
+                
                 Text("고민글")
                     .applyFont(font: .heading5)
                     .padding(.init(top: 16, leading: 20, bottom: 8, trailing: 0))
