@@ -1,10 +1,9 @@
-//
-//  CommentComponent.swift
-//  Lyfe
-//
-//  Created by 박서연 on 2024/05/03.
-//  Copyright © 2024 iOSteam. All rights reserved.
-//
+////
+////  CommentComponent.swift
+////  Lyfe
+////
+////  Created by 박서연 on 2024/05/03.
+////  Copyright © 2024 iOSteam. All rights reserved.
 
 import SwiftUI
 import DesignSystem
@@ -29,7 +28,7 @@ struct CommentComponent: View {
                 
                 Spacer()
                 Button {
-                    viewModel.commentState.toggle()
+                    viewModel.commentState = false
                 } label: {
                     Text("취소")
                         .foregroundStyle(Color.Gray727272)
@@ -47,7 +46,7 @@ struct CommentComponent: View {
                     .focused($focuseField, equals: .comment)
                 
                 Button {
-                    viewModel.commentState.toggle()
+                    viewModel.commentState = false
                 } label: {
                     Image("ic_arrowup_white")
                         .frame(width: 20, height: 20)

@@ -16,6 +16,8 @@ class Router: ObservableObject {
         case login
         case nickname(String)
         case term(String, String)
+        case postPhoto
+        case postText
         case mypage
         case setting
     }
@@ -36,6 +38,12 @@ class Router: ObservableObject {
         case .term(let token, let nickname):
             let viewModel = TermPageModel(token: token, nickname: nickname)
             TermPage(viewModel: viewModel)
+        case .postPhoto:
+            let viewModel = PostPhotoPageModel()
+            PostPhotoPage(viewModel: viewModel)
+        case .postText:
+            let viewModel = PostTextPageModel()
+            PostTextPage(viewModel: viewModel)
         case .mypage:
             MypageMainPage()
         case .setting:
