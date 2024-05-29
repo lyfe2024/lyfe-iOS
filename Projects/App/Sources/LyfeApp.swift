@@ -28,7 +28,7 @@ struct LyfeApp: App {
                 if AuthApi.isKakaoTalkLoginUrl(url) {
                     print(AuthController.handleOpenUrl(url: url))
                 }
+            })
         }
-        
     }
 }

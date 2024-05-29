@@ -105,7 +105,7 @@ struct ContentFeedDetailPage: View {
             }
             .padding(.horizontal, 20)
             
-            RectangleComponent()
+            RectangleComponent(color: Color.grayF9F9F9, height: 8)
             
             LazyVStack {
                 ForEach (viewModel.commentUser, id: \.self) { index in
