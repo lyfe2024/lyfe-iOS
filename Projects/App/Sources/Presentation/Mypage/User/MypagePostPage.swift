@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import DesignSystem
 
 class MyPagePostPageModel: ObservableObject {
     @Published var sampleData = HomeSample.sampleUser
@@ -31,17 +32,14 @@ struct MypageUserComment: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
             Text("몇 분전")
-                .font(.regular(10))
+                .applyFont(font: .caption4)
                 .foregroundStyle(Color.GrayB0B0B0)
-                .padding(.vertical, 3)
             
             Text("\(PublicSample.title)")
-                .font(.bold(16))
-                .padding(.vertical, 3)
+                .applyFont(font: .title2)
             
             Text("\(PublicSample.content)")
-                .font(.medium(14))
-                .padding(.vertical, 4)
+                .applyFont(font: .body3)
                 .lineLimit(2)
             
             HStack(spacing: 16) {
@@ -55,7 +53,7 @@ struct MypageUserComment: View {
                     Text("\(sampleData.whisky)")
                 }
             }
-            .font(.regular(12))
+            .applyFont(font: .caption3)
             .foregroundStyle(Color.GrayB0B0B0)
         }
         

@@ -61,7 +61,7 @@ struct PhotoFeedDetailPage: View {
                 PostUserComponent(postUser: photoFeedDetailPageModel.postUser)
                 .padding(.horizontal, 20)
                 
-                RectangleComponent()
+                RectangleComponent(color: Color.grayF9F9F9, height: 8)
                 
                 LazyVStack {
                     ForEach(0..<10, id:\.self) { index in

@@ -9,15 +9,13 @@
 import SwiftUI
 
 struct RectangleComponent: View {
+    let color: Color
+    let height: CGFloat
+    
     var body: some View {
         Rectangle()
-            .fill(Color.GrayF9F9F9)
+            .fill(color)
             .frame(maxWidth: .infinity)
-            .frame(height: 8)
-            .padding(.bottom, 8)
+            .frame(height: height)
     }
-}
-
-#Preview {
-    RectangleComponent()
 }
