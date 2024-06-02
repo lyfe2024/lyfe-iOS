@@ -39,8 +39,20 @@ struct APIEndpoint {
         return url.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? url
     }
     
-    static func boardDetail(_ boardID: String) -> String{
+    // 글 상세 조회
+    static func boardDetail(_ boardID: String) -> String {
         let url = base + "/boards/detail/\(boardID)"
         return url
+    }
+    
+    // 글 리스트 조회(최신순) new
+    static func latestBoard() -> String {
+        let url = base + "/boards/latest"
+        return url
+    }
+    
+    // 오늘의 주제
+    static func todayTopic() -> String {
+        return base + "/topics"
     }
 }

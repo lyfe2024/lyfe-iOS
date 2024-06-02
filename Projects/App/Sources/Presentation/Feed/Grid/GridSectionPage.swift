@@ -26,14 +26,10 @@ struct GridSectionPage: View {
                     switch gridSectionModel.userChoiced {
                     case .latest:
                         LatestGridPage(girdPageModel: gridSectionModel)
-                            .navigationTitleWithRightButton(title: "피드", text: "사진 신청") {
-                                print("새글쓰기 tapped!")
-                            }
+                            
                     case .popular:
                         PopularGridPage(gridSectionModel: gridSectionModel)
-                            .navigationTitleWithRightButton(title: "피드", text: "새 글쓰기") {
-                                print("새글쓰기 tapped!")
-                            }
+                           
                     }
                 } header: {
                     DivideFeedPage(gridPageModel: gridSectionModel)
@@ -41,6 +37,9 @@ struct GridSectionPage: View {
                 }
             }
             .padding(.horizontal, 20)
+            .navigationTitleWithRightButton(title: "전체보기", text: "게시글 작성") {
+                print("새글쓰기 tapped!")
+            }
         }
         
     }

@@ -15,7 +15,7 @@ struct MypagePhotoPage: View {
     var body: some View {
         LazyVGrid(columns: colums, content: {
             ForEach(HomeSample.homeSample, id: \.self) { index in
-                GirdCardPage(data: index)
+//                GirdCardPage(data: index)
             }
         })
     }

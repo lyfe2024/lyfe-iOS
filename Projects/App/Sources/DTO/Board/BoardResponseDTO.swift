@@ -8,6 +8,10 @@
 
 import Foundation
 
+struct BoardList: Decodable {
+    var list: [BoardResponseDTO]
+}
+
 struct BoardResponseDTO: Decodable {
     var id: Int?
     var user: User?
@@ -26,4 +30,3 @@ struct User: Decodable {
     var username: String?
     var profile: String?
 }
-

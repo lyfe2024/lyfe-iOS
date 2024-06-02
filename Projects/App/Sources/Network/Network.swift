@@ -32,11 +32,12 @@ class NetworkService {
             return
         }
         guard let url = URL(string: endpoint) else { return }
+        let encoding: ParameterEncoding = method == .get ? URLEncoding.default : JSONEncoding.default
         
         AF.request(url,
                    method: method,
                    parameters: parameters,
-                   encoding: parameters == nil ? URLEncoding.default : JSONEncoding.default,
+                   encoding: encoding,
                    headers: ["Content-Type":"application/json"])
             .validate(statusCode: 200..<300)
             .response { response in

@@ -10,6 +10,8 @@ import SwiftUI
 import DesignSystem
 
 class HomeMainPageModel: ObservableObject {
+    
+    private let networkService = TopicNetwork()
     static let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "MM.dd."
@@ -17,6 +19,22 @@ class HomeMainPageModel: ObservableObject {
     }()
     
     let date = dateFormatter.string(from: Date())
+    @Published var todayTopic: String = ""
+    
+    func getTodayTopic() {
+        networkService.getTodayTopic { result in
+            switch result {
+            case .success(let success):
+                if let topic = success.content {
+                    self.todayTopic = topic
+                }
+                
+            case .failure(let failure):
+                print(failure.localizedDescription)
+            }
+        }
+    }
+    
 }
 
 struct HomeMainPage: View {
@@ -28,7 +46,7 @@ struct HomeMainPage: View {
                 ZStack(alignment: .topTrailing) {
                     Text("\(viewModel.date)")
                         .foregroundColor(.black)
-                        .opacity(0.1)
+                        .opacity(0.05)
                         .font(.thinkingRegular(80))
                         .padding(.top, 16)
                     
@@ -36,7 +54,7 @@ struct HomeMainPage: View {
                         Image("Logo")
                             .padding(.vertical, 16)
 
-                        Text("길어지면 두줄이 되는 오늘의 주제입니다")
+                        Text(viewModel.todayTopic)
                             .applyFont(font: .heading2)
                             .foregroundStyle(Color.mainE86336)
                             .lineLimit(2)
@@ -66,7 +84,9 @@ struct HomeMainPage: View {
             }
             
         }
-        
+        .onAppear {
+            viewModel.getTodayTopic()
+        }
     }
 }
 

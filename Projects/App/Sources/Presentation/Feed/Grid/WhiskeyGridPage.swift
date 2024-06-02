@@ -16,7 +16,7 @@ struct WhiskeyGridPage: View {
         VStack {
             LazyVGrid(columns: colums, spacing: 12, content: {
                 ForEach(HomeSample.homeSample, id: \.self) { index in
-                    GirdCardPage(data: index)
+//                    GirdCardPage(data: index)
 //                    Text("여기는 WhiskeyGridPage")
                 }
             })

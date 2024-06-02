@@ -7,17 +7,20 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct GirdCardPage: View {
-    var data: HomeSample
+//    var data: HomeSample
+    var data: BoardResponseDTO
     
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
-            Image(data.image)
+            KFImage(URL(string: data.imageUrl  ?? ""))
                 .resizable()
-                .scaledToFill()
-                .frame(maxWidth: .infinity)
                 .frame(height: 210)
+                .scaledToFill()
+//                .frame(maxWidth: .infinity)
+                
                 .overlay {
                     ZStack {
                         Color.black
@@ -25,18 +28,18 @@ struct GirdCardPage: View {
                             .clipShape(RoundedRectangle(cornerRadius: 20))
                         VStack(alignment: .leading) {
                             HStack(spacing: 8) {
-                                Image(data.profile)
+                                KFImage(URL(string: data.user?.profile  ?? ""))
                                     .resizable()
                                     .clipShape(Circle())
                                     .frame(width: 24, height: 24)
-                                Text("\(data.userName)")
+                                Text("\(data.user?.username ?? "")")
                                     .font(.bold(12))
                                 
                                 Spacer()
                             }
                             
                             Spacer()
-                            Text("\(data.title)")
+                            Text("\(data.title ?? "")")
                                 .lineLimit(2)
                                 .font(.bold(14))
                             
@@ -52,7 +55,7 @@ struct GirdCardPage: View {
                     Image("GrayWineglass")
                         .resizable()
                         .frame(width: 16, height: 16)
-                    Text("\(data.whisky)")
+                    Text("\(data.whiskyCount ?? 0)")
                 }
                 
                 HStack(spacing: 2) {
@@ -68,6 +71,6 @@ struct GirdCardPage: View {
     }
 }
 
-#Preview {
-    GirdCardPage(data: HomeSample.sampleUser)
-}
+//#Preview {
+//    GirdCardPage(data: HomeSample.sampleUser)
+//}
