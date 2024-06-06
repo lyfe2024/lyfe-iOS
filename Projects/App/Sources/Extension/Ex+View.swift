@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import DesignSystem
 
 extension View {
     func navigationBackButton(_ action: @escaping () -> Void) -> some View {
@@ -26,7 +27,7 @@ extension View {
         VStack(spacing: 31) {
             HStack(spacing: 0) {
                 text
-                    .font(.bold(18))
+                    .applyFont(font: .title1)
                     
                 Spacer()
             }
@@ -47,7 +48,7 @@ extension View {
                         })
                         
                         title
-                            .font(.bold(18))
+                            .applyFont(font: .title1)
                             
                         Spacer()
                     }
@@ -73,7 +74,7 @@ extension View {
             .toolbar {
                 ToolbarItem(placement: .topBarLeading, content: {
                     Text(title)
-                        .font(.bold(24))
+                        .applyFont(font: .heading3)
                         .padding(.vertical, 6)
                         .foregroundStyle(Color.black)
                 })
@@ -81,7 +82,7 @@ extension View {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button(action: action, label: {
                         Text(text)
-                            .font(.semiBold(16))
+                            .applyFont(font: .button1)
                             .padding(.vertical, 4)
                             .foregroundStyle(Color.MainE86336)
                     })
