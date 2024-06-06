@@ -33,6 +33,10 @@ class NetworkService {
         }
         guard let url = URL(string: endpoint) else { return }
         
+        debugPrint("🔮 Request Start")
+        debugPrint("🔮 url: \(url)")
+        debugPrint("🔮 parameters: \(String(describing: parameters))")
+        
         AF.request(url,
                    method: method,
                    parameters: parameters,

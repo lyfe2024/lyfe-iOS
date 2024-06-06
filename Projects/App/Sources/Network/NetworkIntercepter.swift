@@ -10,14 +10,21 @@ import Foundation
 import Alamofire
 
 final class NetworkRequestInterceptor: RequestInterceptor {
-    func adapt(_ urlRequest: URLRequest, for session: Session, completion: @escaping (Result<URLRequest, Error>) -> Void) {
+    typealias AdapterResult = Swift.Result<URLRequest, Error>
+
+    func adapt(_ urlRequest: URLRequest, for session: Session, completion: @escaping (AdapterResult) -> Void) {
         guard let accessToken = AccountStorage.shared.accessToken else {
-            completion(.success(urlRequest))
+            DispatchQueue.main.async {
+                NotificationCenter.default.post(
+                    name: NSNotification.Name("NeedToLogIn"),
+                    object: nil
+                )
+            }
             return
         }
 
         var urlRequest = urlRequest
-        urlRequest.setValue("Bearer " + accessToken, forHTTPHeaderField: "Authorization")
+        urlRequest.headers.add(.authorization(bearerToken: accessToken))
         completion(.success(urlRequest))
     }
 
@@ -28,12 +35,26 @@ final class NetworkRequestInterceptor: RequestInterceptor {
             return
         }
         
-        reissue {
-            completion(.retry)
+        reissue { success in
+            if success {
+                completion(.retry)
+            } else {
+                AccountStorage.shared.accessToken = nil
+                AccountStorage.shared.refreshToken = nil
+                
+                completion(.doNotRetryWithError(error))
+                
+                DispatchQueue.main.async {
+                    NotificationCenter.default.post(
+                        name: NSNotification.Name("NeedToLogIn"),
+                        object: nil
+                    )
+                }
+            }
         }
     }
     
-    private func reissue(completion: @escaping () -> Void) {
+    private func reissue(completion: @escaping (Bool) -> Void) {
         let endpoint = APIEndpoint.reissue()
         var parameters: [String: Any] = [:]
         parameters["token"] = AccountStorage.shared.refreshToken
@@ -57,13 +78,14 @@ final class NetworkRequestInterceptor: RequestInterceptor {
                         AccountStorage.shared.accessToken = data.accessToken
                         AccountStorage.shared.refreshToken = data.refreshToken
                         
-                        completion()
+                        completion(true)
                     } catch {
-                         // TODO: 로그아웃 후 재로그인 유도 ?
+                        completion(false)
                     }
                 case .failure(let error):
                     debugPrint(error.localizedDescription)
-                    // TODO: 로그아웃 후 재로그인 유도 -> refreshToken도 만료된 경우
+                    
+                    completion(false)
                 }
         }
     }
