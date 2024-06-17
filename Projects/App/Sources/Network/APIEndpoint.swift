@@ -53,16 +53,6 @@ struct APIEndpoint {
         return url
     }
     
-    private static func build(url: String, parameters: [String: Any] = [:]) -> String {
-        var url = url
-        for (index, parameter) in parameters.enumerated() {
-            url.append(index == 0 ? "?" : "&")
-            url.append(parameter.key)
-            url.append("=\(parameter.value)")
-        }
-        return url.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? url
-    }
-    
     static func boardDetail(_ boardID: String) -> String{
         let url = base + "/boards/detail/\(boardID)"
         return url
@@ -71,5 +61,23 @@ struct APIEndpoint {
     static func boards() -> String {
         let url = base + "/boards"
         return url
+    }
+    
+    static func imageUploadUrl() -> String {
+        let parameters = ["format": "jpg", "path": "topic_picture"]
+        let url = base + "/images/get-upload-url"
+        return build(url: url, parameters: parameters)
+    }
+}
+
+private extension APIEndpoint {
+    static func build(url: String, parameters: [String: Any] = [:]) -> String {
+        var url = url
+        for (index, parameter) in parameters.enumerated() {
+            url.append(index == 0 ? "?" : "&")
+            url.append(parameter.key)
+            url.append("=\(parameter.value)")
+        }
+        return url.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? url
     }
 }
