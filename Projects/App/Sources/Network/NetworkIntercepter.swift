@@ -75,6 +75,7 @@ final class NetworkRequestInterceptor: RequestInterceptor {
                         let result = try JSONDecoder().decode(Response<LoginResponseDTO>.self, from: data)
                         guard let data = result.result else { return }
                         
+                        AccountStorage.shared.reset()
                         AccountStorage.shared.accessToken = data.accessToken
                         AccountStorage.shared.refreshToken = data.refreshToken
                         
