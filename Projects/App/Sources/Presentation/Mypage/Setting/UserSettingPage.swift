@@ -7,16 +7,33 @@
 //
 
 import SwiftUI
+import DesignSystem
 
 class UserSettingPageModel: ObservableObject {
+    private let authNetworkService = AuthNetwork()
+    
     @Published var termAndConditions: Bool = false
     @Published var settingToggle: Bool = false
-    @Published var logoutStatues: Bool = false
+    
+    func revoke(completion: @escaping () -> Void) {
+        authNetworkService
+            .revoke { result in
+                switch result {
+                case .success:
+                    AccountStorage.shared.reset()
+                    completion()
+                case .failure(let error):
+                    debugPrint(error.localizedDescription)
+                    return
+                }
+            }
+    }
 }
 
 struct UserSettingPage: View {
     @StateObject var userSettingViewModel = UserSettingPageModel()
     @EnvironmentObject var router: Router
+    @State var isShowingLogoutAlert: Bool = false
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -40,15 +57,28 @@ struct UserSettingPage: View {
             
             Spacer()
             CommonButton(title: "로그아웃")
-                .enable(false)
+                .enable(!AccountStorage.shared.isGuest)
                 .tap {
-                    print("logout 진행")
+                    isShowingLogoutAlert = true
                 }
             
         }
         .padding(.horizontal, 20)
         .navigationBackButton {
             router.navigateBack()
+        }
+        .customAlert(
+            isShowing: $isShowingLogoutAlert,
+            type: .doubleButton(leftTitle: "아니오", rightTitle: "예"),
+            title: "로그아웃 하시겠어요?",
+            desc: ""
+        ) {
+            userSettingViewModel.revoke {
+                debugPrint("logout 완료")
+            }
+            isShowingLogoutAlert.toggle()
+        } cancelButton: {
+            isShowingLogoutAlert.toggle()
         }
     }
 }

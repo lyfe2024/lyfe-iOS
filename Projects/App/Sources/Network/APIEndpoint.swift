@@ -35,6 +35,12 @@ struct APIEndpoint {
         return url
     }
     
+    // 로그아웃
+    static func revoke() -> String {
+        let url = base + "/auth/revoke"
+        return url
+    }
+    
     // 이용 약관 조회
     static func term() -> String {
         let url = base + "/policy/TERM"

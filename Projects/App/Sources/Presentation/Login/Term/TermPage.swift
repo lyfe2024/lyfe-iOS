@@ -69,10 +69,6 @@ final class TermPageModel: ObservableObject {
         }
     }
     
-    func moveToTermDetail(_ term: Term) {
-        
-    }
-    
     func join(completion: @escaping () -> Void) {
         authNetworkService
             .join(token, nickname: nickname) { result in
