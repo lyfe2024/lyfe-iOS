@@ -11,9 +11,40 @@ import DesignSystem
 
 class UserSettingPageModel: ObservableObject {
     private let authNetworkService = AuthNetwork()
+    private let policyNetworkService = PolicyNetwork()
     
     @Published var termAndConditions: Bool = false
     @Published var settingToggle: Bool = false
+    private(set) var termTitle: String = ""
+    private(set) var termContent: String = ""
+    
+    func loadTerm(completion: @escaping () -> Void) {
+        policyNetworkService
+            .term { [weak self] result in
+                switch result {
+                case .success(let data):
+                    self?.termTitle = data.title ?? ""
+                    self?.termContent = data.content ?? ""
+                    completion()
+                case .failure(let error):
+                    debugPrint(error.localizedDescription)
+                }
+            }
+    }
+    
+    func loadPersonalInfoAgreement(completion: @escaping () -> Void) {
+        policyNetworkService
+            .personalInfoAgreement { [weak self] result in
+                switch result {
+                case .success(let data):
+                    self?.termTitle = data.title ?? ""
+                    self?.termContent = data.content ?? ""
+                    completion()
+                case .failure(let error):
+                    debugPrint(error.localizedDescription)
+                }
+            }
+    }
     
     func revoke(completion: @escaping () -> Void) {
         authNetworkService
@@ -52,7 +83,17 @@ struct UserSettingPage: View {
             
             SettingHStackView(text: "사용경험", image: "ic_round-navigate-next")
             SettingHStackView(text: "이용약관", image: "ic_round-navigate-next")
+                .onTapGesture {
+                    userSettingViewModel.loadTerm {
+                        moveToTermDetail(.term)
+                    }
+                }
             SettingHStackView(text: "개인정보 수집 및 이용", image: "ic_round-navigate-next")
+                .onTapGesture {
+                    userSettingViewModel.loadPersonalInfoAgreement {
+                        moveToTermDetail(.personalInfo)
+                    }
+                }
             SettingHStackView(text: "회원탈퇴", image: "ic_round-navigate-next")
             
             Spacer()
@@ -80,6 +121,16 @@ struct UserSettingPage: View {
         } cancelButton: {
             isShowingLogoutAlert.toggle()
         }
+    }
+    
+    func moveToTermDetail(_ term: Term) {
+        router.navigateTo(
+            .termDetail(
+                term.icon,
+                userSettingViewModel.termTitle,
+                userSettingViewModel.termContent
+            )
+        )
     }
 }
 
