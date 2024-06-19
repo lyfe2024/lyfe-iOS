@@ -22,7 +22,7 @@ final class BoardNetwork: NetworkService, BoardNetworkInterface {
         parameters["boardType"] = type.rawValue
         parameters["topicId"] = topicId
         
-        request(endpoint, method: .post, parameters: parameters) { (result: Result<BoardPostResponseDTO, NetworkError>) in
+        request(endpoint, method: .post, parameters: parameters, needToken: true) { (result: Result<BoardPostResponseDTO, NetworkError>) in
             completion(result)
         }
     }

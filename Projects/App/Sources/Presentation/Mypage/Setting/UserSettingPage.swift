@@ -15,6 +15,7 @@ class UserSettingPageModel: ObservableObject {
     
     @Published var termAndConditions: Bool = false
     @Published var settingToggle: Bool = false
+    @Published var isGuest = AccountStorage.shared.isGuest
     private(set) var termTitle: String = ""
     private(set) var termContent: String = ""
     
@@ -59,6 +60,11 @@ class UserSettingPageModel: ObservableObject {
                 }
             }
     }
+    
+    func logout() {
+        AccountStorage.shared.reset()
+        isGuest = true
+    }
 }
 
 struct UserSettingPage: View {
@@ -98,7 +104,7 @@ struct UserSettingPage: View {
             
             Spacer()
             CommonButton(title: "로그아웃")
-                .enable(!AccountStorage.shared.isGuest)
+                .enable(!userSettingViewModel.isGuest)
                 .tap {
                     isShowingLogoutAlert = true
                 }
@@ -114,9 +120,7 @@ struct UserSettingPage: View {
             title: "로그아웃 하시겠어요?",
             desc: ""
         ) {
-            userSettingViewModel.revoke {
-                debugPrint("logout 완료")
-            }
+            userSettingViewModel.logout()
             isShowingLogoutAlert.toggle()
         } cancelButton: {
             isShowingLogoutAlert.toggle()

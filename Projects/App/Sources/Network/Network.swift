@@ -25,6 +25,7 @@ class NetworkService {
         _ endpoint: String,
         method: HTTPMethod,
         parameters: [String: Any]? = nil,
+        needToken: Bool = false,
         completion: @escaping (Result<T, NetworkError>) -> Void
     ) {
         guard NetworkReachabilityManager()?.isReachable == true else {
@@ -32,6 +33,16 @@ class NetworkService {
             return
         }
         guard let url = URL(string: endpoint) else { return }
+        
+        if needToken, AccountStorage.shared.accessToken == nil {
+            DispatchQueue.main.async {
+                NotificationCenter.default.post(
+                    name: NSNotification.Name("NeedToLogIn"),
+                    object: nil
+                )
+            }
+            return
+        }
         
         debugPrint("🔮 Request Start")
         debugPrint("🔮 url: \(url)")

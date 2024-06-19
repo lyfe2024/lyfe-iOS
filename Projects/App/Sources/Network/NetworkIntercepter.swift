@@ -13,18 +13,10 @@ final class NetworkRequestInterceptor: RequestInterceptor {
     typealias AdapterResult = Swift.Result<URLRequest, Error>
 
     func adapt(_ urlRequest: URLRequest, for session: Session, completion: @escaping (AdapterResult) -> Void) {
-        guard let accessToken = AccountStorage.shared.accessToken else {
-            DispatchQueue.main.async {
-                NotificationCenter.default.post(
-                    name: NSNotification.Name("NeedToLogIn"),
-                    object: nil
-                )
-            }
-            return
-        }
-
         var urlRequest = urlRequest
-        urlRequest.headers.add(.authorization(bearerToken: accessToken))
+        if let accessToken = AccountStorage.shared.accessToken {
+            urlRequest.headers.add(.authorization(bearerToken: accessToken))
+        }
         completion(.success(urlRequest))
     }
 
