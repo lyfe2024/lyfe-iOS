@@ -39,12 +39,10 @@ struct CommentComponent: View {
             
             HStack(alignment: .bottom, spacing: 4) {
                 TextEditor(text: $comment)
-                    .font(.medium(14))
-                    .padding(.vertical, 4)
+                    .applyFont(font: .body3)
                     .lineLimit(3)
-                    .frame(height: 56)
+                    .frame(height: 82)
                     .focused($focuseField, equals: .comment)
-                
                 Button {
                     viewModel.commentState = false
                 } label: {

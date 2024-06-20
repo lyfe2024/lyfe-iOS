@@ -48,7 +48,7 @@ enum TabInfo: CaseIterable {
         case .home:
             return LyfeTab.ic_home
         case .feed:
-            return LyfeTab.ic_alarm
+            return LyfeTab.ic_album
         case .post:
             return LyfeTab.ic_add_circle
         case .alarm:

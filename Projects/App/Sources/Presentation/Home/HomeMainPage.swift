@@ -1,17 +1,13 @@
 //
-//  HomeMainView.swift
+//  HomeMainPage.swift
 //  Lyfe
 //
-//  Created by 박서연 on 2024/02/10.
+//  Created by 박서연 on 2024/05/25.
 //  Copyright © 2024 iOSteam. All rights reserved.
 //
 
 import SwiftUI
-
-enum HomePicker: String, CaseIterable {
-    case today = "오늘의 주제"
-    case past = "과거 베스트"
-}
+import DesignSystem
 
 class HomeMainPageModel: ObservableObject {
     static let dateFormatter: DateFormatter = {
@@ -24,44 +20,53 @@ class HomeMainPageModel: ObservableObject {
 }
 
 struct HomeMainPage: View {
-    @StateObject var homePickerPageModel = HomeMainPageModel()
-    @State private var selected: HomePicker = .today
-    
     var body: some View {
+        @StateObject var viewModel = HomeMainPageModel()
+        
         ScrollView {
-            ZStack(alignment: .topTrailing) {
-                Spacer().frame(height: 16)
-                Text("\(homePickerPageModel.date)")
-                    .foregroundColor(.black)
-                    .opacity(0.1)
-                    .font(.thinkingRegular(80))
-                
-                VStack(alignment: .leading) {
-                    Image("Logo")
-                    Spacer().frame(height: 21)
+            VStack(alignment: .leading, spacing: 0) {
+                ZStack(alignment: .topTrailing) {
+                    Text("\(viewModel.date)")
+                        .foregroundColor(.black)
+                        .opacity(0.1)
+                        .font(.thinkingRegular(80))
+                        .padding(.top, 16)
                     
-                    Picker("주제 선택", selection: $selected) {
-                        ForEach(HomePicker.allCases, id: \.self) { selected in
-                            Text(selected.rawValue)
-                                .tag(selected.rawValue)
-                        }
-                    }
-                    .pickerStyle(MenuPickerStyle())
-                    .tint(Color.black)
-                    Spacer().frame(height: 9)
-                    
-                    switch selected {
-                    case .today:
-                        TodayHomePage()
-                    case .past:
-                        PastPostPage()
+                    VStack(alignment: .leading) {
+                        Image("Logo")
+                            .padding(.vertical, 16)
+
+                        Text("길어지면 두줄이 되는 오늘의 주제입니다")
+                            .applyFont(font: .heading2)
+                            .foregroundStyle(Color.mainE86336)
+                            .lineLimit(2)
+                            .padding(.bottom, 8)
+                            
+                        CardSwipeView()
+                        Spacer().frame(height: 32)
                     }
                 }
+                .padding(.horizontal, 20)
+                
+                RectangleComponent(color: Color.grayDDDDDD, height: 8)
+                    .opacity(0.5)
+                
+                Text("고민글")
+                    .applyFont(font: .heading5)
+                    .padding(.init(top: 16, leading: 20, bottom: 8, trailing: 0))
+                
+                CustomCarouselView(pageCount: HomeSample.homeSample.count,
+                                   pageSpacing: 20,
+                                   edgeSpacing: 12,
+                                   cardSpacing: 8) { index in
+                    let item = HomeSample.homeSample[index]
+                    
+                    CarouselContentView(data: item)
+                }
             }
-            .padding(.horizontal, 20)
+            
         }
-        .background(Color.backgroundFf5f5f5)
-        .animation(.spring(), value: selected)
+        
     }
 }
 

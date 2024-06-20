@@ -12,6 +12,7 @@
 //    @Published var popupToggle: Bool = false
 //}
 //
+
 //// 사진 피드 상세 뷰
 //struct PhotoFeedDetailPage: View {
 //    @StateObject private var photoFeedDetailPageModel = PhotoFeedDeatilPageModel()
