@@ -10,7 +10,9 @@ import SwiftUI
 
 struct RouterView<Content: View>: View {
     @StateObject var router: Router = Router()
-    private let content: Content
+    private let content: Content    
+    private let logoutPublisher = NotificationCenter.default.publisher(for: NSNotification.Name("NeedToLogIn"))
+
     
     init(@ViewBuilder content: @escaping () -> Content) {
         self.content = content()
@@ -28,6 +30,9 @@ struct RouterView<Content: View>: View {
                 router.navigateTo(.tabView)
             }
             .navigationBarTitle("", displayMode: .inline)
+        }
+        .onReceive(logoutPublisher) { _ in
+            router.navigateTo(.login)
         }
         .environmentObject(router)
     }

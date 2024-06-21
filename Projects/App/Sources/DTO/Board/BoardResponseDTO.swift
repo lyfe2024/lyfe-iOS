@@ -27,3 +27,6 @@ struct User: Decodable {
     var profile: String?
 }
 
+struct BoardPostResponseDTO: Decodable {
+    var id: Int?
+}

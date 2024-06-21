@@ -13,6 +13,7 @@ protocol AuthNetworkInterface {
     func appleLogin(_ token: String, authorizationCode: String, completion: @escaping (Result<LoginResponseDTO, NetworkError>) -> Void)
     func checkNickname(_ value: String, completion: @escaping (Result<CheckNicknameResponseDTO, NetworkError>) -> Void)
     func join(_ userToken: String, nickname: String, completion: @escaping (Result<JoinResponseDTO, NetworkError>) -> Void)
+    func revoke(completion: @escaping (Result<RevokeResponseDTO, NetworkError>) -> Void)
 }
 
 final class AuthNetwork: NetworkService, AuthNetworkInterface {
@@ -58,6 +59,14 @@ final class AuthNetwork: NetworkService, AuthNetworkInterface {
         parameters["nickname"] = nickname
         
         request(endpoint, method: .post, parameters: parameters) { (result: Result<JoinResponseDTO, NetworkError>) in
+            completion(result)
+       }
+    }
+    
+    func revoke(completion: @escaping (Result<RevokeResponseDTO, NetworkError>) -> Void) {
+        let endpoint = APIEndpoint.revoke()
+        
+        request(endpoint, method: .post) { (result: Result<RevokeResponseDTO, NetworkError>) in
             completion(result)
        }
     }

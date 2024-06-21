@@ -21,13 +21,16 @@ final class AccountStorage {
                   let token = String(data: value, encoding: String.Encoding.utf8) else {
                 return nil
             }
+            debugPrint("🔮 get accessToken : \(token)")
             return token
         }
         set {
             if let value = newValue, let data = value.data(using: .utf8) {
                 Keychain.save(key: "accessToken", data: data)
+                debugPrint("🔮 save accessToken : \(value)")
             } else {
                 Keychain.delete(key: "accessToken")
+                debugPrint("🔮 delete accessToken")
             }
         }
     }
@@ -38,13 +41,16 @@ final class AccountStorage {
                   let token = String(data: value, encoding: String.Encoding.utf8) else {
                 return nil
             }
+            debugPrint("🔮 get refreshToken : \(token)")
             return token
         }
         set {
             if let value = newValue, let data = value.data(using: .utf8) {
                 Keychain.save(key: "refreshToken", data: data)
+                debugPrint("🔮 save refreshToken : \(value)")
             } else {
                 Keychain.delete(key: "refreshToken")
+                debugPrint("🔮 delete refreshToken")
             }
         }
     }
