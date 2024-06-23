@@ -23,11 +23,6 @@ enum FeedType: String, CaseIterable {
     }
 }
 
-enum BoardType: String {
-    case board = "BOARD"
-    case board_picture = "BOARD_PICTURE"
-}
-
 struct DivideFeedPage: View {
     @ObservedObject var viewModel: FeedGridSectionModel
     

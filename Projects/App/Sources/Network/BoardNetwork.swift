@@ -10,7 +10,7 @@ import Foundation
 
 protocol BoardNetworkInterface {
     // 글 상세 조회
-    func boards(_ type: BoardType, title: String, content: String, topicId: Int, completion: @escaping (Result<BoardPostResponseDTO, NetworkError>) -> Void)
+    func boards(_ type: FeedType, title: String, content: String, topicId: Int, completion: @escaping (Result<BoardPostResponseDTO, NetworkError>) -> Void)
     
     func boardDetail(_ value: String, completion: @escaping (Result<BoardResponseDTO, NetworkError>) -> Void)
     // 게시글 최신순 조회
@@ -21,7 +21,7 @@ protocol BoardNetworkInterface {
 
 final class BoardNetwork: NetworkService, BoardNetworkInterface {
     
-    func boards(_ type: BoardType, title: String, content: String, topicId: Int, completion: @escaping (Result<BoardPostResponseDTO, NetworkError>) -> Void) {
+    func boards(_ type: FeedType, title: String, content: String, topicId: Int, completion: @escaping (Result<BoardPostResponseDTO, NetworkError>) -> Void) {
         let endpoint = APIEndpoint.boards()
         var parameters: [String: Any] = [:]
         parameters["title"] = title
