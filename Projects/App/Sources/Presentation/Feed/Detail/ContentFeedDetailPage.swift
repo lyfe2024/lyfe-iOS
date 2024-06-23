@@ -11,14 +11,14 @@ import Combine
 import Kingfisher
 import DesignSystem
 
-enum BoardType {
-    case board
-    case board_picture
-}
+//enum BoardType: String {
+//    case board = "BOARD"
+//    case board_picture = "BOARD_PICTURE"
+//}
 
 class ContentFeedDetailPageModel: ObservableObject {
     @Published var realPostUser: BoardResponseDTO?
-    @Published var boardType: BoardType?
+    @Published var feedType: FeedType?
     @Published var postUser: HomeSample = HomeSample.sampleUser // 임시
     @Published var commentUser: [HomeSample] = HomeSample.homeSample
     @Published var commentState: Bool = false
@@ -33,9 +33,8 @@ class ContentFeedDetailPageModel: ObservableObject {
                 switch result {
                 case .success(let data):
                     self.realPostUser = data
-                    
-                    data.boardType == "BOARD" 
-                    ? (self.boardType = .board) : (self.boardType = .board_picture)
+                    data.boardType == "BOARD"
+                    ? (self.feedType = .writing) : (self.feedType = .photo)
                 case .failure(let error):
                     debugPrint(error.localizedDescription)
                 }
@@ -56,9 +55,9 @@ struct ContentFeedDetailPage: View {
                     .foregroundColor(.MainE86336)
                 Spacer().frame(height: 16)
                 
-                if let boardType = viewModel.boardType {
+                if let boardType = viewModel.feedType {
                     switch boardType {
-                    case .board:
+                    case .writing:
                         VStack(alignment: .leading, spacing: 16) {
                             Text(viewModel.realPostUser?.title ?? "")
                                 .applyFont(font: .title1)
@@ -67,7 +66,7 @@ struct ContentFeedDetailPage: View {
                             Text(viewModel.realPostUser?.content ?? "")
                                 .applyFont(font: .body2)
                         }
-                    case .board_picture:
+                    case .photo:
                         VStack(alignment: .leading) {
                             ZStack(alignment: .bottomLeading) {
                                 ZStack {

@@ -9,8 +9,7 @@
 import SwiftUI
 import Kingfisher
 
-struct GirdCardPage: View {
-//    var data: HomeSample
+struct GirdCardComponent: View {
     var data: BoardResponseDTO
     
     var body: some View {
@@ -18,9 +17,6 @@ struct GirdCardPage: View {
             KFImage(URL(string: data.imageUrl  ?? ""))
                 .resizable()
                 .frame(height: 210)
-                .scaledToFill()
-//                .frame(maxWidth: .infinity)
-                
                 .overlay {
                     ZStack {
                         Color.black
