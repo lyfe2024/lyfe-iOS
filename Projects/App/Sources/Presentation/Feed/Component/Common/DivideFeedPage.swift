@@ -10,17 +10,22 @@ import SwiftUI
 import DesignSystem
 
 enum FeedType: String, CaseIterable {
-    case photo = "신청사진"
-    case writing = "고민글"
+    case board_picture = "신청사진"
+    case board = "고민글"
     
     var boardType: String {
         switch self {
-        case .photo:
-            "BOARD"
-        case .writing:
+        case .board_picture:
             "BOARD_PICTURE"
+        case .board:
+            "BOARD"
         }
     }
+}
+
+enum BoardType: String {
+    case board = "BOARD"
+    case board_picture = "BOARD_PICTURE"
 }
 
 struct DivideFeedPage: View {

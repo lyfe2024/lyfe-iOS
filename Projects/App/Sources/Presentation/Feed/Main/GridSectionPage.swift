@@ -27,7 +27,7 @@ enum FeedPicker: String, CaseIterable {
 }
 
 class FeedGridSectionModel: ObservableObject {
-    @Published var feedType: FeedType = .photo
+    @Published var feedType: FeedType = .board
     @Published var feedPicker: FeedPicker = .whiskey
     @Published var feedData: [BoardResponseDTO] = []
     
@@ -90,9 +90,9 @@ struct GridSectionPage: View {
                     }
                     
                     switch viewModel.feedType {
-                    case .photo:
+                    case .board_picture:
                         CardGridPage(viewModel: viewModel)
-                    case .writing:
+                    case .board:
                         FeedWritingPage(viewModel: viewModel)
                     }
                 } header: {

@@ -7,16 +7,70 @@
 //
 
 import SwiftUI
+import DesignSystem
 
 class UserSettingPageModel: ObservableObject {
+    private let authNetworkService = AuthNetwork()
+    private let policyNetworkService = PolicyNetwork()
+    
     @Published var termAndConditions: Bool = false
     @Published var settingToggle: Bool = false
-    @Published var logoutStatues: Bool = false
+    @Published var isGuest = AccountStorage.shared.isGuest
+    private(set) var termTitle: String = ""
+    private(set) var termContent: String = ""
+    
+    func loadTerm(completion: @escaping () -> Void) {
+        policyNetworkService
+            .term { [weak self] result in
+                switch result {
+                case .success(let data):
+                    self?.termTitle = data.title ?? ""
+                    self?.termContent = data.content ?? ""
+                    completion()
+                case .failure(let error):
+                    debugPrint(error.localizedDescription)
+                }
+            }
+    }
+    
+    func loadPersonalInfoAgreement(completion: @escaping () -> Void) {
+        policyNetworkService
+            .personalInfoAgreement { [weak self] result in
+                switch result {
+                case .success(let data):
+                    self?.termTitle = data.title ?? ""
+                    self?.termContent = data.content ?? ""
+                    completion()
+                case .failure(let error):
+                    debugPrint(error.localizedDescription)
+                }
+            }
+    }
+    
+    func revoke(completion: @escaping () -> Void) {
+        authNetworkService
+            .revoke { result in
+                switch result {
+                case .success:
+                    AccountStorage.shared.reset()
+                    completion()
+                case .failure(let error):
+                    debugPrint(error.localizedDescription)
+                    return
+                }
+            }
+    }
+    
+    func logout() {
+        AccountStorage.shared.reset()
+        isGuest = true
+    }
 }
 
 struct UserSettingPage: View {
     @StateObject var userSettingViewModel = UserSettingPageModel()
     @EnvironmentObject var router: Router
+    @State var isShowingLogoutAlert: Bool = false
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -35,14 +89,24 @@ struct UserSettingPage: View {
             
             SettingHStackView(text: "사용경험", image: "ic_round-navigate-next")
             SettingHStackView(text: "이용약관", image: "ic_round-navigate-next")
+                .onTapGesture {
+                    userSettingViewModel.loadTerm {
+                        moveToTermDetail(.term)
+                    }
+                }
             SettingHStackView(text: "개인정보 수집 및 이용", image: "ic_round-navigate-next")
+                .onTapGesture {
+                    userSettingViewModel.loadPersonalInfoAgreement {
+                        moveToTermDetail(.personalInfo)
+                    }
+                }
             SettingHStackView(text: "회원탈퇴", image: "ic_round-navigate-next")
             
             Spacer()
             CommonButton(title: "로그아웃")
-                .enable(false)
+                .enable(!userSettingViewModel.isGuest)
                 .tap {
-                    print("logout 진행")
+                    isShowingLogoutAlert = true
                 }
             
         }
@@ -50,6 +114,27 @@ struct UserSettingPage: View {
         .navigationBackButton {
             router.navigateBack()
         }
+        .customAlert(
+            isShowing: $isShowingLogoutAlert,
+            type: .doubleButton(leftTitle: "아니오", rightTitle: "예"),
+            title: "로그아웃 하시겠어요?",
+            desc: ""
+        ) {
+            userSettingViewModel.logout()
+            isShowingLogoutAlert.toggle()
+        } cancelButton: {
+            isShowingLogoutAlert.toggle()
+        }
+    }
+    
+    func moveToTermDetail(_ term: Term) {
+        router.navigateTo(
+            .termDetail(
+                term.icon,
+                userSettingViewModel.termTitle,
+                userSettingViewModel.termContent
+            )
+        )
     }
 }
 

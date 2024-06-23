@@ -30,3 +30,7 @@ struct User: Decodable {
     var username: String?
     var profile: String?
 }
+
+struct BoardPostResponseDTO: Decodable {
+    var id: Int?
+}

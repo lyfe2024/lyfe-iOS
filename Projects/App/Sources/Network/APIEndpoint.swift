@@ -29,20 +29,44 @@ struct APIEndpoint {
         return build(url: url)
     }
     
-    private static func build(url: String, parameters: [String: Any] = [:]) -> String {
-        var url = url
-        for (index, parameter) in parameters.enumerated() {
-            url.append(index == 0 ? "?" : "&")
-            url.append(parameter.key)
-            url.append("=\(parameter.value)")
-        }
-        return url.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? url
+    // 토큰 재발행
+    static func reissue() -> String {
+        let url = base + "/auth/reissue"
+        return url
     }
     
-    // 글 상세 조회
-    static func boardDetail(_ boardID: String) -> String {
+    // 로그아웃
+    static func revoke() -> String {
+        let url = base + "/auth/revoke"
+        return url
+    }
+    
+    // 이용 약관 조회
+    static func term() -> String {
+        let url = base + "/policy/TERM"
+        return url
+    }
+    
+    // 개인 정보 수집 동의 조회
+    static func personalInfoAgreement() -> String {
+        let url = base + "/policy/PERSONAL_INFO_AGREEMENT"
+        return url
+    }
+    
+    static func boardDetail(_ boardID: String) -> String{
         let url = base + "/boards/detail/\(boardID)"
         return url
+    }
+    
+    static func boards() -> String {
+        let url = base + "/boards"
+        return url
+    }
+    
+    static func imageUploadUrl() -> String {
+        let parameters = ["format": "jpg", "path": "topic_picture"]
+        let url = base + "/images/get-upload-url"
+        return build(url: url, parameters: parameters)
     }
     
     // 글 리스트 조회(최신순) new
@@ -60,5 +84,17 @@ struct APIEndpoint {
     // 오늘의 주제
     static func todayTopic() -> String {
         return base + "/topics"
+    }
+}
+
+private extension APIEndpoint {
+    static func build(url: String, parameters: [String: Any] = [:]) -> String {
+        var url = url
+        for (index, parameter) in parameters.enumerated() {
+            url.append(index == 0 ? "?" : "&")
+            url.append(parameter.key)
+            url.append("=\(parameter.value)")
+        }
+        return url.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? url
     }
 }

@@ -7,15 +7,31 @@
 //
 
 import SwiftUI
+import DesignSystem
 
 final class PostTextPageModel: ObservableObject {
+    private let networkService = BoardNetwork()
+    
     @Published var title: String = ""
     @Published var content: String = ""
+    
+    func save(completion: @escaping (Bool) -> Void) {
+        networkService
+            .boards(.board, title: title, content: content, topicId: 1) { result in
+                switch result {
+                case .success:
+                    completion(true)
+                case .failure(_):
+                    completion(false)
+                }
+            }
+    }
 }
 
 struct PostTextPage: View {
     @ObservedObject var viewModel: PostTextPageModel
     @EnvironmentObject var router: Router
+    @State private var showToast: Bool = false
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -109,7 +125,13 @@ struct PostTextPage: View {
                     && !viewModel.content.isEmpty
                 )
                 .tap {
-                    // save text
+                    viewModel.save() { success in
+                        if success {
+                            router.navigateBack()
+                        } else {
+                            showToast = true
+                        }
+                    }
                 }
             Spacer()
                 .frame(height: 24)
@@ -118,6 +140,7 @@ struct PostTextPage: View {
         .navigationBackButton {
             router.navigateBack()
         }
+        .showToast("작성에 실패했습니다. 다시 시도해주세요.", show: $showToast)
     }
 }
 

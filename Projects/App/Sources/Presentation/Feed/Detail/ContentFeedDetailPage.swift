@@ -11,11 +11,6 @@ import Combine
 import Kingfisher
 import DesignSystem
 
-//enum BoardType: String {
-//    case board = "BOARD"
-//    case board_picture = "BOARD_PICTURE"
-//}
-
 class ContentFeedDetailPageModel: ObservableObject {
     @Published var realPostUser: BoardResponseDTO?
     @Published var feedType: FeedType?
@@ -34,7 +29,7 @@ class ContentFeedDetailPageModel: ObservableObject {
                 case .success(let data):
                     self.realPostUser = data
                     data.boardType == "BOARD"
-                    ? (self.feedType = .writing) : (self.feedType = .photo)
+                    ? (self.feedType = .board) : (self.feedType = .board_picture)
                 case .failure(let error):
                     debugPrint(error.localizedDescription)
                 }
@@ -57,7 +52,7 @@ struct ContentFeedDetailPage: View {
                 
                 if let boardType = viewModel.feedType {
                     switch boardType {
-                    case .writing:
+                    case .board:
                         VStack(alignment: .leading, spacing: 16) {
                             Text(viewModel.realPostUser?.title ?? "")
                                 .applyFont(font: .title1)
@@ -66,7 +61,7 @@ struct ContentFeedDetailPage: View {
                             Text(viewModel.realPostUser?.content ?? "")
                                 .applyFont(font: .body2)
                         }
-                    case .photo:
+                    case .board_picture:
                         VStack(alignment: .leading) {
                             ZStack(alignment: .bottomLeading) {
                                 ZStack {

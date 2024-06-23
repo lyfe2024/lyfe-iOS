@@ -25,11 +25,11 @@ struct CardGridPage: View {
         .onChange(of: viewModel.feedPicker) { newValue in
             viewModel.feedPicker = newValue
             if viewModel.feedPicker == .latest {
-                viewModel.getLatestBoard(.photo)
+                viewModel.getLatestBoard(.board_picture)
             }
         }
         .onAppear {
-            viewModel.getPopularBoard(.photo)
+            viewModel.getPopularBoard(.board_picture)
         }
     }
 }

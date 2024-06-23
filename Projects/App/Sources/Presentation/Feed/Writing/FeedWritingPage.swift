@@ -59,11 +59,11 @@ struct FeedWritingPage: View {
         .onChange(of: viewModel.feedPicker) { newValue in
             viewModel.feedPicker = newValue
             if viewModel.feedPicker == .latest {
-                viewModel.getLatestBoard(.writing)
+                viewModel.getLatestBoard(.board)
             }
         }
         .onAppear {
-            viewModel.getPopularBoard(.writing)
+            viewModel.getPopularBoard(.board)
         }
     }
 }

@@ -10,9 +10,31 @@ import SwiftUI
 import PhotosUI
 
 final class PostPhotoPageModel: ObservableObject {
+    private let imageNetwork = ImageNetwork()
+
     @Published var title: String = ""
     @Published var selectedImage: PhotosPickerItem? = nil
     @Published var selectedPhotoData: Data?
+    
+    func save() {
+        getUploadUrl { url in
+            print("url: \(url)")
+        }
+    }
+    
+    private func getUploadUrl(completion: @escaping (String) -> Void) {
+        imageNetwork
+            .uploadUrl { result in
+                switch result {
+                case .success(let data):
+                    if let url = data.url {
+                        completion(url)
+                    }
+                case .failure(_):
+                    return
+                }
+            }
+    }
 }
 
 struct PostPhotoPage: View {
@@ -104,7 +126,8 @@ struct PostPhotoPage: View {
                     && viewModel.selectedPhotoData != nil
                 )
                 .tap {
-                    // save photo 
+                    viewModel
+                        .save()
                 }
             Spacer()
                 .frame(height: 24)
