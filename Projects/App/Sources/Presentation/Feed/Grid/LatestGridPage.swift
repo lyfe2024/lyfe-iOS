@@ -6,28 +6,6 @@
 //  Copyright © 2024 iOSteam. All rights reserved.
 //
 
-/*
- inal class NicknamePageModel: ObservableObject {
-     private let networkService = AuthNetwork()
-     private(set) var token: String
-     
-     @Published var text: String = ""
-     @Published var isCharacterAvailable: Bool = false
-     @Published var isSymbolAvailable: Bool = true
-     
-     private var cancellables = [AnyCancellable]()
-     
-     init(token: String) {
-         self.token = token
-         
-         $text
-             .sink { [weak self] value in
-                 self?.validateText(value)
-             }
-             .store(in: &cancellables)
-     }
-     
- */
 import SwiftUI
 import Combine
 

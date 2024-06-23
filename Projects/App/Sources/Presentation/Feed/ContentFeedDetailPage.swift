@@ -144,7 +144,7 @@ struct ContentFeedDetailPage: View {
             .sheet(isPresented: $viewModel.commentState,
                    content: { CommentComponent(userName: .constant("안녕"),
                                                viewModel: viewModel)
-                .presentationDetents([.height(104)])
+                .presentationDetents([.height(134)])
             })
     }
 }

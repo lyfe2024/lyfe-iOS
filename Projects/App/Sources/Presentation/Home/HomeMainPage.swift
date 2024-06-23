@@ -11,13 +11,13 @@ import DesignSystem
 
 class HomeMainPageModel: ObservableObject {
     
-    private let networkService = TopicNetwork()
     static let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "MM.dd."
         return formatter
     }()
     
+    private let networkService = TopicNetwork()
     let date = dateFormatter.string(from: Date())
     @Published var todayTopic: String = ""
     
@@ -27,20 +27,20 @@ class HomeMainPageModel: ObservableObject {
             case .success(let success):
                 if let topic = success.content {
                     self.todayTopic = topic
+                    print("topic: \(topic)")
                 }
                 
             case .failure(let failure):
-                print(failure.localizedDescription)
+                print("토픽 실패! \(failure.localizedDescription)")
             }
         }
     }
-    
 }
 
 struct HomeMainPage: View {
+    @StateObject private var viewModel = HomeMainPageModel()
+    
     var body: some View {
-        @StateObject var viewModel = HomeMainPageModel()
-        
         ScrollView {
             VStack(alignment: .leading, spacing: 0) {
                 ZStack(alignment: .topTrailing) {
@@ -54,7 +54,7 @@ struct HomeMainPage: View {
                         Image("Logo")
                             .padding(.vertical, 16)
 
-                        Text(viewModel.todayTopic)
+                        Text("\(viewModel.todayTopic)")
                             .applyFont(font: .heading2)
                             .foregroundStyle(Color.mainE86336)
                             .lineLimit(2)
