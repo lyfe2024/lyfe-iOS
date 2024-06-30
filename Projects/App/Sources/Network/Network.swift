@@ -72,4 +72,30 @@ class NetworkService {
                 }
         }
     }
+    
+    func upload(
+        _ url: String,
+        method: HTTPMethod,
+        data: Data,
+        completion: @escaping (Bool) -> Void
+    ) {
+        guard NetworkReachabilityManager()?.isReachable == true else {
+            completion(false)
+            return
+        }
+        debugPrint("🔮 Request Start")
+        debugPrint("🔮 url: \(url)")
+
+        AF.upload(data, to: url, method: method)
+            .validate(statusCode: 200..<300)
+            .response { response in
+                switch response.result {
+                case .success:
+                    completion(true)
+                case .failure(let error):
+                    debugPrint(error.localizedDescription)
+                    completion(false)
+                }
+            }
+    }
 }

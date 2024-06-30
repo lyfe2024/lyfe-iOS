@@ -48,8 +48,15 @@ struct PostMainPage: View {
                         .foregroundStyle(Color.MainE86336)
                 )
                 .onTapGesture {
-                    tapDimView?()
-                    router.navigateTo(.postPhoto)
+                    if AccountStorage.shared.isGuest {
+                        NotificationCenter.default.post(
+                            name: NSNotification.Name("NeedToLogIn"),
+                            object: nil
+                        )
+                    } else {
+                        tapDimView?()
+                        router.navigateTo(.postPhoto)
+                    }
                 }
                 
                 HStack {
@@ -76,8 +83,15 @@ struct PostMainPage: View {
                         .foregroundStyle(Color.MainE86336)
                 )
                 .onTapGesture {
-                    tapDimView?()
-                    router.navigateTo(.postText)
+                    if AccountStorage.shared.isGuest {
+                        NotificationCenter.default.post(
+                            name: NSNotification.Name("NeedToLogIn"),
+                            object: nil
+                        )
+                    } else {
+                        tapDimView?()
+                        router.navigateTo(.postText)
+                    }
                 }
                 
                 Spacer()
