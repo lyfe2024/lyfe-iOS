@@ -68,6 +68,11 @@ struct APIEndpoint {
         let url = base + "/images/get-upload-url"
         return build(url: url, parameters: parameters)
     }
+    
+    static func usersMe() -> String {
+        let url = base + "/users/me"
+        return url
+    }
 }
 
 private extension APIEndpoint {
