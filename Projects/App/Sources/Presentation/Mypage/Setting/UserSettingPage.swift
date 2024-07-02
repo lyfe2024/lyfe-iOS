@@ -88,6 +88,9 @@ struct UserSettingPage: View {
             .tint(Color.MainE86336)
             
             SettingHStackView(text: "사용경험", image: "ic_round-navigate-next")
+                .onTapGesture {
+                    router.navigateTo(.userExperience)
+                }
             SettingHStackView(text: "이용약관", image: "ic_round-navigate-next")
                 .onTapGesture {
                     userSettingViewModel.loadTerm {
@@ -127,6 +130,7 @@ struct UserSettingPage: View {
         ) {
             userSettingViewModel.logout()
             isShowingLogoutAlert.toggle()
+            router.navigateBack()
         } cancelButton: {
             isShowingLogoutAlert.toggle()
         }

@@ -73,6 +73,11 @@ struct APIEndpoint {
         let url = base + "/users/me"
         return url
     }
+    
+    static func feedbacks() -> String {
+        let url = base + "/feedbacks"
+        return url
+    }
 }
 
 private extension APIEndpoint {
