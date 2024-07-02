@@ -101,6 +101,11 @@ struct UserSettingPage: View {
                     }
                 }
             SettingHStackView(text: "회원탈퇴", image: "ic_round-navigate-next")
+                .onTapGesture {
+                    userSettingViewModel.revoke {
+                        router.navigateBack()
+                    }
+                }
             
             Spacer()
             CommonButton(title: "로그아웃")
