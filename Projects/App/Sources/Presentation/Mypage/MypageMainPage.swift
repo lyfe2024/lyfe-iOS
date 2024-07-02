@@ -8,6 +8,7 @@
 
 import SwiftUI
 import DesignSystem
+import Kingfisher
 
 enum MypageInfo: String, CaseIterable {
     case photo = "신청 사진"
@@ -15,12 +16,31 @@ enum MypageInfo: String, CaseIterable {
 }
 
 class MypageSectionPageModel: ObservableObject {
+    private let usersNetworkService = UsersNetwork()
+    
     @Published var isGuest = AccountStorage.shared.isGuest
     @Published var userChoiced: MypageInfo = .photo
     @Published var sampleUser = HomeSample.sampleUser
+    @Published var nickname: String = ""
+    @Published var profileImageUrl: String = ""
     
     func tapSection(_ userChoiced: MypageInfo) {
         self.userChoiced = userChoiced
+    }
+    
+    func getProfile() {
+        guard !isGuest else { return }
+        
+        usersNetworkService
+            .usersMe { [weak self] result in
+                switch result {
+                case .success(let data):
+                    self?.nickname = data.username ?? ""
+                    self?.profileImageUrl = data.profile ?? ""
+                case .failure:
+                    return
+                }
+            }
     }
 }
 
@@ -54,11 +74,25 @@ struct MypageMainPage: View {
                                 .resizable()
                                 .frame(width: 48, height: 48)
                         } else {
-                            Image("\(mypageSectionPageModel.sampleUser.image)")
-                                .resizable()
-                                .scaledToFill()
-                                .frame(width: 48, height: 48)
-                                .clipShape(Circle())
+                            if mypageSectionPageModel.profileImageUrl.isEmpty {
+                                DesignSystemAsset.icGrayNoneUser.swiftUIImage
+                                    .resizable()
+                                    .scaledToFill()
+                                    .frame(width: 48, height: 48)
+                                    .clipShape(Circle())
+                            } else if let url = URL(string: mypageSectionPageModel.profileImageUrl) {
+                                KFImage(url)
+                                    .resizable()
+                                    .scaledToFill()
+                                    .frame(width: 48, height: 48)
+                                    .clipShape(Circle())
+                            } else {
+                                DesignSystemAsset.icGrayNoneUser.swiftUIImage
+                                    .resizable()
+                                    .scaledToFill()
+                                    .frame(width: 48, height: 48)
+                                    .clipShape(Circle())
+                            }
                         }
                         
                         Spacer()
@@ -70,7 +104,7 @@ struct MypageMainPage: View {
                                     .font(.bold(20))
                                     .padding(.vertical, 6)
                             } else {
-                                Text("설정된닉넴123")
+                                Text(mypageSectionPageModel.nickname)
                                     .font(.bold(20))
                                     .padding(.vertical, 6)
                                 
@@ -95,6 +129,7 @@ struct MypageMainPage: View {
         })
         .onAppear {
             mypageSectionPageModel.isGuest = AccountStorage.shared.isGuest
+            mypageSectionPageModel.getProfile()
         }
     }
 }
