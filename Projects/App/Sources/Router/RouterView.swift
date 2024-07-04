@@ -37,7 +37,11 @@ struct RouterView<Content: View>: View {
         .onReceive(logoutPublisher) { _ in
             router.navigateTo(.login)
         }
-        .showToast(toastPresenter.text, show: $toastPresenter.isPresented)
+        .showToast(
+            type: toastPresenter.type,
+            text: toastPresenter.text,
+            show: $toastPresenter.isPresented
+        )
         .environmentObject(router)
         .environmentObject(toastPresenter)
     }

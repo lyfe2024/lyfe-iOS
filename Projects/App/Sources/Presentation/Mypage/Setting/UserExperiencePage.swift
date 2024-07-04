@@ -99,7 +99,7 @@ struct UserExperiencePage: View {
                 .tap {
                     focusField = nil
                     userExperiencePageModel.save {
-                        toastPresenter.show(text: "접수되었습니다. 소중한 의견 감사합니다 :)")
+                        toastPresenter.show(type: .success, text: "접수되었습니다. 소중한 의견 감사합니다 :)")
                         router.navigateBack()
                     }
                 }

@@ -29,7 +29,7 @@ struct ToastModifier: ViewModifier {
                 VStack {
                     Spacer()
         
-                    Toast(text: toast.text)
+                    Toast(type: toast.type, text: toast.text)
         
                     Spacer()
                         .frame(height: 112)
@@ -66,10 +66,10 @@ struct ToastModifier: ViewModifier {
 }
 
 public extension View {
-    func showToast(_ text: String, show: Binding<Bool>) -> some View {
+    func showToast(type: Toast.Content, text: String, show: Binding<Bool>) -> some View {
         self.modifier(
             ToastModifier(
-                toast: Toast(text: text),
+                toast: Toast(type: type, text: text),
                 show: show
             )
         )

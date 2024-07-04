@@ -157,7 +157,7 @@ struct NicknamePage: View {
         .navigationBackButton {
             router.navigateBack()
         }
-        .showToast("사용중인 닉네임입니다.", show: $showToast)
+        .showToast(type: .warning, text: "사용중인 닉네임입니다.", show: $showToast)
     }
     
     private func getValidationColor() -> Color {
