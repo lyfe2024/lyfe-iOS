@@ -10,25 +10,43 @@ import SwiftUI
 import DesignSystem
 
 class HomeMainPageModel: ObservableObject {
+    
     static let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "MM.dd."
         return formatter
     }()
     
+    private let networkService = TopicNetwork()
     let date = dateFormatter.string(from: Date())
+    @Published var todayTopic: String = ""
+    
+    func getTodayTopic() {
+        networkService.getTodayTopic { result in
+            switch result {
+            case .success(let success):
+                if let topic = success.content {
+                    self.todayTopic = topic
+                    print("topic: \(topic)")
+                }
+                
+            case .failure(let failure):
+                print("토픽 실패! \(failure.localizedDescription)")
+            }
+        }
+    }
 }
 
 struct HomeMainPage: View {
+    @StateObject private var viewModel = HomeMainPageModel()
+    
     var body: some View {
-        @StateObject var viewModel = HomeMainPageModel()
-        
         ScrollView {
             VStack(alignment: .leading, spacing: 0) {
                 ZStack(alignment: .topTrailing) {
                     Text("\(viewModel.date)")
                         .foregroundColor(.black)
-                        .opacity(0.1)
+                        .opacity(0.05)
                         .font(.thinkingRegular(80))
                         .padding(.top, 16)
                     
@@ -36,7 +54,7 @@ struct HomeMainPage: View {
                         Image("Logo")
                             .padding(.vertical, 16)
 
-                        Text("길어지면 두줄이 되는 오늘의 주제입니다")
+                        Text("\(viewModel.todayTopic)")
                             .applyFont(font: .heading2)
                             .foregroundStyle(Color.mainE86336)
                             .lineLimit(2)
@@ -66,7 +84,9 @@ struct HomeMainPage: View {
             }
             
         }
-        
+        .onAppear {
+            viewModel.getTodayTopic()
+        }
     }
 }
 

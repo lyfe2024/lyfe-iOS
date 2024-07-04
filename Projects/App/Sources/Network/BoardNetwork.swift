@@ -9,12 +9,19 @@
 import Foundation
 
 protocol BoardNetworkInterface {
-    func boards(_ type: BoardType, title: String, content: String, topicId: Int, completion: @escaping (Result<BoardPostResponseDTO, NetworkError>) -> Void)
+    // 글 상세 조회
+    func boards(_ type: FeedType, title: String, content: String, topicId: Int, completion: @escaping (Result<BoardPostResponseDTO, NetworkError>) -> Void)
+    
     func boardDetail(_ value: String, completion: @escaping (Result<BoardResponseDTO, NetworkError>) -> Void)
+    // 게시글 최신순 조회
+    func getLatestBoard(_ cursorId: String, _ type: String, _ date: String, completion: @escaping (Result<BoardList, NetworkError>) -> Void)
+    // 게시글 인기순 조회
+    func getPopularBoard(_ cursorId: String, _ type: String, _ popularType: String, completion: @escaping (Result<BoardList, NetworkError>) -> Void)
 }
 
 final class BoardNetwork: NetworkService, BoardNetworkInterface {
-    func boards(_ type: BoardType, title: String, content: String, topicId: Int, completion: @escaping (Result<BoardPostResponseDTO, NetworkError>) -> Void) {
+    
+    func boards(_ type: FeedType, title: String, content: String, topicId: Int, completion: @escaping (Result<BoardPostResponseDTO, NetworkError>) -> Void) {
         let endpoint = APIEndpoint.boards()
         var parameters: [String: Any] = [:]
         parameters["title"] = title
@@ -34,4 +41,35 @@ final class BoardNetwork: NetworkService, BoardNetworkInterface {
             completion(result)
         }
     }
+    
+    func getLatestBoard(_ cursorId: String, _ type: String, _ date: String, completion: @escaping (Result<BoardList, NetworkError>) -> Void) {
+        let endpoint = APIEndpoint.latestBoard()
+        
+        //cursorId=0&type=BOARD
+        let parameters: [String: Any] = [
+            "cursorId": cursorId,
+            "type": type,
+            "date" : date
+        ]
+        
+        request(endpoint, method: .get, parameters: parameters) { (result: Result<BoardList, NetworkError>) in
+            completion(result)
+        }
+    }
+    
+    func getPopularBoard(_ cursorId: String, _ type: String, _ popularType: String, completion: @escaping (Result<BoardList, NetworkError>) -> Void) {
+        let endpoint = APIEndpoint.popularBoard()
+        
+        // type=BOARD_PICTURE&cursorId=0&popularType=WHISKY
+        let parameters: [String : Any] = [
+            "type" : type,
+            "cursorId" : cursorId,
+            "popularType" : popularType
+        ]
+        
+        request(endpoint, method: .get, parameters: parameters) { (result: Result<BoardList, NetworkError>) in
+            completion(result)
+        }
+    }
+    
 }
