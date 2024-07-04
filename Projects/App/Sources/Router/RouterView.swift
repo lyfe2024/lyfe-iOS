@@ -7,12 +7,15 @@
 //
 
 import SwiftUI
+import DesignSystem
 
 struct RouterView<Content: View>: View {
     @StateObject var router: Router = Router()
-    private let content: Content    
-    private let logoutPublisher = NotificationCenter.default.publisher(for: NSNotification.Name("NeedToLogIn"))
+    @StateObject var toastPresenter = ToastPresenter.shared
+    @State private var showToast: Bool = false
 
+    private let content: Content
+    private let logoutPublisher = Notification.needToLogIn.publisher
     
     init(@ViewBuilder content: @escaping () -> Content) {
         self.content = content()
@@ -34,6 +37,8 @@ struct RouterView<Content: View>: View {
         .onReceive(logoutPublisher) { _ in
             router.navigateTo(.login)
         }
+        .showToast(toastPresenter.text, show: $toastPresenter.isPresented)
         .environmentObject(router)
+        .environmentObject(toastPresenter)
     }
 }

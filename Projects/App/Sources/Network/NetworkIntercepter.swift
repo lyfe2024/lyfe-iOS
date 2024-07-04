@@ -36,12 +36,7 @@ final class NetworkRequestInterceptor: RequestInterceptor {
                 
                 completion(.doNotRetryWithError(error))
                 
-                DispatchQueue.main.async {
-                    NotificationCenter.default.post(
-                        name: NSNotification.Name("NeedToLogIn"),
-                        object: nil
-                    )
-                }
+                Notification.needToLogIn.post()
             }
         }
     }

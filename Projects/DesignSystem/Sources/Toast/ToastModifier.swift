@@ -65,7 +65,6 @@ struct ToastModifier: ViewModifier {
     }
 }
 
-
 public extension View {
     func showToast(_ text: String, show: Binding<Bool>) -> some View {
         self.modifier(

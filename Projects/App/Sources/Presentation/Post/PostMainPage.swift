@@ -49,10 +49,7 @@ struct PostMainPage: View {
                 )
                 .onTapGesture {
                     if AccountStorage.shared.isGuest {
-                        NotificationCenter.default.post(
-                            name: NSNotification.Name("NeedToLogIn"),
-                            object: nil
-                        )
+                        Notification.needToLogIn.post()
                     } else {
                         tapDimView?()
                         router.navigateTo(.postPhoto)
@@ -84,10 +81,7 @@ struct PostMainPage: View {
                 )
                 .onTapGesture {
                     if AccountStorage.shared.isGuest {
-                        NotificationCenter.default.post(
-                            name: NSNotification.Name("NeedToLogIn"),
-                            object: nil
-                        )
+                        Notification.needToLogIn.post()
                     } else {
                         tapDimView?()
                         router.navigateTo(.postText)
