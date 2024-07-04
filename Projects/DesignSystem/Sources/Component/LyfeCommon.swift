@@ -6,7 +6,7 @@
 //  Copyright © 2024 iOSteam. All rights reserved.
 //
 
-import Foundation
+import SwiftUI
 
 public struct LyfeCommon {
     public static let ic_gray_comment = DesignSystemAsset.icGrayComment.swiftUIImage

@@ -78,6 +78,23 @@ struct APIEndpoint {
         let url = base + "/feedbacks"
         return url
     }
+  
+    // 글 리스트 조회(최신순) new
+    static func latestBoard() -> String {
+        let url = base + "/boards/latest"
+        return url
+    }
+    
+    // 글 리스트 조회(인기순) new
+    static func popularBoard() -> String {
+        let url = base + "/boards/popular"
+        return url
+    }
+    
+    // 오늘의 주제
+    static func todayTopic() -> String {
+        return base + "/topics"
+    }
 }
 
 private extension APIEndpoint {

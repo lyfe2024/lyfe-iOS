@@ -51,7 +51,7 @@ class NetworkService {
         AF.request(url,
                    method: method,
                    parameters: parameters,
-                   encoding: parameters == nil ? URLEncoding.default : JSONEncoding.default,
+                   encoding: method == .get ? URLEncoding.default : JSONEncoding.default,
                    headers: ["Content-Type":"application/json"],
                    interceptor: NetworkRequestInterceptor())
             .validate(statusCode: 200..<300)

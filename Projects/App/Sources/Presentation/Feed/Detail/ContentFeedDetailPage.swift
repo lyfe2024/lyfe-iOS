@@ -11,14 +11,9 @@ import Combine
 import Kingfisher
 import DesignSystem
 
-enum BoardType: String {
-    case board = "BOARD"
-    case board_picture = "BOARD_PICTURE"
-}
-
 class ContentFeedDetailPageModel: ObservableObject {
     @Published var realPostUser: BoardResponseDTO?
-    @Published var boardType: BoardType?
+    @Published var feedType: FeedType?
     @Published var postUser: HomeSample = HomeSample.sampleUser // 임시
     @Published var commentUser: [HomeSample] = HomeSample.homeSample
     @Published var commentState: Bool = false
@@ -33,9 +28,8 @@ class ContentFeedDetailPageModel: ObservableObject {
                 switch result {
                 case .success(let data):
                     self.realPostUser = data
-                    
-                    data.boardType == "BOARD" 
-                    ? (self.boardType = .board) : (self.boardType = .board_picture)
+                    data.boardType == "BOARD"
+                    ? (self.feedType = .board) : (self.feedType = .board_picture)
                 case .failure(let error):
                     debugPrint(error.localizedDescription)
                 }
@@ -56,7 +50,7 @@ struct ContentFeedDetailPage: View {
                     .foregroundColor(.MainE86336)
                 Spacer().frame(height: 16)
                 
-                if let boardType = viewModel.boardType {
+                if let boardType = viewModel.feedType {
                     switch boardType {
                     case .board:
                         VStack(alignment: .leading, spacing: 16) {
@@ -144,7 +138,7 @@ struct ContentFeedDetailPage: View {
             .sheet(isPresented: $viewModel.commentState,
                    content: { CommentComponent(userName: .constant("안녕"),
                                                viewModel: viewModel)
-                .presentationDetents([.height(104)])
+                .presentationDetents([.height(134)])
             })
     }
 }
