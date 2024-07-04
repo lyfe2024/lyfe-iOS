@@ -87,20 +87,22 @@ struct UserSettingPage: View {
             }
             .tint(Color.MainE86336)
             
-            SettingHStackView(text: "사용경험", image: "ic_round-navigate-next")
-            SettingHStackView(text: "이용약관", image: "ic_round-navigate-next")
+            SettingHStackView(text: "사용경험", image: LyfeCommon.ic_gray_arrow_after)
+            SettingHStackView(text: "이용약관", image: LyfeCommon.ic_gray_arrow_after)
                 .onTapGesture {
                     userSettingViewModel.loadTerm {
                         moveToTermDetail(.term)
                     }
                 }
-            SettingHStackView(text: "개인정보 수집 및 이용", image: "ic_round-navigate-next")
+            
+            SettingHStackView(text: "개인정보 수집 및 이용", image: LyfeCommon.ic_gray_arrow_after)
                 .onTapGesture {
                     userSettingViewModel.loadPersonalInfoAgreement {
                         moveToTermDetail(.personalInfo)
                     }
                 }
-            SettingHStackView(text: "회원탈퇴", image: "ic_round-navigate-next")
+            
+            SettingHStackView(text: "회원탈퇴", textColor: DesignSystemAsset.red050.swiftUIColor)
             
             Spacer()
             CommonButton(title: "로그아웃")
@@ -108,7 +110,6 @@ struct UserSettingPage: View {
                 .tap {
                     isShowingLogoutAlert = true
                 }
-            
         }
         .padding(.horizontal, 20)
         .navigationBackButton {
@@ -141,16 +142,29 @@ struct UserSettingPage: View {
 struct SettingHStackView: View {
     
     var text: String
-    var image: String
+    var image: Image?
+    var textColor: Color?
+    
+    init(text: String,
+         image: Image? = nil,
+         textColor: Color? = nil) {
+        self.text = text
+        self.image = image
+        self.textColor = textColor
+    }
     
     var body: some View {
         HStack {
             Text(text)
+                .foregroundStyle(textColor ?? .black)
                
             Spacer()
-            Image(image)
+            
+            image?
+                .resizable()
+                .frame(width: 24, height: 24)
         }
-        .font(.medium(16))
+        .applyFont(font: .body2)
         .padding(.vertical, 8)
         .padding(.vertical, 12)
     }
