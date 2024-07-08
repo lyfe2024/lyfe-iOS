@@ -43,6 +43,9 @@ struct CustomCarouselView<Content: View>: View {
                 ForEach(0..<pageCount, id: \.self) { index in
                     self.content(index)
                         .frame(width: contentWidth)
+                        .onTapGesture {
+                            print("tap!")
+                        }
                 }
             }
             .offset(x: -(width - (pageSpacing * 2) + cardSpacing) * CGFloat(currentIndex) + offset)

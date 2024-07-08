@@ -11,7 +11,6 @@ import SwiftUI
 struct AddCardView: View {
     var height = UIScreen.main.bounds.height * 0.5 // 사진 높이
     var width = UIScreen.main.bounds.width * 0.8 // 사진 높이
-    @StateObject var cardSwipeViewModel = CardSwipeViewModel()
     let colorArray: [Color] = [.GrayF9F9F9,.GrayDDDDDD,  .GrayC6C6C6, .GrayB0B0B0]
     
     var body: some View {

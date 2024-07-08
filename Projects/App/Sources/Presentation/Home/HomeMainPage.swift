@@ -9,32 +9,62 @@
 import SwiftUI
 import DesignSystem
 
-class HomeMainPageModel: ObservableObject {
-    
+class TodayDate: ObservableObject {
     static let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "MM.dd."
         return formatter
     }()
     
-    private let networkService = TopicNetwork()
-    let date = dateFormatter.string(from: Date())
+    static let date = dateFormatter.string(from: Date())
+}
+
+class HomeMainPageModel: ObservableObject {
+    
     @Published var todayTopic: String = ""
+    @Published var boardUser: BoardResponseDTO?
+    @Published var feedType: FeedType?
+    @Published var feedData: [BoardResponseDTO] = []
+    
+    private let topicService = TopicNetwork()
+    private let boardService = BoardNetwork()
+    private let todayDate = TodayDate.date
     
     func getTodayTopic() {
-        networkService.getTodayTopic { result in
+        topicService.getTodayTopic { result in
             switch result {
             case .success(let success):
                 if let topic = success.content {
                     self.todayTopic = topic
-                    print("topic: \(topic)")
                 }
                 
             case .failure(let failure):
-                print("토픽 실패! \(failure.localizedDescription)")
+                print("Topic fauilure! \(failure.localizedDescription)")
             }
         }
     }
+    
+    @MainActor
+    func getLatestBoard(_ boardType: FeedType) {
+        let todayDate = dateFormatter.string(from: Date())
+        
+        boardService.getLatestBoard("0", boardType.boardType, todayDate) { result in
+            switch result {
+            case .success(let success):
+                self.feedData = success.list
+//                print(self.feedData)
+            case .failure(let failure):
+                print("Latest List failure! \(failure.localizedDescription)")
+            }
+        }
+    }
+    
+    private let dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        return formatter
+    }()
+    
 }
 
 struct HomeMainPage: View {
@@ -44,7 +74,7 @@ struct HomeMainPage: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 0) {
                 ZStack(alignment: .topTrailing) {
-                    Text("\(viewModel.date)")
+                    Text("\(TodayDate.date)")
                         .foregroundColor(.black)
                         .opacity(0.05)
                         .font(.thinkingRegular(80))
@@ -59,8 +89,8 @@ struct HomeMainPage: View {
                             .foregroundStyle(Color.mainE86336)
                             .lineLimit(2)
                             .padding(.bottom, 8)
-                            
                         CardSwipeView()
+//                        CardSwipeView(viewModel: viewModel)
                         Spacer().frame(height: 32)
                     }
                 }
@@ -73,11 +103,11 @@ struct HomeMainPage: View {
                     .applyFont(font: .heading5)
                     .padding(.init(top: 16, leading: 20, bottom: 8, trailing: 0))
                 
-                CustomCarouselView(pageCount: HomeSample.homeSample.count,
+                CustomCarouselView(pageCount: viewModel.feedData.count,
                                    pageSpacing: 20,
                                    edgeSpacing: 12,
                                    cardSpacing: 8) { index in
-                    let item = HomeSample.homeSample[index]
+                    let item = viewModel.feedData[index]
                     
                     CarouselContentView(data: item)
                 }
@@ -85,7 +115,9 @@ struct HomeMainPage: View {
             
         }
         .onAppear {
-            viewModel.getTodayTopic()
+//            viewModel.getTodayTopic()
+//            viewModel.getLatestBoard(.board)
+            viewModel.getLatestBoard(.board_picture)
         }
     }
 }

@@ -91,3 +91,13 @@ extension View {
             .padding(.vertical, 10)
     }
 }
+
+extension View {
+    func screenWidth() -> UIScreen? {
+        guard let window = UIApplication.shared.connectedScenes.first as? UIWindowScene else {
+            return self.screenWidth()
+        }
+        
+        return window.screen
+    }
+}

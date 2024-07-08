@@ -27,8 +27,8 @@ struct ChosePostPhotoPage: View {
                         .padding(chosen == startChosenNumber ? chosenEdge : noneEdge)
                 }
             }
-            CardView(data: HomeSample.homeSample[startChosenNumber], cardValue: .past)
-                .frame(maxWidth: .infinity)
+//            CardView(data: HomeSample.homeSample[startChosenNumber], cardValue: .past)
+//                .frame(maxWidth: .infinity)
         }
         .gesture(
             DragGesture()

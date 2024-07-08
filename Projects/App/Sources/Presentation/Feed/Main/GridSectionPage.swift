@@ -44,6 +44,7 @@ class FeedGridSectionModel: ObservableObject {
             switch result {
             case .success(let success):
                 self.feedData = success.list
+                print(self.feedData)
             case .failure(let failure):
                 print("Latest List failure! \(failure.localizedDescription)")
             }

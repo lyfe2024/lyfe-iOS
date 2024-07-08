@@ -45,7 +45,6 @@ final class BoardNetwork: NetworkService, BoardNetworkInterface {
     func getLatestBoard(_ cursorId: String, _ type: String, _ date: String, completion: @escaping (Result<BoardList, NetworkError>) -> Void) {
         let endpoint = APIEndpoint.latestBoard()
         
-        //cursorId=0&type=BOARD
         let parameters: [String: Any] = [
             "cursorId": cursorId,
             "type": type,
@@ -60,7 +59,6 @@ final class BoardNetwork: NetworkService, BoardNetworkInterface {
     func getPopularBoard(_ cursorId: String, _ type: String, _ popularType: String, completion: @escaping (Result<BoardList, NetworkError>) -> Void) {
         let endpoint = APIEndpoint.popularBoard()
         
-        // type=BOARD_PICTURE&cursorId=0&popularType=WHISKY
         let parameters: [String : Any] = [
             "type" : type,
             "cursorId" : cursorId,

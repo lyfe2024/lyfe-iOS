@@ -30,8 +30,8 @@ struct TodayHomePage: View {
                 .font(.bold(28))
                 .foregroundColor(.MainE86336)
             
-            CardSwipeView()
-                .padding(.bottom, 24)
+//            CardSwipeView()
+//                .padding(.bottom, 24)
             
             HStack {
                 Text("고민글")

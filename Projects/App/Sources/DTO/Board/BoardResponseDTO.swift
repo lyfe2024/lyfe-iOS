@@ -12,7 +12,7 @@ struct BoardList: Decodable {
     var list: [BoardResponseDTO]
 }
 
-struct BoardResponseDTO: Decodable {
+struct BoardResponseDTO: Decodable, Identifiable {
     var id: Int?
     var user: User?
     var title: String?
