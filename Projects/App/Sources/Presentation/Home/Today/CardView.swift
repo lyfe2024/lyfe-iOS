@@ -10,14 +10,13 @@ import SwiftUI
 import DesignSystem
 import Kingfisher
 
-enum CardType {
-    case data
-    case noneData
-}
 struct CardView: View {
-    var data: BoardResponseDTO
-    var type: CardType
+    let data: BoardResponseDTO
 
+    init(data: BoardResponseDTO) {
+        self.data = data
+    }
+    
     var body: some View {
         VStack {
             KFImage(URL(string: data.content ?? "https://picsum.photos/700/700"))
@@ -68,6 +67,7 @@ struct CardView: View {
                     }
                     .padding(.init(top: 12, leading: 16, bottom: 12, trailing: 16))
                 }
+                .shadow(color: .black.opacity(0.2), radius: 8.88,  x: 1.78, y: 5.33)
         }
     }
 }
@@ -120,12 +120,12 @@ struct NoneCardView: View {
                         }
                         .offset(x: -minusWidth)
                     }
+                    .shadow(color: .black.opacity(0.2), radius: 8.88,  x: 1.78, y: 5.33)
             }
         }
     }
 }
 
 #Preview {
-//    CardView(data: HomeSample.realData)
     NoneCardView(currentIndex: 10)
 }

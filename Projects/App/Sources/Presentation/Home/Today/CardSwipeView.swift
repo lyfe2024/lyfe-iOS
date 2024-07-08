@@ -56,6 +56,7 @@ struct CardSwipeView: View {
     @State private var data = HomeSample.realArray
     @State private var currentIndex = 0
     @State private var indexForColor = 0
+    
     private let cardHeight: CGFloat = 358
     private let screenPadding: CGFloat = 40
     private var width: CGFloat {
@@ -67,14 +68,14 @@ struct CardSwipeView: View {
             let cardWidth = width * 0.75
             let minusWidth = (width - screenPadding - cardWidth) / 2
             
-//            NoneCardView(viewModel: cardViewMode)
-//                .opacity((cardViewMode.currendtIndex > 7) ? 1 : 0)
+            NoneCardView(currentIndex: currentIndex)
+                .opacity((currentIndex > 7) ? 1 : 0)
+            
             ForEach(0..<4, id: \.self) { index in
-                CardView(data: data[currentIndex], type: .data)
+                CardView(data: data[currentIndex])
                     .frame(width: cardWidth)
                     .frame(height: index <= 3
-                           ? cardHeight - CGFloat(18 * index)
-                           : cardHeight)
+                           ? cardHeight - CGFloat(18 * index) : cardHeight)
                     .offset(x: index == 0 ? -minusWidth : -minusWidth + CGFloat(index * 20))
                     .zIndex(Double(-index))
                     .contentShape(Rectangle())
@@ -85,24 +86,27 @@ struct CardSwipeView: View {
                             }
                             .onEnded { value in
                                 handleSwipeGesture(value: value)
+                                print(currentIndex+1)
                             }
                     )
                     .opacity(indexForColor > 9 ? 0 : 1)
+                    .animation(.easeIn, value: index)
             }
         }
     }
     
     private func handleSwipeGesture(value: DragGesture.Value) {
         if value.translation.width < -80 {
-//            $cardViewMode.currentIndex = ($cardViewMode.currentIndex == data.count - 1)
-//            ? data.count - 1 : ($cardViewMode.currentIndex + 1)
-//            
-//            $cardViewMode.indexForColor = $cardViewMode.currentIndex + 1
-//        } else if value.translation.width > 80 {
-//            $cardViewMode.currentIndex = ($cardViewMode.currentIndex == 0)
-//            ? $cardViewMode.currentIndex : ($cardViewMode.currentIndex - 1)
-//            
-//            $cardViewMode.indexForColor = $cardViewMode.currentIndex + 1
+            currentIndex = (currentIndex == data.count - 1)
+            ? data.count - 1 : (currentIndex + 1)
+            
+            indexForColor = currentIndex + 1
+            
+        } else if value.translation.width > 80 {
+            currentIndex = (currentIndex == 0)
+            ? currentIndex : (currentIndex - 1)
+            
+            indexForColor = currentIndex + 1
         }
     }
 }
