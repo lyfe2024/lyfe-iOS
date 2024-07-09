@@ -73,19 +73,11 @@ struct CardView: View {
 }
 
 struct NoneCardView: View {
-//    @ObservedObject var viewModel: CardSwipeViewModel
-    let currentIndex: Int
+    @ObservedObject var viewModel: CardSwipeViewModel
     private let cardHeight: CGFloat = 358
     private let screenPadding: CGFloat = 40
     private var width: CGFloat {
         screenWidth()?.bounds.width ?? UIScreen.main.bounds.width
-    }
-    private var colors: [Color] = [Color.grayB0B0B0, Color.grayC6C6C6, Color.grayDDDDDD, Color.grayF9F9F9]
-    private var tempColors: [Color] = [Color.grayB0B0B0, Color.grayB0B0B0, Color.grayB0B0B0, Color.grayC6C6C6]
-    private var secondTempColors: [Color] = [Color.grayB0B0B0, Color.grayB0B0B0, Color.grayC6C6C6, Color.grayDDDDDD]
-    
-    init(currentIndex: Int) {
-        self.currentIndex = currentIndex
     }
     
     var body: some View {
@@ -95,8 +87,8 @@ struct NoneCardView: View {
             
             ForEach(0..<4, id: \.self) { index in
                 Rectangle()
-                    .fill(currentIndex == 7 ? tempColors[index] :
-                            currentIndex == 8 ? secondTempColors[index] : colors[index])
+                    .fill(viewModel.currentIndex == 7 ? CardColors.nineColor[index] :
+                            viewModel.currentIndex == 8 ? CardColors.tenColor[index] : CardColors.color[index])
                     .clipShape(RoundedRectangle(cornerRadius: 16))
                     .frame(width: cardWidth)
                     .frame(height: index <= 3 ? cardHeight - CGFloat(18 * index) : cardHeight)
@@ -127,5 +119,12 @@ struct NoneCardView: View {
 }
 
 #Preview {
-    NoneCardView(currentIndex: 10)
+    NoneCardView(viewModel: CardSwipeViewModel())
+}
+
+
+struct CardColors {
+    static let nineColor = [Color.grayB0B0B0, Color.grayB0B0B0, Color.grayB0B0B0, Color.grayC6C6C6]
+    static let tenColor = [Color.grayB0B0B0, Color.grayB0B0B0, Color.grayC6C6C6, Color.grayDDDDDD]
+    static let color = [Color.grayB0B0B0, Color.grayC6C6C6, Color.grayDDDDDD, Color.grayF9F9F9]
 }

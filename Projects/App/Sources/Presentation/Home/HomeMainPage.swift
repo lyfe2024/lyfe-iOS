@@ -72,7 +72,7 @@ struct HomeMainPage: View {
     
     var body: some View {
         ScrollView {
-            VStack(alignment: .leading, spacing: 0) {
+            VStack(spacing: 0) {
                 ZStack(alignment: .topTrailing) {
                     Text("\(TodayDate.date)")
                         .foregroundColor(.black)
@@ -89,8 +89,7 @@ struct HomeMainPage: View {
                             .foregroundStyle(Color.mainE86336)
                             .lineLimit(2)
                             .padding(.bottom, 8)
-                        CardSwipeView()
-//                        CardSwipeView(viewModel: viewModel)
+                        CardSwipeView(viewModel: viewModel)
                         Spacer().frame(height: 32)
                     }
                 }
@@ -117,7 +116,7 @@ struct HomeMainPage: View {
         .onAppear {
 //            viewModel.getTodayTopic()
 //            viewModel.getLatestBoard(.board)
-            viewModel.getLatestBoard(.board_picture)
+//            viewModel.getLatestBoard(.board_picture)
         }
     }
 }
