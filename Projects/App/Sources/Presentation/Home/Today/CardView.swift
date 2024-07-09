@@ -118,9 +118,6 @@ struct NoneCardView: View {
     }
 }
 
-#Preview {
-    NoneCardView(viewModel: CardSwipeViewModel())
-}
 
 
 struct CardColors {
@@ -128,3 +125,4 @@ struct CardColors {
     static let tenColor = [Color.grayB0B0B0, Color.grayB0B0B0, Color.grayC6C6C6, Color.grayDDDDDD]
     static let color = [Color.grayB0B0B0, Color.grayC6C6C6, Color.grayDDDDDD, Color.grayF9F9F9]
 }
+

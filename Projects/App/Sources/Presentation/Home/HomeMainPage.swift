@@ -25,7 +25,10 @@ class HomeMainPageModel: ObservableObject {
     @Published var boardUser: BoardResponseDTO?
     @Published var feedType: FeedType?
     @Published var feedData: [BoardResponseDTO] = []
+    @Published var totalData: [Any] = []
+    @Published var tempData: [Any] = []
     
+    private let color =  [Color.grayB0B0B0, Color.grayC6C6C6, Color.grayDDDDDD, Color.grayF9F9F9]
     private let topicService = TopicNetwork()
     private let boardService = BoardNetwork()
     private let todayDate = TodayDate.date
@@ -52,7 +55,7 @@ class HomeMainPageModel: ObservableObject {
             switch result {
             case .success(let success):
                 self.feedData = success.list
-//                print(self.feedData)
+                self.totalData = self.feedData + self.color
             case .failure(let failure):
                 print("Latest List failure! \(failure.localizedDescription)")
             }
@@ -64,7 +67,6 @@ class HomeMainPageModel: ObservableObject {
         formatter.dateFormat = "yyyy-MM-dd"
         return formatter
     }()
-    
 }
 
 struct HomeMainPage: View {
@@ -89,7 +91,8 @@ struct HomeMainPage: View {
                             .foregroundStyle(Color.mainE86336)
                             .lineLimit(2)
                             .padding(.bottom, 8)
-                        CardSwipeView(viewModel: viewModel)
+//                        CardSwipeView(viewModel: viewModel)
+//                        TestCardView(viewModel: viewModel)
                         Spacer().frame(height: 32)
                     }
                 }
