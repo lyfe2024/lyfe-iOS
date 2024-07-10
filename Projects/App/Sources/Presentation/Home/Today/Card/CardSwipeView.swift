@@ -9,14 +9,18 @@
 import SwiftUI
 import DesignSystem
 
-struct TestCardView: View {
+struct CardSwipeView: View {
     
     @ObservedObject private var viewModel: HomeMainPageModel
+    @State private var removingTopCard = false
     private let cardHeight: CGFloat = 358
     private let screenPadding: CGFloat = 40
     private var width: CGFloat {
         screenWidth()?.bounds.width ?? UIScreen.main.bounds.width
     }
+    
+    @State private var offset: CGSize = .zero
+    @State private var isDragging: Bool = false
     
     init(viewModel: HomeMainPageModel) {
         self.viewModel = viewModel
@@ -54,37 +58,54 @@ struct TestCardView: View {
                             }
                     }
                 }
+                .opacity(index == 0 && removingTopCard ? 0 : 1)
                 .frame(width: cardWidth)
                 .frame(height: index <= 3 ? cardHeight - CGFloat(18 * index) : cardHeight)
-                .offset(x: index == 0 ? -minusWidth : -minusWidth + CGFloat(index * 20))
+                .offset(x: index == 0 
+                        ? offset.width - minusWidth : -minusWidth + CGFloat(index * 20),
+                        y: index == 0 ? offset.height : 0)
                 .zIndex(Double(-index))
                 .opacity(index > 3 ? 0 : 1)
                 .contentShape(Rectangle())
                 .gesture(
                     DragGesture()
+                        .onChanged { value in
+                            if index == 0 {
+                                offset = value.translation
+                                isDragging = true
+                            }
+                        }
                         .onEnded { value in
                             let swipe = value.translation.width
+                            removingTopCard = true
+                            if swipe < -80 && viewModel.tempData.count < 10 {
+                                viewModel.tempData.append(viewModel.totalData[index])
+                                viewModel.totalData.remove(at: index)
                             
-                            withAnimation {
-                                if swipe < -80 && viewModel.tempData.count < 10 {
-                                    viewModel.tempData.append(viewModel.totalData[index])
-                                    viewModel.totalData.remove(at: index)
-                                } else if swipe > 80 && viewModel.tempData.count > 0 {
-                                    let lastTemp = viewModel.tempData.removeLast()
-                                    viewModel.totalData.insert(lastTemp, at: 0)
+                            } else if swipe > 80 && viewModel.tempData.count > 0 {
+                                let lastTemp = viewModel.tempData.removeLast()
+                                viewModel.totalData.insert(lastTemp, at: 0)
+                            }
+                            
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                                offset = .zero
+                                withAnimation(.easeInOut(duration: 0.3)) {
+                                    isDragging = false
+                                    removingTopCard = false
                                 }
                             }
+                            
+                            print(swipe)
                         }
                 )
             }
         }
-        .onAppear {
-            viewModel.getLatestBoard(.board_picture)
-        }
+//        .onAppear {
+//            viewModel.getLatestBoard(.board_picture)
+//        }
     }
 }
 
-//
 #Preview {
-    TestCardView(viewModel: HomeMainPageModel())
+    CardSwipeView(viewModel: HomeMainPageModel())
 }

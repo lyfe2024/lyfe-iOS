@@ -34,4 +34,6 @@ public struct LyfeCommon {
     public static let ic_black_arrow_back = DesignSystemAsset.icBlackArrowBack.swiftUIImage
     public static let ic_gray_arrow_after = DesignSystemAsset.icGrayArrowNext.swiftUIImage
     public static let ic_white_arrow_after = DesignSystemAsset.icArrowAfterWhite.swiftUIImage
+    
+    public static let ic_logo = DesignSystemAsset.icLogo.swiftUIImage
 }

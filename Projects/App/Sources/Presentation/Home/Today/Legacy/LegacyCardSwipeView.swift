@@ -14,7 +14,7 @@ class CardSwipeViewModel: ObservableObject {
     @Published var currentIndex = 0
 }
 
-struct CardSwipeView: View {
+struct LegacyCardSwipeView: View {
     
     @StateObject var cardViewModel = CardSwipeViewModel()
     @ObservedObject var viewModel: HomeMainPageModel
@@ -80,5 +80,5 @@ struct CardSwipeView: View {
 }
 
 #Preview {
-    CardSwipeView(viewModel: HomeMainPageModel())
+    LegacyCardSwipeView(viewModel: HomeMainPageModel())
 }

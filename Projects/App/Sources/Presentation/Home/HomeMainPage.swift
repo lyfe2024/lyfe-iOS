@@ -25,13 +25,13 @@ class HomeMainPageModel: ObservableObject {
     @Published var boardUser: BoardResponseDTO?
     @Published var feedType: FeedType?
     @Published var feedData: [BoardResponseDTO] = []
+    @Published var feedCardData: [BoardResponseDTO] = []
     @Published var totalData: [Any] = []
     @Published var tempData: [Any] = []
     
     private let color =  [Color.grayB0B0B0, Color.grayC6C6C6, Color.grayDDDDDD, Color.grayF9F9F9]
     private let topicService = TopicNetwork()
     private let boardService = BoardNetwork()
-    private let todayDate = TodayDate.date
     
     func getTodayTopic() {
         topicService.getTodayTopic { result in
@@ -52,13 +52,26 @@ class HomeMainPageModel: ObservableObject {
         let todayDate = dateFormatter.string(from: Date())
         
         boardService.getLatestBoard("0", boardType.boardType, todayDate) { result in
-            switch result {
-            case .success(let success):
-                self.feedData = success.list
-                self.totalData = self.feedData + self.color
-            case .failure(let failure):
-                print("Latest List failure! \(failure.localizedDescription)")
-            }
+            self.handleBoardResult(result, for: boardType)
+        }
+    }
+    
+    private func handleBoardResult(_ result: Result<BoardList, NetworkError>, for boardType: FeedType) {
+        switch result {
+        case .success(let success):
+            self.updateData(success.list, for: boardType)
+        case .failure(let failure):
+            print("📕 SY) Data failure! \(failure.localizedDescription)")
+        }
+    }
+    
+    private func updateData(_ list: [BoardResponseDTO], for boardType: FeedType) {
+        switch boardType {
+        case .board_picture:
+            self.feedCardData = list
+            self.totalData = self.feedCardData + self.color
+        case .board:
+            self.feedData = list
         }
     }
     
@@ -82,17 +95,20 @@ struct HomeMainPage: View {
                         .font(.thinkingRegular(80))
                         .padding(.top, 16)
                     
-                    VStack(alignment: .leading) {
-                        Image("Logo")
+                    
+                    VStack {
+                        LyfeCommon.ic_logo
+                            .frame(maxWidth:. infinity, alignment: .leading)
                             .padding(.vertical, 16)
-
+                        
                         Text("\(viewModel.todayTopic)")
                             .applyFont(font: .heading2)
                             .foregroundStyle(Color.mainE86336)
                             .lineLimit(2)
                             .padding(.bottom, 8)
-//                        CardSwipeView(viewModel: viewModel)
-//                        TestCardView(viewModel: viewModel)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                        
+                        CardSwipeView(viewModel: viewModel)
                         Spacer().frame(height: 32)
                     }
                 }
@@ -103,6 +119,7 @@ struct HomeMainPage: View {
                 
                 Text("고민글")
                     .applyFont(font: .heading5)
+                    .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.init(top: 16, leading: 20, bottom: 8, trailing: 0))
                 
                 CustomCarouselView(pageCount: viewModel.feedData.count,
@@ -117,9 +134,9 @@ struct HomeMainPage: View {
             
         }
         .onAppear {
-//            viewModel.getTodayTopic()
-//            viewModel.getLatestBoard(.board)
-//            viewModel.getLatestBoard(.board_picture)
+            viewModel.getLatestBoard(.board)
+            viewModel.getLatestBoard(.board_picture)
+            viewModel.getTodayTopic()
         }
     }
 }
