@@ -10,30 +10,54 @@ import SwiftUI
 import PhotosUI
 
 final class PostPhotoPageModel: ObservableObject {
-    private let imageNetwork = ImageNetwork()
+    private let imageNetworkService = ImageNetwork()
+    private let boardNetworkService = BoardNetwork()
+    private let baseImageUrl = "https://lyfe-s3.s3.ap-northeast-2.amazonaws.com/"
 
     @Published var title: String = ""
     @Published var selectedImage: PhotosPickerItem? = nil
     @Published var selectedPhotoData: Data?
     
-    func save() {
-        getUploadUrl { url in
-            print("url: \(url)")
+    func save(completion: @escaping (Bool) -> Void) {
+        getUploadUrl { [weak self] url, key in
+            guard let data = self?.selectedPhotoData else { return }
+            self?.imageNetworkService.uploadImage(url, data: data, completion: { [weak self] successed in
+                if successed {
+                    self?.saveContent(key: key) { result in
+                        completion(result)
+                    }
+                } else {
+                    completion(false)
+                }
+            })
         }
     }
     
-    private func getUploadUrl(completion: @escaping (String) -> Void) {
-        imageNetwork
+    private func getUploadUrl(completion: @escaping (String, String) -> Void) {
+        imageNetworkService
             .uploadUrl { result in
                 switch result {
                 case .success(let data):
-                    if let url = data.url {
-                        completion(url)
+                    if let url = data.url, let key = data.key {
+                        completion(url, key)
                     }
                 case .failure(_):
                     return
                 }
             }
+    }
+    
+    private func saveContent(key: String, completion: @escaping (Bool) -> Void) {
+        let url = baseImageUrl + key
+        boardNetworkService
+            .boards(.board_picture, title: title, content: url, topicId: 1) { result in
+                switch result {
+                case .success:
+                    completion(true)
+                case .failure(_):
+                    completion(false)
+                }
+        }
     }
 }
 
@@ -127,7 +151,11 @@ struct PostPhotoPage: View {
                 )
                 .tap {
                     viewModel
-                        .save()
+                        .save() { successed in
+                            if successed {
+                                router.navigateBack()
+                            }
+                        }
                 }
             Spacer()
                 .frame(height: 24)

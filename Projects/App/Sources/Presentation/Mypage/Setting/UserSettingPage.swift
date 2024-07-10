@@ -87,8 +87,11 @@ struct UserSettingPage: View {
             }
             .tint(Color.MainE86336)
             
-            SettingHStackView(text: "사용경험", image: LyfeCommon.ic_gray_arrow_after)
-            SettingHStackView(text: "이용약관", image: LyfeCommon.ic_gray_arrow_after)
+            SettingHStackView(text: "사용경험", image: "ic_round-navigate-next")
+                .onTapGesture {
+                    router.navigateTo(.userExperience)
+                }
+            SettingHStackView(text: "이용약관", image: "ic_round-navigate-next")
                 .onTapGesture {
                     userSettingViewModel.loadTerm {
                         moveToTermDetail(.term)
@@ -101,8 +104,13 @@ struct UserSettingPage: View {
                         moveToTermDetail(.personalInfo)
                     }
                 }
-            
-            SettingHStackView(text: "회원탈퇴", textColor: DesignSystemAsset.red050.swiftUIColor)
+
+            SettingHStackView(text: "회원탈퇴", image: "ic_round-navigate-next")
+                .onTapGesture {
+                    userSettingViewModel.revoke {
+                        router.navigateBack()
+                    }
+                }
             
             Spacer()
             CommonButton(title: "로그아웃")
@@ -123,6 +131,7 @@ struct UserSettingPage: View {
         ) {
             userSettingViewModel.logout()
             isShowingLogoutAlert.toggle()
+            router.navigateBack()
         } cancelButton: {
             isShowingLogoutAlert.toggle()
         }

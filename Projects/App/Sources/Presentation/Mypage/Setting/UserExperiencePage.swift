@@ -7,10 +7,24 @@
 //
 
 import SwiftUI
+import DesignSystem
 
 final class UserExperiencePageModel: ObservableObject {
+    private let feedbackNetworkService = FeedbackNetwork()
+    
     @Published var content: String = ""
     @Published var peedBackButton: Bool = false
+    
+    func save(completion: @escaping () -> Void) {
+        feedbackNetworkService.feedbacks(content) { result in
+            switch result {
+            case .success(let data):
+                completion()
+            case .failure:
+                return
+            }
+        }
+    }
     
     fileprivate func checkingContent() -> Bool {
         return content.isEmpty ? false : true
@@ -21,6 +35,7 @@ struct UserExperiencePage: View {
     private var placeholder = "내용을 입력해주세요"
     @StateObject var userExperiencePageModel = UserExperiencePageModel()
     @EnvironmentObject var router: Router
+    @State private var showToast: Bool = false
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -76,14 +91,17 @@ struct UserExperiencePage: View {
             CommonButton(title: "피드백 보내기")
                 .enable(userExperiencePageModel.checkingContent())
                 .tap {
-                    print("사용경험 보내기 버튼 tapped")
+                    userExperiencePageModel.save {
+                        showToast = true
+                        router.navigateBack()
+                    }
                 }
         }
         .padding(.horizontal, 20)
         .navigationBackButton {
-            print("bb")
             router.navigateBack()
         }
+        .showToast("접수되었습니다. 소중한 의견 감사합니다 :)", show: $showToast)
     }
 }
 

@@ -69,6 +69,16 @@ struct APIEndpoint {
         return build(url: url, parameters: parameters)
     }
     
+    static func usersMe() -> String {
+        let url = base + "/users/me"
+        return url
+    }
+    
+    static func feedbacks() -> String {
+        let url = base + "/feedbacks"
+        return url
+    }
+  
     // 글 리스트 조회(최신순) new
     static func latestBoard() -> String {
         let url = base + "/boards/latest"
