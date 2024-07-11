@@ -87,11 +87,11 @@ struct UserSettingPage: View {
             }
             .tint(Color.MainE86336)
             
-            SettingHStackView(text: "사용경험", image: "ic_round-navigate-next")
+            SettingHStackView(text: "사용경험", image: LyfeCommon.ic_gray_arrow_after)
                 .onTapGesture {
                     router.navigateTo(.userExperience)
                 }
-            SettingHStackView(text: "이용약관", image: "ic_round-navigate-next")
+            SettingHStackView(text: "이용약관", image: LyfeCommon.ic_gray_arrow_after)
                 .onTapGesture {
                     userSettingViewModel.loadTerm {
                         moveToTermDetail(.term)
@@ -105,7 +105,7 @@ struct UserSettingPage: View {
                     }
                 }
 
-            SettingHStackView(text: "회원탈퇴", image: "ic_round-navigate-next")
+            SettingHStackView(text: "회원탈퇴", image: LyfeCommon.ic_gray_arrow_after)
                 .onTapGesture {
                     userSettingViewModel.revoke {
                         router.navigateBack()
