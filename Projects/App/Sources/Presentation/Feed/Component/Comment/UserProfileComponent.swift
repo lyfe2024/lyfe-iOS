@@ -43,9 +43,6 @@ struct UserProfileComponent: View {
             Text(content)
                 .font(.regular(14))
                 .frame(maxWidth: .infinity, alignment: .leading)
-                .overlay(alignment: .topTrailing) {
-                    FeedPopup(popupType: .doubleBtn, isPopup: infoToggle)
-                }
         }
         .onTapGesture {
             if infoToggle {

@@ -8,67 +8,74 @@
 
 import SwiftUI
 
-enum userPopup {
+enum FeedPopup {
     case singleBtn
     case doubleBtn
 }
 
-// 수정 삭제 팝업
-struct FeedPopup: View {
-    let popupType: userPopup
-    var isPopup: Bool
+struct PostPopup: View {
+    let type: FeedPopup
+    let removeAction: (() -> Void)?
+    let updateAction: (() -> Void)?
+    let reportAction: (() -> Void)?
+    
+    init(
+        type: FeedPopup,
+        removeAction: (() -> Void)? = nil,
+        updateAction: (() -> Void)? = nil,
+        reportAction: (() -> Void)? = nil
+    ) {
+        self.type = type
+        self.removeAction = removeAction
+        self.updateAction = updateAction
+        self.reportAction = reportAction
+    }
     
     var body: some View {
-        ZStack {
-            switch popupType {
+        VStack {
+            switch type {
             case .singleBtn:
-                ButtonView(title: "신고") {
-                    // 신고
-                    print("신고 button tapped")
-                }
+                RoundedRectangle(cornerRadius: 6)
+                    .fill(.white)
+                    .frame(width: 58, height: 36)
+                    .overlay {
+                        Text("신고")
+                            .foregroundStyle(Color.gray600_5E5E5E)
+                    }
+                    .shadow(color: .black.opacity(0.1), radius: 10)
+
             case .doubleBtn:
-                VStack(spacing: 3) {
-                    ButtonView(title: "수정") {
-                        // 수정
-                        print("수정 button tapped")
+                RoundedRectangle(cornerRadius: 6)
+                    .fill(.white)
+                    .frame(width: 58, height: 58)
+                    .overlay {
+                        VStack(spacing: 0) {
+                            Text("삭제")
+                                .padding(.vertical, 5)
+                            RectangleComponent(color: Color.gray100_DDDDDD, height: 1)
+                            Text("수정")
+                                .padding(.vertical, 5)
+                        }
+                        .foregroundStyle(Color.gray600_5E5E5E)
+                        .applyFont(font: .body3)
                     }
-                    Divider()
-                    ButtonView(title: "삭제") {
-                        // 삭제
-                        print("삭제 button tapped")
-                    }
-                }
+                    .shadow(color: .black.opacity(0.1), radius: 10)
             }
         }
-        .frame(width: 57, height: 64)
-        .background(Color.white)
-        .clipShape(RoundedRectangle(cornerRadius: 6))
-        .overlay(
-            RoundedRectangle(cornerRadius: 6)
-                .stroke(Color.Gray727272, lineWidth: 0.3) // 테두리 추가
-        )
-        .opacity(isPopup ? 1 : 0)
-        .zIndex(5)
     }
 }
 
-struct ButtonView: View {
-    let title: String
-    let action: () -> Void
-    
+struct FeedPopupDemo: View {
     var body: some View {
-        Button {
-            action()
-        } label: {
-            Text(title)
-                .padding(.vertical, 5)
-                .foregroundColor(.Gray727272)
-                .font(.regular(14))
+        ZStack {
+            Color.gray.opacity(0.2)
+                .ignoresSafeArea()
+            
+            PostPopup(type: .doubleBtn)
         }
-        .buttonStyle(PlainButtonStyle())
     }
 }
 
 #Preview {
-    FeedPopup(popupType: .doubleBtn, isPopup: true)
+    FeedPopupDemo()
 }
