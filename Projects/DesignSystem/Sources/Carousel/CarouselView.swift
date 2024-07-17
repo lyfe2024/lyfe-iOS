@@ -19,8 +19,8 @@ public struct CarouselSecondView<Data: Identifiable, Content: View, LastContent:
     public let carouselContent: (Data) -> Content
     public let lastContent: () -> LastContent
     
-    @State public var currentIndex: CGFloat = 0
-    @State public var currentOffset: CGFloat = 0
+    @State private var currentIndex: CGFloat = 0
+    @State private var currentOffset: CGFloat = 0
     
     public init(
         data: [Data],
@@ -44,40 +44,40 @@ public struct CarouselSecondView<Data: Identifiable, Content: View, LastContent:
     public var body: some View {
         VStack {
             GeometryReader { geometry in
-                let size = geometry.size
-                let contentWidth = size.width - (edgeSpacing * 2) + (contentSpacing * 2)
+                let baseOffset = contentSpacing + edgeSpacing - totalSpacing
+                let total: CGFloat = geometry.size.width + totalSpacing * 2
+                let contentWidth = total - (edgeSpacing * 2) - (contentSpacing * 2)
                 let nextOffset = contentWidth + contentSpacing
                 
                 HStack(spacing: contentSpacing) {
                     ForEach(0...data.count, id: \.self) { index in
-                        if index == data.count {
-                            lastContent()
-                        } else {
-                            carouselContent(data[index])
+                        Group {
+                            if index == data.count {
+                                lastContent()
+                            } else {
+                                carouselContent(data[index])
+                            }
                         }
+                        .frame(width: contentWidth, height: contentHeight)
+                        .gesture(
+                            DragGesture()
+                                .onEnded { value in
+                                    let offsetX = value.translation.width
+                                    
+                                    if offsetX < -50 { // 오른쪽으로 스와이프
+                                        currentIndex = min(currentIndex + 1, CGFloat(data.count))
+                                    } else if offsetX > 50 { // 왼쪽으로 스와이프
+                                        currentIndex = max(currentIndex - 1, 0)
+                                    }
+                                    
+                                    withAnimation {
+                                        currentOffset = -currentIndex * nextOffset
+                                    }
+                                }
+                        )
                     }
-                    .frame(width: contentWidth, height: contentHeight)
-                    .gesture(
-                        DragGesture()
-                            .onChanged { value in
-                                
-                            }
-                            .onEnded { value in
-                                let offsetX = value.translation.width
-                                
-                                if offsetX < -50 {
-                                    currentIndex = min(currentIndex + 1, CGFloat(data.count))
-                                } else if offsetX > 50 {
-                                    currentIndex = max(currentIndex - 1, 0)
-                                }
-                                
-                                withAnimation {
-                                    currentOffset = -currentIndex * nextOffset
-                                }
-                            }
-                    )
                 }
-                .offset(x: currentOffset + (currentIndex == 0 ? 0 : edgeSpacing - contentSpacing))
+                .offset(x: currentOffset + (currentIndex > 0 ? baseOffset : 0))
             }
         }
         .padding(.horizontal, totalSpacing)
