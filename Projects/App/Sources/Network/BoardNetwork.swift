@@ -68,6 +68,5 @@ final class BoardNetwork: NetworkService, BoardNetworkInterface {
         request(endpoint, method: .get, parameters: parameters) { (result: Result<BoardList, NetworkError>) in
             completion(result)
         }
-    }
-    
+    }  
 }

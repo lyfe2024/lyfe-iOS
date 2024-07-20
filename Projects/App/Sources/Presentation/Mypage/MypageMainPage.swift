@@ -10,22 +10,19 @@ import SwiftUI
 import DesignSystem
 import Kingfisher
 
-enum MypageInfo: String, CaseIterable {
-    case photo = "신청 사진"
-    case post = "고민글"
-}
-
-class MypageSectionPageModel: ObservableObject {
+class MypageMainViewModel: ObservableObject {
     private let usersNetworkService = UsersNetwork()
     
     @Published var isGuest = AccountStorage.shared.isGuest
-    @Published var userChoiced: MypageInfo = .photo
+    @Published var feedType: FeedType = .board_picture
     @Published var sampleUser = HomeSample.sampleUser
     @Published var nickname: String = ""
     @Published var profileImageUrl: String = ""
+    @Published var userBoardList: [BoardResponseDTO] = []
+    @Published var userPhotoList: [BoardResponseDTO] = []
     
-    func tapSection(_ userChoiced: MypageInfo) {
-        self.userChoiced = userChoiced
+    func tapSection(_ userChoiced: FeedType) {
+        self.feedType = userChoiced
     }
     
     func getProfile() {
@@ -42,100 +39,128 @@ class MypageSectionPageModel: ObservableObject {
                 }
             }
     }
+    
+    func getUserBoardList(_ boardType: FeedType) {
+        guard !isGuest else { return }
+        
+        usersNetworkService.userBoardList("0", "BOARD") { reult in
+            switch reult {
+            case .success(let success):
+                self.userBoardList = success.list
+            case .failure(let failure):
+                print("🐛 SY Failure) My page user board list failure \(failure.localizedDescription)")
+            }
+        }
+        
+        usersNetworkService.userBoardList("0", "BOARD_PICTURE") { result in
+            switch result {
+            case .success(let success):
+                self.userPhotoList = success.list
+            case .failure(let failure):
+                print("🐛 SY Failure) My page user photo list failure \(failure.localizedDescription)")
+            }
+        }
+    }
+    
+    
 }
 
 struct MypageMainPage: View {
     
-    @StateObject var mypageSectionPageModel = MypageSectionPageModel()
+    @StateObject var viewModel = MypageMainViewModel()
     @EnvironmentObject var router: Router
     
     var body: some View {
         ScrollView {
             Section {
-                switch mypageSectionPageModel.userChoiced {
-                case .photo:
-                    if mypageSectionPageModel.isGuest {
+                switch viewModel.feedType {
+                case .board_picture:
+                    if viewModel.isGuest {
                         NoneUserPage()
                     } else {
-                        MypagePhotoPage()
+                        MypagePhotoPage(viewModel: viewModel)
                     }
-                case .post:
-                    if mypageSectionPageModel.isGuest {
+                case .board:
+                    if viewModel.isGuest {
                         NoneUserPage()
                     } else {
-                        MypagePostPage()
+                        MypagePostPage(viewModel: viewModel)
                     }
                 }
+                
             } header: {
-                VStack(alignment: .leading, spacing: 16) {
-                    HStack {
-                        if mypageSectionPageModel.isGuest {
-                            DesignSystemAsset.icGrayNoneUser.swiftUIImage
-                                .resizable()
-                                .frame(width: 48, height: 48)
-                        } else {
-                            if mypageSectionPageModel.profileImageUrl.isEmpty {
-                                DesignSystemAsset.icGrayNoneUser.swiftUIImage
-                                    .resizable()
-                                    .scaledToFill()
-                                    .frame(width: 48, height: 48)
-                                    .clipShape(Circle())
-                            } else if let url = URL(string: mypageSectionPageModel.profileImageUrl) {
-                                KFImage(url)
-                                    .resizable()
-                                    .scaledToFill()
-                                    .frame(width: 48, height: 48)
-                                    .clipShape(Circle())
-                            } else {
-                                DesignSystemAsset.icGrayNoneUser.swiftUIImage
-                                    .resizable()
-                                    .scaledToFill()
-                                    .frame(width: 48, height: 48)
-                                    .clipShape(Circle())
-                            }
-                        }
-                        
-                        Spacer()
-                            .frame(width: 16)
-                        
-                        VStack(alignment: .leading, spacing: 0) {
-                            if mypageSectionPageModel.isGuest {
-                                Text("로그인이 필요해요")
-                                    .font(.bold(20))
-                                    .padding(.vertical, 6)
-                            } else {
-                                Text(mypageSectionPageModel.nickname)
-                                    .font(.bold(20))
-                                    .padding(.vertical, 6)
-                                
-                                Text("프로필 수정")
-                                    .font(.semiBold(12))
-                                    .padding(.vertical, 3)
-                                    .foregroundStyle(Color.GrayB0B0B0)
-                                    .onTapGesture {
-                                        router.navigateTo(.setting)
-                                    }
-                            }
-                        }
-                    }
-                    
-                    MypageDivideComponent(mypageSectionPageModel: mypageSectionPageModel)
-                }
+                headerrView()
             }
             .padding(.horizontal, 20)
         }
-        .navigationTitleWithRightButton(title: "마이페이지", text: "설정", {
+        .LyfeNaivigationRButton("마이페이지", "설정") {
             router.navigateTo(.setting)
-        })
+        }
         .onAppear {
-            mypageSectionPageModel.isGuest = AccountStorage.shared.isGuest
-            mypageSectionPageModel.getProfile()
+            viewModel.isGuest = AccountStorage.shared.isGuest
+            viewModel.getUserBoardList(viewModel.feedType)
+            viewModel.getProfile()
+        }
+    }
+    
+    @ViewBuilder func headerrView() -> some View {
+        VStack(alignment: .leading, spacing: 16) {
+            HStack {
+                if viewModel.isGuest {
+                    DesignSystemAsset.icGrayNoneUser.swiftUIImage
+                        .resizable()
+                        .frame(width: 48, height: 48)
+                } else {
+                    if viewModel.profileImageUrl.isEmpty {
+                        DesignSystemAsset.icGrayNoneUser.swiftUIImage
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: 48, height: 48)
+                            .clipShape(Circle())
+                    } else if let url = URL(string: viewModel.profileImageUrl) {
+                        KFImage(url)
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: 48, height: 48)
+                            .clipShape(Circle())
+                    } else {
+                        DesignSystemAsset.icGrayNoneUser.swiftUIImage
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: 48, height: 48)
+                            .clipShape(Circle())
+                    }
+                }
+                
+                Spacer()
+                    .frame(width: 16)
+                
+                VStack(alignment: .leading, spacing: 0) {
+                    if viewModel.isGuest {
+                        Text("로그인이 필요해요")
+                            .font(.bold(20))
+                            .padding(.vertical, 6)
+                    } else {
+                        Text(viewModel.nickname)
+                            .font(.bold(20))
+                            .padding(.vertical, 6)
+                        
+                        Text("프로필 수정")
+                            .font(.semiBold(12))
+                            .padding(.vertical, 3)
+                            .foregroundStyle(Color.GrayB0B0B0)
+                            .onTapGesture {
+                                router.navigateTo(.setting)
+                            }
+                    }
+                }
+            }
+            
+            MypageDivideComponent(viewModel: viewModel)
         }
     }
 }
 
 #Preview {
-    NavigationStack {
-        MypageMainPage()
-    }
+    MypageMainPage()
 }

@@ -10,6 +10,7 @@ import SwiftUI
 import DesignSystem
 
 struct HomeMainPage: View {
+    @EnvironmentObject var router: Router
     @StateObject private var viewModel = HomeMainPageModel()
     
     var body: some View {
@@ -72,6 +73,9 @@ struct HomeMainPage: View {
                 .fill(Color.gray010_F9F9F9)
                 .overlay {
                     CarouselContentView(data: data)
+                        .onTapGesture {
+                            router.navigateTo(.postDetail)
+                        }
                 }
                 .modifier(CarouselModifier())
             

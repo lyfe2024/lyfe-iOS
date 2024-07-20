@@ -9,31 +9,31 @@
 import SwiftUI
 
 struct MypageDivideComponent: View {
-    @ObservedObject var mypageSectionPageModel: MypageSectionPageModel
+    @ObservedObject var viewModel: MypageMainViewModel
     
     var body: some View {
         HStack{
-            ForEach(MypageInfo.allCases, id: \.self) { choiced in
+            ForEach(FeedType.allCases, id: \.self) { choiced in
                 VStack {
                     Text("\(choiced.rawValue)")
                         .frame(maxWidth: .infinity, alignment: .center)
-                        .foregroundColor(mypageSectionPageModel.userChoiced == choiced ? .MainE86336 : .GrayC6C6C6)
-                        .font(mypageSectionPageModel.userChoiced == choiced ? .bold(18) : .medium(18))
+                        .foregroundColor(viewModel.feedType == choiced ? .MainE86336 : .GrayC6C6C6)
+                        .font(viewModel.feedType == choiced ? .bold(18) : .medium(18))
                     
                     Rectangle()
                         .frame(height: 2)
-                        .foregroundColor(mypageSectionPageModel.userChoiced == choiced ? .MainE86336 : .clear)
+                        .foregroundColor(viewModel.feedType == choiced ? .MainE86336 : .clear)
                 }
                 .onTapGesture {
-                    mypageSectionPageModel.tapSection(choiced)
+                    viewModel.tapSection(choiced)
                     print(choiced.rawValue)
                 }
-                .animation(.easeIn, value: mypageSectionPageModel.userChoiced)
+                .animation(.easeIn, value: viewModel.feedType)
             }
         }
     }
 }
 
 #Preview {
-    MypageDivideComponent(mypageSectionPageModel: MypageSectionPageModel())
+    MypageDivideComponent(viewModel: MypageMainViewModel())
 }

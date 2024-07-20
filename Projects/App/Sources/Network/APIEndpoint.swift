@@ -95,6 +95,14 @@ struct APIEndpoint {
     static func todayTopic() -> String {
         return base + "/topics"
     }
+    
+    // 자신이 작성한 글
+    static func myboardList() -> String {
+        let url = base + "/boards/me"
+//        let parameters = ["cursorId" : "0", "type" : "BOARD"]
+//        return build(url: url, parameters: parameters)
+        return url
+    }
 }
 
 private extension APIEndpoint {

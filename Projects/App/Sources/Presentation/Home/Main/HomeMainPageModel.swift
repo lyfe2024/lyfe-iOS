@@ -22,6 +22,7 @@ class HomeMainPageModel: ObservableObject {
     
     @Published var todayTopic: String = ""
     @Published var boardUser: BoardResponseDTO?
+    @Published var latestData: [BoardResponseDTO] = []
     @Published var feedType: FeedType?
     @Published var feedData: [BoardResponseDTO] = []
     @Published var feedCardData: [BoardResponseDTO] = []

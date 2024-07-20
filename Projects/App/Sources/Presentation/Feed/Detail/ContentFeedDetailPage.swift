@@ -18,6 +18,7 @@ class ContentFeedDetailPageModel: ObservableObject {
     @Published var commentUser: [HomeSample] = HomeSample.homeSample
     @Published var commentState: Bool = false
     @Published var popupToggle: Bool = false
+    @Published var alertToggle: Bool = false
     
     private let networkService = BoardNetwork()
     private var cancellables = [AnyCancellable]()
@@ -43,84 +44,119 @@ struct ContentFeedDetailPage: View {
     let photoSize = UIScreen.main.bounds.width
     
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading) {
-                Text(viewModel.realPostUser?.topic ?? "")
-                    .applyFont(font: .heading4)
-                    .foregroundColor(.MainE86336)
-                Spacer().frame(height: 16)
-                
-                if let boardType = viewModel.feedType {
-                    switch boardType {
-                    case .board:
-                        VStack(alignment: .leading, spacing: 16) {
-                            Text(viewModel.realPostUser?.title ?? "")
-                                .applyFont(font: .title1)
-                                .lineLimit(2)
-                            
-                            Text(viewModel.realPostUser?.content ?? "")
-                                .applyFont(font: .body2)
-                        }
-                    case .board_picture:
-                        VStack(alignment: .leading) {
-                            ZStack(alignment: .bottomLeading) {
-                                ZStack {
-                                    Rectangle()
-                                        .fill(Color.Gray393939)
-                                        .frame(width: photoSize, height: photoSize)
-                                        .overlay {
-                                            if let profileURLString = viewModel.realPostUser?.imageUrl,
-                                               let profileURL = URL(string: profileURLString) {
-                                                KFImage(profileURL)
-                                                    .resizable()
-                                                    .scaledToFit()
-                                                    .aspectRatio(contentMode: .fit)
-                                            }
-                                            
-                                            ZStack {
-                                                LinearGradient(gradient: Gradient(colors: [Color.clear, Color.black]),
-                                                               startPoint: .top, endPoint: .bottom)
-                                            }
-                                        }
-                                }
-                                
-                                Text(viewModel.postUser.title)
-                                    .applyFont(font: .title1)
-                                    .foregroundColor(.white)
-                                    .padding(.horizontal, 20)
-                                    .padding(.bottom, 16)
-                                    .lineLimit(2)
-                            }
+        VStack {
+            ScrollView {
+                VStack(alignment: .leading) {
+                    Text(viewModel.realPostUser?.topic ?? "")
+                        .applyFont(font: .heading4)
+                        .foregroundColor(.MainE86336)
+                    Spacer().frame(height: 16)
+                    
+                    if let boardType = viewModel.feedType {
+                        switch boardType {
+                        case .board:
+                            boardView()
+                        case .board_picture:
+                            pictuerView()
                         }
                     }
+                    
+                    PostUserComponent(viewModel: viewModel)
                 }
                 
-                PostUserComponent(viewModel: viewModel)
-            }
-            .padding(.horizontal, 20)
-            
-            RectangleComponent(color: Color.grayF9F9F9, height: 8)
-            
-            LazyVStack {
-                ForEach (viewModel.commentUser, id: \.self) { index in
-                    CommentUserPage(sampleUser: viewModel.postUser,
-                                    commentUser: HomeSample.homeSample,
-                                    infoButtonTooggle: viewModel.popupToggle)
+                RectangleComponent(color: Color.grayF9F9F9, height: 8)
+                
+                LazyVStack {
+                    ForEach (viewModel.commentUser, id: \.self) { index in
+                        CommentUserPage(sampleUser: viewModel.postUser,
+                                        commentUser: HomeSample.homeSample,
+                                        infoButtonTooggle: viewModel.popupToggle)
+                    }
                 }
             }
+            .scrollIndicators(.hidden)
             .padding(.horizontal, 20)
-            
+            commentView()
         }
-        .onAppear {
-            viewModel.getBoardDetail()
-        }
-        .navigationBackButton {
-            router.navigateBack()
-        }
+        .onAppear { viewModel.getBoardDetail() }
+        .onTapGesture { viewModel.popupToggle = false }
+        .navigationBackButton { router.navigateBack() }
         .navigationRightButton(image: "Info_black") {
-            print("info button tapped")
+            viewModel.popupToggle = true
         }
-        
+        // TODO: - 사용자 본인 글인지아닌지 구분 필요
+        .overlay(alignment: .topTrailing) {
+            PostPopup(type: .doubleBtn)
+                .tapRemove { 
+                    print("삭제 버튼 tapped")
+                    viewModel.popupToggle = false
+                    viewModel.alertToggle = true
+                }
+                .tapUpdate {
+                    print("수정 버튼 tapped")
+                    viewModel.popupToggle = false
+                    viewModel.alertToggle = true
+                }
+                .opacity(viewModel.popupToggle ? 1 : 0)
+                .offset(x: -20)
+        }
+        .customAlert(
+            isShowing: $viewModel.alertToggle,
+            type: .doubleButton(leftTitle: "신고", rightTitle: "취소"), title: "신고하시겠어요?", desc: "", 
+            confirmButton:  {
+                viewModel.alertToggle = false
+                print("신고하기")
+            }) {
+                viewModel.alertToggle = false
+                print("취소하기")
+            }
+    }
+    
+    @ViewBuilder func boardView() -> some View {
+        VStack(alignment: .leading, spacing: 16) {
+            Text(viewModel.realPostUser?.title ?? "")
+                .applyFont(font: .title1)
+                .lineLimit(2)
+            
+            Text(viewModel.realPostUser?.content ?? "")
+                .applyFont(font: .body2)
+        }
+    }
+    
+    @ViewBuilder func pictuerView() -> some View {
+        VStack(alignment: .leading) {
+            ZStack(alignment: .bottomLeading) {
+                ZStack {
+                    Rectangle()
+                        .fill(Color.Gray393939)
+                        .frame(width: photoSize, height: photoSize)
+                        .overlay {
+                            if let profileURLString = viewModel.realPostUser?.imageUrl,
+                               let profileURL = URL(string: profileURLString) {
+                                KFImage(profileURL)
+                                    .resizable()
+                                    .scaledToFit()
+                                    .aspectRatio(contentMode: .fit)
+                            }
+                            
+                            ZStack {
+                                LinearGradient(gradient: Gradient(colors: [Color.clear, Color.black]),
+                                               startPoint: .top, endPoint: .bottom)
+                            }
+                        }
+                }
+                
+                Text(viewModel.postUser.title)
+                    .applyFont(font: .title1)
+                    .foregroundColor(.white)
+                    .padding(.horizontal, 20)
+                    .padding(.bottom, 16)
+                    .lineLimit(2)
+            }
+        }
+    }
+    
+    @ViewBuilder func commentView() -> some View {
         Text("댓글을 남겨보세요")
             .applyFont(font: .body2)
             .foregroundStyle(Color.GrayC6C6C6)

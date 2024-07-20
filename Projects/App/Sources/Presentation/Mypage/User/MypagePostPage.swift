@@ -16,10 +16,13 @@ class MyPagePostPageModel: ObservableObject {
 struct MypagePostPage: View {
     @StateObject var mypageViewModel = MyPagePostPageModel()
     
+    @ObservedObject var viewModel: MypageMainViewModel
     var body: some View {
         VStack {
-            ForEach(0..<10) { _ in
-                MypageUserComment(sampleData: mypageViewModel.sampleData)
+            let count = viewModel.userBoardList.count
+            
+            ForEach(0..<viewModel.userBoardList.count) { i in
+                MypageUserComment(data: viewModel.userBoardList[i])
             }
         }
     }
@@ -27,7 +30,7 @@ struct MypagePostPage: View {
 
 struct MypageUserComment: View {
     
-    let sampleData: HomeSample
+    let data: BoardResponseDTO
     
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
@@ -45,12 +48,12 @@ struct MypageUserComment: View {
             HStack(spacing: 16) {
                 HStack(spacing: 4) {
                     Image("GrayWine")
-                    Text("\(sampleData.whisky)")
+                    Text("\(data.whiskyCount ?? 0)")
                 }
                 
                 HStack(spacing: 4) {
                     Image("GrayComment")
-                    Text("\(sampleData.whisky)")
+                    Text("\(data.commentCount ?? 0)")
                 }
             }
             .applyFont(font: .caption3)
@@ -65,5 +68,5 @@ struct MypageUserComment: View {
 }
 
 #Preview {
-    MypagePostPage()
+    MypagePostPage(viewModel: MypageMainViewModel())
 }

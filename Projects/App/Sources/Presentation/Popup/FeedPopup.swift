@@ -15,9 +15,9 @@ enum FeedPopup {
 
 struct PostPopup: View {
     let type: FeedPopup
-    let removeAction: (() -> Void)?
-    let updateAction: (() -> Void)?
-    let reportAction: (() -> Void)?
+    var removeAction: (() -> Void)?
+    var updateAction: (() -> Void)?
+    var reportAction: (() -> Void)?
     
     init(
         type: FeedPopup,
@@ -41,6 +41,9 @@ struct PostPopup: View {
                     .overlay {
                         Text("신고")
                             .foregroundStyle(Color.gray600_5E5E5E)
+                            .onTapGesture {
+                                reportAction?()
+                            }
                     }
                     .shadow(color: .black.opacity(0.1), radius: 10)
 
@@ -52,9 +55,15 @@ struct PostPopup: View {
                         VStack(spacing: 0) {
                             Text("삭제")
                                 .padding(.vertical, 5)
+                                .onTapGesture {
+                                    removeAction?()
+                                }
                             RectangleComponent(color: Color.gray100_DDDDDD, height: 1)
                             Text("수정")
                                 .padding(.vertical, 5)
+                                .onTapGesture {
+                                    updateAction?()
+                                }
                         }
                         .foregroundStyle(Color.gray600_5E5E5E)
                         .applyFont(font: .body3)
@@ -62,6 +71,26 @@ struct PostPopup: View {
                     .shadow(color: .black.opacity(0.1), radius: 10)
             }
         }
+    }
+}
+
+extension PostPopup {
+    func tapUpdate(_ updateAction: @escaping (() -> Void)) -> Self {
+        var copy = self
+        copy.updateAction = updateAction
+        return copy
+    }
+    
+    func tapRemove(_ removeAction: @escaping (() -> Void)) -> Self {
+        var copy = self
+        copy.removeAction = removeAction
+        return copy
+    }
+    
+    func tapReport(_ reportAction: @escaping (() -> Void)) -> Self {
+        var copy = self
+        copy.reportAction = reportAction
+        return copy
     }
 }
 

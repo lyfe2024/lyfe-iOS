@@ -11,16 +11,17 @@ import DesignSystem
 
 struct CardSwipeView: View {
     
+    @EnvironmentObject var router: Router
     @ObservedObject private var viewModel: HomeMainPageModel
     @State private var removingTopCard = false
+    @State private var offset: CGSize = .zero
+    @State private var isDragging: Bool = false
+    
     private let cardHeight: CGFloat = 358
     private let screenPadding: CGFloat = 40
     private var width: CGFloat {
         screenWidth()?.bounds.width ?? UIScreen.main.bounds.width
     }
-    
-    @State private var offset: CGSize = .zero
-    @State private var isDragging: Bool = false
     
     init(viewModel: HomeMainPageModel) {
         self.viewModel = viewModel
@@ -98,6 +99,9 @@ struct CardSwipeView: View {
                             print(swipe)
                         }
                 )
+                .onTapGesture {
+//                    router.navigateTo(.setting)
+                }
             }
         }
 //        .onAppear {
