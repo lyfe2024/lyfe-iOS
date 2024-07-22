@@ -150,7 +150,7 @@ struct MypageMainPage: View {
                             .padding(.vertical, 3)
                             .foregroundStyle(Color.GrayB0B0B0)
                             .onTapGesture {
-                                router.navigateTo(.setting)
+                                router.navigateTo(.updateProfile(viewModel.profileImageUrl, viewModel.nickname))
                             }
                     }
                 }

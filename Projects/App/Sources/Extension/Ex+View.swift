@@ -149,6 +149,25 @@ extension View {
             Spacer()
         }
     }
+    
+    func LyfeNaivigationLButton(_ LButton: Image, _ action: @escaping () -> Void) -> some View {
+        VStack(spacing: 0) {
+            HStack {
+                LButton
+                    .resizable()
+                    .frame(width: 24, height: 24)
+                    .onTapGesture {
+                        action()
+                    }
+                    .padding(.init(top: 16,leading: 20,bottom: 16,trailing: 20))
+                
+                Spacer()
+            }
+            
+            self.navigationBarBackButtonHidden()
+            Spacer()
+        }
+    }
 }
 
 extension View {
