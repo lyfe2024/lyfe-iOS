@@ -7,13 +7,28 @@
 //
 
 import SwiftUI
+import DesignSystem
 
 struct UserProfileComponent: View {
     let image: String
     let name: String
     let time: String
     let content: String
-    @State var infoToggle: Bool
+    let action: () -> Void
+    
+    init(
+        image: String,
+        name: String,
+        time: String,
+        content: String,
+        action: @escaping () -> Void
+    ) {
+        self.image = image
+        self.name = name
+        self.time = time
+        self.content = content
+        self.action = action
+    }
     
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -31,28 +46,25 @@ struct UserProfileComponent: View {
                 
                 Spacer()
                 
-                Button {
-                    print("Info 버튼 tapped")
-                    self.infoToggle.toggle()
-                } label: {
-                    Image("Info")
-                        .frame(width: 24, height: 24)
-                }
+                LyfeCommon.ic_gray_info
+                    .frame(width: 24, height: 24)
+                    .onTapGesture {
+                        action()
+                    }
             }
             
             Text(content)
                 .font(.regular(14))
                 .frame(maxWidth: .infinity, alignment: .leading)
         }
-        .onTapGesture {
-            if infoToggle {
-                infoToggle = false
-            }
-        }
     }
 }
 
-
-#Preview {
-    UserProfileComponent(image: "Sample1", name: "홍길동", time: "1분전", content: "2줄이상이면 없어지는 말", infoToggle: false)
-}
+//
+//#Preview {
+//    UserProfileComponent(infoToggle: false,
+//                         image: "Sample1",
+//                         name: "홍길동",
+//                         time: "1분전",
+//                         content: "2줄이상이면 없어지는 말")
+//}

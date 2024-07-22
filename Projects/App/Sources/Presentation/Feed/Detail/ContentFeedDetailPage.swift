@@ -14,7 +14,9 @@ import DesignSystem
 class ContentFeedDetailPageModel: ObservableObject {
     @Published var postData: BoardResponseDTO?
     @Published var feedType: FeedType?
-    @Published var comments: [BoardResponseDTO]?
+    @Published var comments: [CommentDTO]?
+    @Published var infoButtonTooggle: Bool = false
+    @Published var commentButtonToggle: Bool = false
     @Published var commentState: Bool = false
     @Published var popupToggle: Bool = false
     @Published var alertToggle: Bool = false
@@ -37,9 +39,9 @@ class ContentFeedDetailPageModel: ObservableObject {
     }
     
     func getComments() {
-        guard let postId = postData?.id else { return }
+//        guard let postId = postData?.id else { return }
         networkService //cursorId, board_id
-            .getComments("\(postId)", "1") { result in
+            .getComments("1", "500") { result in
                 switch result {
                 case .success(let success):
                     self.comments = success.list
@@ -81,9 +83,9 @@ struct ContentFeedDetailPage: View {
                 
                 LazyVStack {
                     ForEach (viewModel.comments ?? [], id: \.id) { index in
-                        CommentUserPage(postUser: viewModel.postData ?? .init(),
-                                        commentUser: viewModel.comments ?? [],
-                                        infoButtonTooggle: viewModel.popupToggle)
+                        CommentUserPage(viewModel: viewModel,
+                                        postUser: viewModel.postData,
+                                        commentUser: viewModel.comments)
                     }
                 }
                 .padding(.horizontal, 20)
@@ -92,7 +94,11 @@ struct ContentFeedDetailPage: View {
             
             commentView()
         }
-        .onAppear { viewModel.getBoardDetail() }
+        .onAppear {
+            viewModel.getComments()
+            viewModel.getBoardDetail()
+            
+        }
         .onTapGesture { viewModel.popupToggle = false }
         // TODO: - 사용자 본인 글인지아닌지 구분 필요
         .overlay(alignment: .topTrailing) {
@@ -111,7 +117,7 @@ struct ContentFeedDetailPage: View {
         .LyfeNavigationDoubleButton(LyfeCommon.ic_black_info, LyfeCommon.ic_black_arrow_back, LButton: {
             router.navigateBack()
         }, RButton: {
-            viewModel.popupToggle = true
+            viewModel.popupToggle.toggle()
         })
         .customAlert(
             isShowing: $viewModel.alertToggle,
@@ -157,10 +163,10 @@ struct ContentFeedDetailPage: View {
                         }
                 }
                 
-//                LyfeText(text: viewModel.postData?.title ?? "", color: .white, font: .title1)
-//                    .padding(.horizontal, 20)
-//                    .padding(.bottom, 16)
-//                    .lineLimit(2)
+                LyfeText(text: viewModel.postData?.title ?? "", color: .white, font: .title1)
+                    .padding(.horizontal, 20)
+                    .padding(.bottom, 16)
+                    .lineLimit(2)
             }
         }
     }

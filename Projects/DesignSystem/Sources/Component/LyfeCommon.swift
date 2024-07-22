@@ -19,6 +19,7 @@ public struct LyfeCommon {
     public static let ic_green_check = DesignSystemAsset.icGreenCheck.swiftUIImage
     
     public static let ic_black_info = DesignSystemAsset.icBlackInfo.swiftUIImage
+    public static let ic_gray_info = DesignSystemAsset.icGrayInfo.swiftUIImage
     public static let ic_green_circle_check = DesignSystemAsset.icGreenCircleCheck.swiftUIImage
     public static let ic_main_check_box = DesignSystemAsset.icMainCheckBox.swiftUIImage
     public static let ic_main_circle_check = DesignSystemAsset.icMainCircleCheck.swiftUIImage

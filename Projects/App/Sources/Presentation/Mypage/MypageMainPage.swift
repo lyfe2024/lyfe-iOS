@@ -61,8 +61,6 @@ class MypageMainViewModel: ObservableObject {
             }
         }
     }
-    
-    
 }
 
 struct MypageMainPage: View {
