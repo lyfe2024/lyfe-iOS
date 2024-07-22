@@ -15,10 +15,10 @@ enum FeedType: String, CaseIterable {
     
     var boardType: String {
         switch self {
-        case .board:
-            "BOARD"
         case .board_picture:
             "BOARD_PICTURE"
+        case .board:
+            "BOARD"
         }
     }
 }

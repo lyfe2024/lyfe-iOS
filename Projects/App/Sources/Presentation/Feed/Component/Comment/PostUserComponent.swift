@@ -8,6 +8,7 @@
 
 import SwiftUI
 import Kingfisher
+import DesignSystem
 
 // 글쓴이 뷰
 struct PostUserComponent: View {
@@ -17,11 +18,15 @@ struct PostUserComponent: View {
         HStack {
             HStack(spacing: 8) {
                 HStack(spacing: 4){
-                    Image("BlackWine")
+                    LyfeCommon.ic_black_whiskey_empty
+                        .resizable()
+                        .frame(width: 24, height: 24)
                     Text("\(viewModel.postData?.whiskyCount ?? 0)")
                 }
                 HStack(spacing: 2) {
-                    Image("BlackComment")
+                    LyfeCommon.ic_black_comment
+                        .resizable()
+                        .frame(width: 24, height: 24)
                     Text("댓글")
                     Text("\(viewModel.postData?.commentCount ?? 0)")
                 }
@@ -39,7 +44,10 @@ struct PostUserComponent: View {
                         .frame(width: 32, height: 32)
                         .clipShape(Circle())
                 } else {
-                    // 기본 이미지 ??
+                    LyfeCommon.ic_gray_none_user
+                        .resizable()
+                        .frame(width: 32, height: 32)
+                        .clipShape(Circle())
                 }
                     
                 VStack(alignment: .leading, spacing: 0){
