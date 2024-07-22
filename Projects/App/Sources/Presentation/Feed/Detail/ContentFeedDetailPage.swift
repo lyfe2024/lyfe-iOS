@@ -157,10 +157,10 @@ struct ContentFeedDetailPage: View {
                         }
                 }
                 
-                LyfeText(text: viewModel.postData?.title ?? "", color: .white, font: .title1)
-                    .padding(.horizontal, 20)
-                    .padding(.bottom, 16)
-                    .lineLimit(2)
+//                LyfeText(text: viewModel.postData?.title ?? "", color: .white, font: .title1)
+//                    .padding(.horizontal, 20)
+//                    .padding(.bottom, 16)
+//                    .lineLimit(2)
             }
         }
     }

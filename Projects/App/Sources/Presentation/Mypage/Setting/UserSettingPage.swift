@@ -73,45 +73,47 @@ struct UserSettingPage: View {
     @State var isShowingLogoutAlert: Bool = false
     
     var body: some View {
-        VStack(alignment: .leading) {
+        VStack(alignment: .leading, spacing: 0) {
             Text("설정")
                 .font(.bold(24))
                 .padding(.vertical, 6)
                 .padding(.bottom, 16)
             
-            Toggle(isOn: $userSettingViewModel.settingToggle) {
-                Text("알림 설정")
-                    .font(.medium(16))
-                    .padding(.vertical, 4)
-                    .padding(.vertical, 12)
-            }
-            .tint(Color.MainE86336)
-            
-            SettingHStackView(text: "사용경험", image: LyfeCommon.ic_gray_arrow_after)
-                .onTapGesture {
-                    router.navigateTo(.userExperience)
+            VStack(spacing: 4) {
+                Toggle(isOn: $userSettingViewModel.settingToggle) {
+                    Text("알림 설정")
+                        .font(.medium(16))
+                        .padding(.vertical, 4)
+                        .padding(.vertical, 12)
                 }
-            SettingHStackView(text: "이용약관", image: LyfeCommon.ic_gray_arrow_after)
-                .onTapGesture {
-                    userSettingViewModel.loadTerm {
-                        moveToTermDetail(.term)
+                .tint(Color.MainE86336)
+                
+                SettingHStackView(text: "사용경험", image: LyfeCommon.ic_gray_arrow_after)
+                    .onTapGesture {
+                        router.navigateTo(.userExperience)
                     }
-                }
-            
-            SettingHStackView(text: "개인정보 수집 및 이용", image: LyfeCommon.ic_gray_arrow_after)
-                .onTapGesture {
-                    userSettingViewModel.loadPersonalInfoAgreement {
-                        moveToTermDetail(.personalInfo)
+                SettingHStackView(text: "이용약관", image: LyfeCommon.ic_gray_arrow_after)
+                    .onTapGesture {
+                        userSettingViewModel.loadTerm {
+                            moveToTermDetail(.term)
+                        }
                     }
-                }
+                
+                SettingHStackView(text: "개인정보 수집 및 이용", image: LyfeCommon.ic_gray_arrow_after)
+                    .onTapGesture {
+                        userSettingViewModel.loadPersonalInfoAgreement {
+                            moveToTermDetail(.personalInfo)
+                        }
+                    }
 
-            SettingHStackView(text: "회원탈퇴", image: LyfeCommon.ic_gray_arrow_after)
-                .onTapGesture {
-                    userSettingViewModel.revoke {
-                        router.navigateBack()
+                LyfeText(text: "회원탈퇴", color: Color.redF95454, font: .body2)
+                    .onTapGesture {
+                        userSettingViewModel.revoke {
+                            router.navigateBack()
+                        }
                     }
-                }
-            
+                    .frame(maxWidth: .infinity, alignment: .leading)
+            }
             Spacer()
             CommonButton(title: "로그아웃")
                 .enable(!userSettingViewModel.isGuest)
@@ -152,20 +154,17 @@ struct SettingHStackView: View {
     
     var text: String
     var image: Image?
-    var textColor: Color?
     
     init(text: String,
-         image: Image? = nil,
-         textColor: Color? = nil) {
+         image: Image? = nil) {
         self.text = text
         self.image = image
-        self.textColor = textColor
     }
     
     var body: some View {
         HStack {
             Text(text)
-                .foregroundStyle(textColor ?? .black)
+                .foregroundStyle(Color.gray363636)
                
             Spacer()
             
@@ -174,7 +173,6 @@ struct SettingHStackView: View {
                 .frame(width: 24, height: 24)
         }
         .applyFont(font: .body2)
-        .padding(.vertical, 8)
         .padding(.vertical, 12)
     }
 }
