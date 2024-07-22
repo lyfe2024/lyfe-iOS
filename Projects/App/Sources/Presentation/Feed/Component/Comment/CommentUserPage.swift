@@ -14,14 +14,16 @@ class CommentUserPageModel: ObservableObject {
 
 struct CommentUserPage: View {
     @StateObject var commentUserPageModel = CommentUserPageModel()
-    var sampleUser: HomeSample
-    var commentUser: [HomeSample]
+    var postUser: BoardResponseDTO
+    var commentUser: [BoardResponseDTO]
     var infoButtonTooggle: Bool
     
     var body: some View {
         VStack(alignment:.leading, spacing: 8) {
-            UserProfileComponent(image: sampleUser.image, name: sampleUser.userName, time: sampleUser.updatedAt,
-                                 content: sampleUser.content,
+            UserProfileComponent(image: postUser.imageUrl ?? "",
+                                 name: postUser.user?.username ?? "",
+                                 time: postUser.updateAt ?? "",
+                                 content: postUser.content ?? "",
                                  infoToggle: infoButtonTooggle)
             
             Button {
@@ -35,7 +37,7 @@ struct CommentUserPage: View {
             .buttonStyle(PlainButtonStyle())
             
             LazyVStack {
-                ForEach (commentUser, id: \.self) { index in
+                ForEach (commentUser, id: \.id) { user in
                     if commentUserPageModel.commentToggle {
                         VStack(spacing: 8) {
                             HStack(alignment: .top, spacing: 8) {
@@ -43,8 +45,10 @@ struct CommentUserPage: View {
                                     .foregroundColor(.Gray9B9B9B)
                                     .frame(width: 16, height: 16)
                                 
-                                UserProfileComponent(image: index.image, name: index.userName, time: index.updatedAt,
-                                                     content: index.content,
+                                UserProfileComponent(image: user.imageUrl ?? "",
+                                                     name: user.user?.username ?? "",
+                                                     time: user.updateAt ?? "",
+                                                     content: user.content ?? "",
                                                      infoToggle: infoButtonTooggle)
                             }
                             .padding(.bottom, 8)
@@ -58,8 +62,8 @@ struct CommentUserPage: View {
     }
 }
 
-#Preview {
-    CommentUserPage(sampleUser: HomeSample.sampleUser,
-                    commentUser: HomeSample.homeSample,
-                    infoButtonTooggle: false)
-}
+//#Preview {
+//    CommentUserPage(sampleUser: HomeSample.sampleUser,
+//                    commentUser: HomeSample.homeSample,
+//                    infoButtonTooggle: false)
+//}

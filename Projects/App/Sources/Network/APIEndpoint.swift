@@ -99,8 +99,12 @@ struct APIEndpoint {
     // 자신이 작성한 글
     static func myboardList() -> String {
         let url = base + "/boards/me"
-//        let parameters = ["cursorId" : "0", "type" : "BOARD"]
-//        return build(url: url, parameters: parameters)
+        return url
+    }
+    
+    // 댓글
+    static func comments() -> String {
+        let url = base + "/comments/latest"
         return url
     }
 }

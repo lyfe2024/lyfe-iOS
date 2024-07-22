@@ -17,6 +17,9 @@ protocol BoardNetworkInterface {
     func getLatestBoard(_ cursorId: String, _ type: String, _ date: String, completion: @escaping (Result<BoardList, NetworkError>) -> Void)
     // 게시글 인기순 조회
     func getPopularBoard(_ cursorId: String, _ type: String, _ popularType: String, completion: @escaping (Result<BoardList, NetworkError>) -> Void)
+    
+    // 댓글 조회
+    func getComments(_ cursorId: String, _ comment_board_id: String, completion: @escaping (Result<BoardList, NetworkError>) -> Void)
 }
 
 final class BoardNetwork: NetworkService, BoardNetworkInterface {
@@ -69,4 +72,17 @@ final class BoardNetwork: NetworkService, BoardNetworkInterface {
             completion(result)
         }
     }  
+
+    func getComments(_ cursorId: String, _ comment_board_id: String, completion: @escaping (Result<BoardList, NetworkError>) -> Void) {
+        let endpoint = APIEndpoint.comments()
+        
+        let parametsr: [String : Any] = [
+            "cursorId" : cursorId,
+            "comment_board_id" : comment_board_id
+        ]
+        
+        request(endpoint, method: .get, parameters: parametsr) { (result: Result<BoardList, NetworkError>) in
+            completion(result)
+        }
+    }
 }

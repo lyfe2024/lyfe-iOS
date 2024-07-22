@@ -244,5 +244,24 @@ extension Font {
     }
 }
 
-
-
+public struct LyfeText: View {
+    public let text: String
+    public let color: Color
+    public let font: LyfeFont
+    
+    public init(
+        text: String,
+        color: Color,
+        font: LyfeFont
+    ) {
+        self.text = text
+        self.color = color
+        self.font = font
+    }
+    
+    public var body: some View {
+        Text(text)
+            .applyFont(font: font)
+            .foregroundStyle(color)
+    }
+}

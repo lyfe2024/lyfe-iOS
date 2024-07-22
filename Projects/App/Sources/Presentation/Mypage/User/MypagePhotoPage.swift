@@ -17,6 +17,9 @@ struct MypagePhotoPage: View {
         LazyVGrid(columns: colums, content: {
             ForEach(viewModel.userPhotoList, id: \.id) { data in
                 GirdCardComponent(data: data)
+                    .onTapGesture {
+                        router.navigateTo(.postDetail)
+                    }
             }
         })
     }

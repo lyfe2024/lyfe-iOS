@@ -119,6 +119,34 @@ extension View {
             .padding(.init(top: 10,leading: 20,bottom: 10,trailing: 20))
             
             self.navigationBarBackButtonHidden()
+            Spacer()
+        }
+    }
+    
+    func LyfeNavigationDoubleButton(_ RImage: Image, _ LImage: Image, LButton: @escaping () -> Void, RButton: @escaping () -> Void) -> some View {
+        VStack(spacing: 0) {
+            HStack {
+                LImage
+                    .resizable()
+                    .frame(width: 24, height: 24)
+                    .onTapGesture {
+                        LButton()
+                    }
+                
+                Spacer()
+                
+                RImage
+                    .resizable()
+                    .frame(width: 24, height: 24)
+                    .onTapGesture {
+                        RButton()
+                    }
+            }
+            .padding(.vertical, 14)
+            .padding(.horizontal, 20)
+            
+            self.navigationBarBackButtonHidden()
+            Spacer()
         }
     }
 }
