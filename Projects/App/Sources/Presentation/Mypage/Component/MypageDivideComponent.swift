@@ -31,6 +31,9 @@ struct MypageDivideComponent: View {
                 .animation(.easeIn, value: viewModel.feedType)
             }
         }
+        .onAppear {
+            print("viewModel.feedType.rawValue \(viewModel.feedType.rawValue)")
+        }
     }
 }
 

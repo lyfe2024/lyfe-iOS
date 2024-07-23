@@ -76,18 +76,27 @@ struct MypageMainPage: View {
                     if viewModel.isGuest {
                         NoneUserPage()
                     } else {
-                        MypagePhotoPage(viewModel: viewModel)
+                        if viewModel.userPhotoList.isEmpty {
+                            NonePhotoDataView()
+                        } else {
+                            MypagePhotoPage(viewModel: viewModel)
+                        }
+                        
                     }
                 case .board:
                     if viewModel.isGuest {
                         NoneUserPage()
                     } else {
-                        MypagePostPage(viewModel: viewModel)
+                        if viewModel.userBoardList.isEmpty {
+                            NoneBoardDataView()
+                        } else {
+                            MypagePostPage(viewModel: viewModel)
+                        }
                     }
                 }
                 
             } header: {
-                headerrView()
+                headerView()
             }
             .padding(.horizontal, 20)
         }
@@ -101,7 +110,7 @@ struct MypageMainPage: View {
         }
     }
     
-    @ViewBuilder func headerrView() -> some View {
+    @ViewBuilder func headerView() -> some View {
         VStack(alignment: .leading, spacing: 16) {
             HStack {
                 if viewModel.isGuest {
@@ -112,21 +121,15 @@ struct MypageMainPage: View {
                     if viewModel.profileImageUrl.isEmpty {
                         DesignSystemAsset.icGrayNoneUser.swiftUIImage
                             .resizable()
-                            .scaledToFill()
-                            .frame(width: 48, height: 48)
-                            .clipShape(Circle())
+                            .modifier(MypageProfileModifier())
                     } else if let url = URL(string: viewModel.profileImageUrl) {
                         KFImage(url)
                             .resizable()
-                            .scaledToFill()
-                            .frame(width: 48, height: 48)
-                            .clipShape(Circle())
+                            .modifier(MypageProfileModifier())
                     } else {
                         DesignSystemAsset.icGrayNoneUser.swiftUIImage
                             .resizable()
-                            .scaledToFill()
-                            .frame(width: 48, height: 48)
-                            .clipShape(Circle())
+                            .modifier(MypageProfileModifier())
                     }
                 }
                 
@@ -161,4 +164,13 @@ struct MypageMainPage: View {
 
 #Preview {
     MypageMainPage()
+}
+
+struct MypageProfileModifier: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+            .scaledToFill()
+            .frame(width: 48, height: 48)
+            .clipShape(Circle())
+    }
 }

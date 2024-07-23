@@ -8,6 +8,7 @@
 
 import SwiftUI
 import DesignSystem
+import Kingfisher
 
 struct UserProfileComponent: View {
     let image: String
@@ -33,15 +34,15 @@ struct UserProfileComponent: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             HStack(spacing: 8) {
-                Image(image)
+                KFImage(URL(string: image))
                     .resizable()
                     .frame(width: 24, height: 24)
                     .scaledToFit()
                     .clipShape(Circle())
                 Text(name)
-                    .font(.regular(14))
+                    .applyFont(font: .button3)
                 Text(time)
-                    .font(.regular(12))
+                    .applyFont(font: .caption4)
                     .foregroundColor(.GrayB0B0B0)
                 
                 Spacer()
@@ -54,7 +55,7 @@ struct UserProfileComponent: View {
             }
             
             Text(content)
-                .font(.regular(14))
+                .applyFont(font: .body3)
                 .frame(maxWidth: .infinity, alignment: .leading)
         }
     }
