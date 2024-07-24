@@ -18,7 +18,7 @@ final class UserExperiencePageModel: ObservableObject {
     func save(completion: @escaping () -> Void) {
         feedbackNetworkService.feedbacks(content) { result in
             switch result {
-            case .success(let data):
+            case .success:
                 completion()
             case .failure:
                 return
@@ -32,10 +32,15 @@ final class UserExperiencePageModel: ObservableObject {
 }
 
 struct UserExperiencePage: View {
-    private var placeholder = "내용을 입력해주세요"
-    @StateObject var userExperiencePageModel = UserExperiencePageModel()
     @EnvironmentObject var router: Router
-    @State private var showToast: Bool = false
+    @EnvironmentObject var toastPresenter: ToastPresenter
+    @StateObject var userExperiencePageModel = UserExperiencePageModel()
+    @FocusState private var focusField: FocusField?
+    private var placeholder = "내용을 입력해주세요"
+    
+    private enum FocusField {
+        case feedback
+    }
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -76,6 +81,7 @@ struct UserExperiencePage: View {
                         userExperiencePageModel.content = String(newValue.prefix(500))
                     }
                 }
+                .focused($focusField, equals: .feedback)
             
             HStack(spacing: 0) {
                 Spacer()
@@ -91,8 +97,9 @@ struct UserExperiencePage: View {
             CommonButton(title: "피드백 보내기")
                 .enable(userExperiencePageModel.checkingContent())
                 .tap {
+                    focusField = nil
                     userExperiencePageModel.save {
-                        showToast = true
+                        toastPresenter.show(type: .success, text: "접수되었습니다. 소중한 의견 감사합니다 :)")
                         router.navigateBack()
                     }
                 }
@@ -101,7 +108,6 @@ struct UserExperiencePage: View {
         .navigationBackButton {
             router.navigateBack()
         }
-        .showToast("접수되었습니다. 소중한 의견 감사합니다 :)", show: $showToast)
     }
 }
 

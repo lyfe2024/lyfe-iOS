@@ -9,10 +9,26 @@
 import SwiftUI
 
 public struct Toast: View {
+    public enum Content {
+        case success
+        case warning
+        
+        var image: Image {
+            switch self {
+            case .success:
+                DesignSystemAsset.icGreenCircleCheck.swiftUIImage
+            case .warning:
+                DesignSystemAsset.icMainErrorCircle.swiftUIImage
+            }
+        }
+    }
+    
+    private(set) var type: Content
     private(set) var text: String
     private(set) var timeout: Int = 1
     
-    init(text: String) {
+    init(type: Content, text: String) {
+        self.type = type
         self.text = text
     }
     
@@ -21,7 +37,7 @@ public struct Toast: View {
             Spacer()
                 .frame(width: 17)
             
-            DesignSystemAsset.icMainErrorCircle.swiftUIImage
+            type.image
                 .resizable()
                 .frame(width: 18, height: 18)
             

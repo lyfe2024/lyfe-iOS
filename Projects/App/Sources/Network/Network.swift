@@ -35,12 +35,7 @@ class NetworkService {
         guard let url = URL(string: endpoint) else { return }
         
         if needToken, AccountStorage.shared.accessToken == nil {
-            DispatchQueue.main.async {
-                NotificationCenter.default.post(
-                    name: NSNotification.Name("NeedToLogIn"),
-                    object: nil
-                )
-            }
+            Notification.needToLogIn.post()
             return
         }
         

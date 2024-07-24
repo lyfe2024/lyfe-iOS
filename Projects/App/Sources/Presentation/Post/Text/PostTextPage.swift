@@ -140,7 +140,7 @@ struct PostTextPage: View {
         .navigationBackButton {
             router.navigateBack()
         }
-        .showToast("작성에 실패했습니다. 다시 시도해주세요.", show: $showToast)
+        .showToast(type: .warning, text: "작성에 실패했습니다. 다시 시도해주세요.", show: $showToast)
     }
 }
 
