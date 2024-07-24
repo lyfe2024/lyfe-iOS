@@ -7,55 +7,65 @@
 //
 
 import SwiftUI
+import DesignSystem
+import Kingfisher
 
 struct UserProfileComponent: View {
     let image: String
     let name: String
     let time: String
     let content: String
-    @State var infoToggle: Bool
+    let action: () -> Void
+    
+    init(
+        image: String,
+        name: String,
+        time: String,
+        content: String,
+        action: @escaping () -> Void
+    ) {
+        self.image = image
+        self.name = name
+        self.time = time
+        self.content = content
+        self.action = action
+    }
     
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             HStack(spacing: 8) {
-                Image(image)
+                KFImage(URL(string: image))
                     .resizable()
                     .frame(width: 24, height: 24)
                     .scaledToFit()
                     .clipShape(Circle())
                 Text(name)
-                    .font(.regular(14))
+                    .applyFont(font: .button3)
                 Text(time)
-                    .font(.regular(12))
+                    .applyFont(font: .caption4)
                     .foregroundColor(.GrayB0B0B0)
                 
                 Spacer()
                 
-                Button {
-                    print("Info 버튼 tapped")
-                    self.infoToggle.toggle()
-                } label: {
-                    Image("Info")
-                        .frame(width: 24, height: 24)
-                }
+                LyfeCommon.ic_gray_info
+                    .frame(width: 24, height: 24)
+                    .onTapGesture {
+                        action()
+                    }
             }
             
             Text(content)
-                .font(.regular(14))
+                .applyFont(font: .body3)
                 .frame(maxWidth: .infinity, alignment: .leading)
-                .overlay(alignment: .topTrailing) {
-                    FeedPopup(popupType: .doubleBtn, isPopup: infoToggle)
-                }
-        }
-        .onTapGesture {
-            if infoToggle {
-                infoToggle = false
-            }
         }
     }
 }
 
-
-#Preview {
-    UserProfileComponent(image: "Sample1", name: "홍길동", time: "1분전", content: "2줄이상이면 없어지는 말", infoToggle: false)
-}
+//
+//#Preview {
+//    UserProfileComponent(infoToggle: false,
+//                         image: "Sample1",
+//                         name: "홍길동",
+//                         time: "1분전",
+//                         content: "2줄이상이면 없어지는 말")
+//}

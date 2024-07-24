@@ -17,6 +17,9 @@ protocol BoardNetworkInterface {
     func getLatestBoard(_ cursorId: String, _ type: String, _ date: String, completion: @escaping (Result<BoardList, NetworkError>) -> Void)
     // 게시글 인기순 조회
     func getPopularBoard(_ cursorId: String, _ type: String, _ popularType: String, completion: @escaping (Result<BoardList, NetworkError>) -> Void)
+    
+    // 댓글 조회
+    func getComments(_ cursorId: String, _ comment_board_id: String, completion: @escaping (Result<CommentList, NetworkError>) -> Void)
 }
 
 final class BoardNetwork: NetworkService, BoardNetworkInterface {
@@ -45,7 +48,6 @@ final class BoardNetwork: NetworkService, BoardNetworkInterface {
     func getLatestBoard(_ cursorId: String, _ type: String, _ date: String, completion: @escaping (Result<BoardList, NetworkError>) -> Void) {
         let endpoint = APIEndpoint.latestBoard()
         
-        //cursorId=0&type=BOARD
         let parameters: [String: Any] = [
             "cursorId": cursorId,
             "type": type,
@@ -60,7 +62,6 @@ final class BoardNetwork: NetworkService, BoardNetworkInterface {
     func getPopularBoard(_ cursorId: String, _ type: String, _ popularType: String, completion: @escaping (Result<BoardList, NetworkError>) -> Void) {
         let endpoint = APIEndpoint.popularBoard()
         
-        // type=BOARD_PICTURE&cursorId=0&popularType=WHISKY
         let parameters: [String : Any] = [
             "type" : type,
             "cursorId" : cursorId,
@@ -70,6 +71,18 @@ final class BoardNetwork: NetworkService, BoardNetworkInterface {
         request(endpoint, method: .get, parameters: parameters) { (result: Result<BoardList, NetworkError>) in
             completion(result)
         }
+    }  
+
+    func getComments(_ cursorId: String, _ comment_board_id: String, completion: @escaping (Result<CommentList, NetworkError>) -> Void) {
+        let endpoint = APIEndpoint.comments()
+        
+        let parametsr: [String : Any] = [
+            "cursorId" : cursorId,
+            "comment_board_id" : comment_board_id
+        ]
+        
+        request(endpoint, method: .get, parameters: parametsr) { (result: Result<CommentList, NetworkError>) in
+            completion(result)
+        }
     }
-    
 }

@@ -11,7 +11,7 @@ import DesignSystem
 import Kingfisher
 
 struct FeedWritingPage: View {
-    @ObservedObject var viewModel: FeedGridSectionModel
+    @ObservedObject var viewModel: FeedMainView
     
     var body: some View {
         LazyVStack(alignment: .leading) {
@@ -69,5 +69,5 @@ struct FeedWritingPage: View {
 }
 
 #Preview {
-    FeedWritingPage(viewModel: FeedGridSectionModel())
+    FeedWritingPage(viewModel: FeedMainView())
 }

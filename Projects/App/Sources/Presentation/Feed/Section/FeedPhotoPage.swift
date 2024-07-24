@@ -10,8 +10,8 @@ import SwiftUI
 import Combine
 import Kingfisher
 
-struct CardGridPage: View {
-    @ObservedObject var viewModel: FeedGridSectionModel
+struct FeedPhotoPage: View {
+    @ObservedObject var viewModel: FeedMainView
     private let colums: [GridItem] = [GridItem(.flexible(), spacing: 16), GridItem(.flexible(), spacing: 16)]
     
     var body: some View {
@@ -35,5 +35,5 @@ struct CardGridPage: View {
 }
 
 #Preview {
-    CardGridPage(viewModel: FeedGridSectionModel())
+    FeedPhotoPage(viewModel: FeedMainView())
 }

@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import DesignSystem
 
 struct NoneUserSettingPage: View {
     @EnvironmentObject var router: Router
@@ -18,8 +19,8 @@ struct NoneUserSettingPage: View {
                 .padding(.vertical, 6)
                 .padding(.bottom, 16)
             
-            SettingHStackView(text: "이용약관", image: "ic_round-navigate-next")
-            SettingHStackView(text: "개인정보 수집 및 이용", image: "ic_round-navigate-next")
+            SettingHStackView(text: "이용약관",image: LyfeCommon.ic_gray_arrow_after)
+            SettingHStackView(text: "개인정보 수집 및 이용", image: LyfeCommon.ic_gray_arrow_after)
             Spacer()
         }
         .padding(.horizontal, 20)

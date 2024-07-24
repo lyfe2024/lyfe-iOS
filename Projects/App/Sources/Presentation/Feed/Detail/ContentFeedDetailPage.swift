@@ -12,12 +12,14 @@ import Kingfisher
 import DesignSystem
 
 class ContentFeedDetailPageModel: ObservableObject {
-    @Published var realPostUser: BoardResponseDTO?
+    @Published var postData: BoardResponseDTO?
     @Published var feedType: FeedType?
-    @Published var postUser: HomeSample = HomeSample.sampleUser // 임시
-    @Published var commentUser: [HomeSample] = HomeSample.homeSample
+    @Published var comments: [CommentDTO]?
+    @Published var infoButtonTooggle: Bool = false
+    @Published var commentButtonToggle: Bool = false
     @Published var commentState: Bool = false
     @Published var popupToggle: Bool = false
+    @Published var alertToggle: Bool = false
     
     private let networkService = BoardNetwork()
     private var cancellables = [AnyCancellable]()
@@ -27,11 +29,24 @@ class ContentFeedDetailPageModel: ObservableObject {
             .boardDetail("31") { result in
                 switch result {
                 case .success(let data):
-                    self.realPostUser = data
+                    self.postData = data
                     data.boardType == "BOARD"
                     ? (self.feedType = .board) : (self.feedType = .board_picture)
                 case .failure(let error):
                     debugPrint(error.localizedDescription)
+                }
+            }
+    }
+    
+    func getComments() {
+//        guard let postId = postData?.id else { return }
+        networkService //cursorId, board_id
+            .getComments("1", "500") { result in
+                switch result {
+                case .success(let success):
+                    self.comments = success.list
+                case .failure(let error):
+                    print("🚨 SY Failure! Detail > GetComments > \(error.localizedDescription)")
                 }
             }
     }
@@ -43,87 +58,121 @@ struct ContentFeedDetailPage: View {
     let photoSize = UIScreen.main.bounds.width
     
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading) {
-                Text(viewModel.realPostUser?.topic ?? "")
-                    .applyFont(font: .heading4)
-                    .foregroundColor(.MainE86336)
-                Spacer().frame(height: 16)
-                
-                if let boardType = viewModel.feedType {
-                    switch boardType {
-                    case .board:
-                        VStack(alignment: .leading, spacing: 16) {
-                            Text(viewModel.realPostUser?.title ?? "")
-                                .applyFont(font: .title1)
-                                .lineLimit(2)
-                            
-                            Text(viewModel.realPostUser?.content ?? "")
-                                .applyFont(font: .body2)
-                        }
-                    case .board_picture:
-                        VStack(alignment: .leading) {
-                            ZStack(alignment: .bottomLeading) {
-                                ZStack {
-                                    Rectangle()
-                                        .fill(Color.Gray393939)
-                                        .frame(width: photoSize, height: photoSize)
-                                        .overlay {
-                                            if let profileURLString = viewModel.realPostUser?.imageUrl,
-                                               let profileURL = URL(string: profileURLString) {
-                                                KFImage(profileURL)
-                                                    .resizable()
-                                                    .scaledToFit()
-                                                    .aspectRatio(contentMode: .fit)
-                                            }
-                                            
-                                            ZStack {
-                                                LinearGradient(gradient: Gradient(colors: [Color.clear, Color.black]),
-                                                               startPoint: .top, endPoint: .bottom)
-                                            }
-                                        }
-                                }
-                                
-                                Text(viewModel.postUser.title)
-                                    .applyFont(font: .title1)
-                                    .foregroundColor(.white)
-                                    .padding(.horizontal, 20)
-                                    .padding(.bottom, 16)
-                                    .lineLimit(2)
-                            }
+        VStack {
+            ScrollView {
+                VStack(alignment: .leading) {
+                    Text(viewModel.postData?.topic ?? "")
+                        .applyFont(font: .heading4)
+                        .foregroundColor(.MainE86336)
+                    Spacer().frame(height: 16)
+                    
+                    if let boardType = viewModel.feedType {
+                        switch boardType {
+                        case .board:
+                            boardView()
+                        case .board_picture:
+                            pictuerView()
                         }
                     }
+                    
+                    PostUserComponent(viewModel: viewModel)
                 }
+                .padding(.horizontal, 20)
                 
-                PostUserComponent(viewModel: viewModel)
-            }
-            .padding(.horizontal, 20)
-            
-            RectangleComponent(color: Color.grayF9F9F9, height: 8)
-            
-            LazyVStack {
-                ForEach (viewModel.commentUser, id: \.self) { index in
-                    CommentUserPage(sampleUser: viewModel.postUser,
-                                    commentUser: HomeSample.homeSample,
-                                    infoButtonTooggle: viewModel.popupToggle)
+                RectangleComponent(color: Color.grayF9F9F9, height: 8)
+                
+                LazyVStack {
+                    ForEach (viewModel.comments ?? [], id: \.id) { index in
+                        CommentUserPage(viewModel: viewModel,
+                                        postUser: viewModel.postData,
+                                        commentUser: viewModel.comments)
+                    }
                 }
+                .padding(.horizontal, 20)
             }
-            .padding(.horizontal, 20)
+            .scrollIndicators(.hidden)
             
+            commentView()
         }
         .onAppear {
+            viewModel.getComments()
             viewModel.getBoardDetail()
+            
         }
-        .navigationBackButton {
+        .onTapGesture { viewModel.popupToggle = false }
+        // TODO: - 사용자 본인 글인지아닌지 구분 필요
+        .overlay(alignment: .topTrailing) {
+            PostPopup(type: .doubleBtn)
+                .tapRemove {
+                    viewModel.popupToggle = false
+                    viewModel.alertToggle = true
+                }
+                .tapUpdate {
+                    viewModel.popupToggle = false
+                    viewModel.alertToggle = true
+                }
+                .opacity(viewModel.popupToggle ? 1 : 0)
+                .offset(x: -20)
+        }
+        .LyfeNavigationDoubleButton(LyfeCommon.ic_black_info, LyfeCommon.ic_black_arrow_back, LButton: {
             router.navigateBack()
+        }, RButton: {
+            viewModel.popupToggle.toggle()
+        })
+        .customAlert(
+            isShowing: $viewModel.alertToggle,
+            type: .doubleButton(leftTitle: "신고", rightTitle: "취소"), title: "신고하시겠어요?", desc: "", 
+            confirmButton:  {
+                viewModel.alertToggle = false
+            }) {
+                viewModel.alertToggle = false
+            }
+    }
+    
+    @ViewBuilder func boardView() -> some View {
+        VStack(alignment: .leading, spacing: 16) {
+            Text(viewModel.postData?.title ?? "")
+                .applyFont(font: .title1)
+                .lineLimit(2)
+            
+            Text(viewModel.postData?.content ?? "")
+                .applyFont(font: .body2)
         }
-        .navigationRightButton(image: "Info_black") {
-            print("info button tapped")
+    }
+    
+    @ViewBuilder func pictuerView() -> some View {
+        VStack(alignment: .leading) {
+            ZStack(alignment: .bottomLeading) {
+                ZStack {
+                    Rectangle()
+                        .fill(Color.Gray393939)
+                        .frame(width: photoSize, height: photoSize)
+                        .overlay {
+                            if let profileURLString = viewModel.postData?.imageUrl,
+                               let profileURL = URL(string: profileURLString) {
+                                KFImage(profileURL)
+                                    .resizable()
+                                    .scaledToFit()
+                                    .aspectRatio(contentMode: .fit)
+                            }
+                            
+                            ZStack {
+                                LinearGradient(gradient: Gradient(colors: [Color.clear, Color.black]),
+                                               startPoint: .top, endPoint: .bottom)
+                            }
+                        }
+                }
+                
+                LyfeText(text: viewModel.postData?.title ?? "", color: .white, font: .title1)
+                    .padding(.horizontal, 20)
+                    .padding(.bottom, 16)
+                    .lineLimit(2)
+            }
         }
-        
-        Text("댓글을 남겨보세요")
-            .applyFont(font: .body2)
-            .foregroundStyle(Color.GrayC6C6C6)
+    }
+    
+    @ViewBuilder func commentView() -> some View {
+        LyfeText(text: "댓글을 남겨보세요", color: Color.grayC6C6C6, font: .body2)
             .frame(maxWidth: .infinity, alignment: .leading)
             .contentShape(Rectangle())
             .padding(12)
@@ -136,8 +185,10 @@ struct ContentFeedDetailPage: View {
                 viewModel.commentState.toggle()
             }
             .sheet(isPresented: $viewModel.commentState,
-                   content: { CommentComponent(userName: .constant("안녕"),
-                                               viewModel: viewModel)
+                   content: { CommentComponent(
+                    userName: .constant("안녕"),
+                    viewModel: viewModel
+                   )
                 .presentationDetents([.height(134)])
             })
     }

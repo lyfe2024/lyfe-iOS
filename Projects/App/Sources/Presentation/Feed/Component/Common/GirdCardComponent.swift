@@ -25,9 +25,14 @@ struct GirdCardComponent: View {
                         VStack(alignment: .leading) {
                             HStack(spacing: 8) {
                                 KFImage(URL(string: data.user?.profile  ?? ""))
+                                    .placeholder {
+                                        ProgressView()
+                                            .tint(Color.mainE86336)
+                                    }
                                     .resizable()
                                     .clipShape(Circle())
                                     .frame(width: 24, height: 24)
+                                    
                                 Text("\(data.user?.username ?? "")")
                                     .font(.bold(12))
                                 

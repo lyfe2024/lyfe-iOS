@@ -7,27 +7,25 @@
 //
 
 import SwiftUI
-
-final class UserProfileSettingPageModel: ObservableObject {
-    @Published var sampleData = HomeSample.sampleUser
-}
+import DesignSystem
+import Kingfisher
 
 struct UserProfileSettingPage: View {
     @EnvironmentObject var router: Router
-    @StateObject var userProfileSettingPageModel = UserProfileSettingPageModel()
-    @State var nicknameDummy = ""
+    let profileImage: String
+    let userName: String
+    @State var nickname = ""
     
     var body: some View {
-        VStack {
+        VStack(spacing: 0) {
             Text("프로필 수정")
-                .font(.bold(24))
-                .padding(.vertical, 12)
+                .applyFont(font: .heading3)
+                .padding(.bottom, 24)
                 .frame(maxWidth: .infinity, alignment: .leading)
-            
-            Spacer().frame(height: 24)
+
             
             ZStack(alignment: .bottomTrailing) {
-                Image("\(userProfileSettingPageModel.sampleData.image)")
+                KFImage(URL(string: profileImage))
                     .resizable()
                     .scaledToFill()
                     .frame(width: 80, height: 80)
@@ -48,19 +46,20 @@ struct UserProfileSettingPage: View {
             
             Spacer().frame(height: 32)
             
-            TextInput(text: $nicknameDummy) // 닉네임관련 수정 후 반영..
+            TextInput(text: $nickname) // 닉네임관련 수정 후 반영..
             Spacer()
             CommonButton(title: "완료")
         }
         .padding(.horizontal, 20)
-        .navigationBackButton {
+        .LyfeNaivigationLButton(LyfeCommon.ic_black_arrow_back) {
             router.navigateBack()
+        }
+        .onAppear {
+            nickname = userName
         }
     }
 }
 
 #Preview {
-    NavigationStack {
-        UserProfileSettingPage()
-    }
+    UserProfileSettingPage(profileImage: "", userName: "sample")
 }

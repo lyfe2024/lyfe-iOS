@@ -95,6 +95,18 @@ struct APIEndpoint {
     static func todayTopic() -> String {
         return base + "/topics"
     }
+    
+    // 자신이 작성한 글
+    static func myboardList() -> String {
+        let url = base + "/boards/me"
+        return url
+    }
+    
+    // 댓글
+    static func comments() -> String {
+        let url = base + "/comments/latest"
+        return url
+    }
 }
 
 private extension APIEndpoint {
