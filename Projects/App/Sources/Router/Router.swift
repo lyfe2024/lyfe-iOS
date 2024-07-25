@@ -23,6 +23,7 @@ class Router: ObservableObject {
         case setting
         case userExperience
         case profileSetting
+        case postDetail
     }
     
     // Used to programatically control our navigation stack
@@ -58,6 +59,8 @@ class Router: ObservableObject {
             UserExperiencePage()
         case .profileSetting:
             UserProfileSettingPage()
+        case .postDetail:
+            ContentFeedDetailPage()
         }
     }
     

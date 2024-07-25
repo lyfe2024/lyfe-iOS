@@ -20,6 +20,16 @@ extension Color {
     public static let mainC7471D = Color(asset: DesignSystemAsset.main700)
     public static let mainAB350E = Color(asset: DesignSystemAsset.main800)
     
+    public static let main100_FFD0BB = Color(asset: DesignSystemAsset.main100)
+    public static let main200_FFB191 = Color(asset: DesignSystemAsset.main200)
+    public static let main300_FF936C = Color(asset: DesignSystemAsset.main300)
+    public static let main400_F3774C = Color(asset: DesignSystemAsset.main400)
+    public static let main500_E86336 = Color(asset: DesignSystemAsset.main500)
+    public static let main600_DB5527 = Color(asset: DesignSystemAsset.main600)
+    public static let main700_C7471D = Color(asset: DesignSystemAsset.main700)
+    public static let main800_AB350E = Color(asset: DesignSystemAsset.main800)
+    
+    
     // Gray
     public static let grayF9F9F9 = Color(asset: DesignSystemAsset.gray010)
     public static let grayF5F5F5 = Color(asset: DesignSystemAsset.gray050)
@@ -32,6 +42,18 @@ extension Color {
     public static let gray4B4B4B = Color(asset: DesignSystemAsset.gray700)
     public static let gray393939 = Color(asset: DesignSystemAsset.gray700)
     public static let gray363636 = Color(asset: DesignSystemAsset.gray363636)
+    
+    public static let gray010_F9F9F9 = Color(asset: DesignSystemAsset.gray010)
+    public static let gray050_F5F5F5 = Color(asset: DesignSystemAsset.gray050)
+    public static let gray100_DDDDDD = Color(asset: DesignSystemAsset.gray100)
+    public static let gray200_C6C6C6 = Color(asset: DesignSystemAsset.gray200)
+    public static let gray300_B0B0B0 = Color(asset: DesignSystemAsset.gray300)
+    public static let gray400_9B9B9B = Color(asset: DesignSystemAsset.gray400)
+    public static let gray500_727272 = Color(asset: DesignSystemAsset.gray500)
+    public static let gray600_5E5E5E = Color(asset: DesignSystemAsset.gray600)
+    public static let gray700_4B4B4B = Color(asset: DesignSystemAsset.gray700)
+    public static let gray800_393939 = Color(asset: DesignSystemAsset.gray700)
+    public static let gray900_363636 = Color(asset: DesignSystemAsset.gray363636)
 
     // System
     public static let blue2D7BF9 = Color(asset: DesignSystemAsset.blue050)

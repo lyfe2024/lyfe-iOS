@@ -153,6 +153,47 @@ extension LyfeFont {
             return 16
         }
     }
+    
+    public var LFont: Font {
+        switch self {
+        case .heading1:
+            return .bold(self.size)
+        case .heading2:
+            return .bold(self.size)
+        case .heading3:
+            return .bold(self.size)
+        case .heading4:
+            return .bold(self.size)
+        case .heading5:
+            return .bold(self.size)
+        case .title1:
+            return .bold(self.size)
+        case .title2:
+            return .bold(self.size)
+        case .title3:
+            return .bold(self.size)
+        case .body1:
+            return .medium(self.size)
+        case .body2:
+            return .medium(self.size)
+        case .body3:
+            return .medium(self.size)
+        case .button1:
+            return .semiBold(self.size)
+        case .button2:
+            return .semiBold(self.size)
+        case .button3:
+            return .semiBold(self.size)
+        case .caption1:
+            return .regular(self.size)
+        case .caption2:
+            return .regular(self.size)
+        case .caption3:
+            return .regular(self.size)
+        case .caption4:
+            return .regular(self.size)
+        }
+    }
 }
 
 
@@ -165,7 +206,7 @@ public struct FontModifier: ViewModifier {
     
     public func body(content: Content) -> some View {
         content
-            .font(.custom(font.name, size: font.size))
+            .font(font.LFont)
             .padding(.vertical, (font.lineHeight - font.size) / 2)
     }
 }
@@ -203,5 +244,24 @@ extension Font {
     }
 }
 
-
-
+public struct LyfeText: View {
+    public let text: String
+    public let color: Color
+    public let font: LyfeFont
+    
+    public init(
+        text: String,
+        color: Color,
+        font: LyfeFont
+    ) {
+        self.text = text
+        self.color = color
+        self.font = font
+    }
+    
+    public var body: some View {
+        Text(text)
+            .applyFont(font: font)
+            .foregroundStyle(color)
+    }
+}

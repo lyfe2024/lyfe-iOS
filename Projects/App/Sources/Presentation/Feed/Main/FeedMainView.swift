@@ -1,5 +1,5 @@
 //
-//  GridSectionPage.swift
+//  FeedMainView.swift
 //  Lyfe
 //
 //  Created by 박서연 on 2024/03/10.
@@ -26,8 +26,8 @@ enum FeedPicker: String, CaseIterable {
     }
 }
 
-class FeedGridSectionModel: ObservableObject {
-    @Published var feedType: FeedType = .board
+class FeedMainView: ObservableObject {
+    @Published var feedType: FeedType = .board_picture
     @Published var feedPicker: FeedPicker = .whiskey
     @Published var feedData: [BoardResponseDTO] = []
     
@@ -39,11 +39,12 @@ class FeedGridSectionModel: ObservableObject {
     
     @MainActor
     func getLatestBoard(_ boardType: FeedType) {
-        let todayDate = FeedGridSectionModel.dateFormatter.string(from: Date())
+        let todayDate = FeedMainView.dateFormatter.string(from: Date())
         network.getLatestBoard("0", boardType.boardType, todayDate) { result in
             switch result {
             case .success(let success):
                 self.feedData = success.list
+                print(self.feedData)
             case .failure(let failure):
                 print("Latest List failure! \(failure.localizedDescription)")
             }
@@ -70,7 +71,7 @@ class FeedGridSectionModel: ObservableObject {
 }
 
 struct GridSectionPage: View {
-    @StateObject private var viewModel = FeedGridSectionModel()
+    @StateObject private var viewModel = FeedMainView()
     
     var body: some View {
         ScrollView {
@@ -86,30 +87,28 @@ struct GridSectionPage: View {
                                 Text(picker.rawValue)
                                     .tag(picker)
                             }
-                        }.tint(Color.black)
+                        }
+                        .tint(Color.black)
                     }
                     
                     switch viewModel.feedType {
                     case .board_picture:
-                        CardGridPage(viewModel: viewModel)
+                        FeedPhotoPage(viewModel: viewModel)
                     case .board:
                         FeedWritingPage(viewModel: viewModel)
                     }
                 } header: {
                     DivideFeedPage(viewModel: viewModel)
-                        .background(.white)
+                        .ignoresSafeArea(edges: .top)
                 }
             }
             .padding(.horizontal, 20)
-            .navigationTitleWithRightButton(title: "오늘의 전체보기", text: "게시글 작성") {
-                print("새글쓰기 tapped!")
-            }
         }
+        .LyfeNaivigationTitle("오늘의 전체보기")
+        .scrollIndicators(.hidden)
     }
 }
 
 #Preview {
-    NavigationStack {
-        GridSectionPage()
-    }
+    GridSectionPage()
 }

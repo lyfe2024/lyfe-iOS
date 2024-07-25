@@ -78,13 +78,12 @@ struct UserProfileSettingPage: View {
     @StateObject var userProfileSettingPageModel = UserProfileSettingPageModel()
     
     var body: some View {
-        VStack {
+        VStack(spacing: 0) {
             Text("프로필 수정")
-                .font(.bold(24))
-                .padding(.vertical, 12)
+                .applyFont(font: .heading3)
+                .padding(.bottom, 24)
                 .frame(maxWidth: .infinity, alignment: .leading)
-            
-            Spacer().frame(height: 24)
+
             
             ZStack(alignment: .bottomTrailing) {
                 if let url = URL(string: userProfileSettingPageModel.profileImageUrl) {
@@ -181,7 +180,7 @@ struct UserProfileSettingPage: View {
                 .frame(height: 24)
         }
         .padding(.horizontal, 20)
-        .navigationBackButton {
+        .LyfeNaivigationLButton(LyfeCommon.ic_black_arrow_back) {
             router.navigateBack()
         }
         .onAppear {

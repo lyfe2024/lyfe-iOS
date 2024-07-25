@@ -10,7 +10,6 @@ import SwiftUI
 
 struct EntireLatestPage: View {
     var data: HomeSample
-    var cardValue: CardValue
     
     var body: some View {
         VStack {
@@ -69,5 +68,5 @@ struct EntireLatestPage: View {
 }
 
 #Preview {
-    EntireLatestPage(data: HomeSample.sampleUser, cardValue: CardValue.today)
+    EntireLatestPage(data: HomeSample.sampleUser)
 }

@@ -90,4 +90,92 @@ extension View {
             }
             .padding(.vertical, 10)
     }
+    
+    func LyfeNaivigationTitle(_ text: String) -> some View {
+        VStack(spacing: 0) {
+            Text(text)
+                .applyFont(font: .heading3)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.init(top: 10,leading: 20,bottom: 10,trailing: 20))
+            self.navigationBarBackButtonHidden()
+        }
+    }
+    
+    func LyfeNaivigationRButton(_ title: String, _ button: String, _ action: @escaping () -> Void) -> some View {
+        VStack(spacing: 0) {
+            HStack {
+                Text(title)
+                    .applyFont(font: .heading3)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                
+                Spacer()
+                Text(button)
+                    .applyFont(font: .button1)
+                    .foregroundStyle(Color.mainE86336)
+                    .onTapGesture {
+                        action()
+                    }
+            }
+            .padding(.init(top: 10,leading: 20,bottom: 10,trailing: 20))
+            
+            self.navigationBarBackButtonHidden()
+            Spacer()
+        }
+    }
+    
+    func LyfeNavigationDoubleButton(_ RImage: Image, _ LImage: Image, LButton: @escaping () -> Void, RButton: @escaping () -> Void) -> some View {
+        VStack(spacing: 0) {
+            HStack {
+                LImage
+                    .resizable()
+                    .frame(width: 24, height: 24)
+                    .onTapGesture {
+                        LButton()
+                    }
+                
+                Spacer()
+                
+                RImage
+                    .resizable()
+                    .frame(width: 24, height: 24)
+                    .onTapGesture {
+                        RButton()
+                    }
+            }
+            .padding(.vertical, 14)
+            .padding(.horizontal, 20)
+            
+            self.navigationBarBackButtonHidden()
+            Spacer()
+        }
+    }
+    
+    func LyfeNaivigationLButton(_ LButton: Image, _ action: @escaping () -> Void) -> some View {
+        VStack(spacing: 0) {
+            HStack {
+                LButton
+                    .resizable()
+                    .frame(width: 24, height: 24)
+                    .onTapGesture {
+                        action()
+                    }
+                    .padding(.init(top: 16,leading: 20,bottom: 16,trailing: 20))
+                
+                Spacer()
+            }
+            
+            self.navigationBarBackButtonHidden()
+            Spacer()
+        }
+    }
+}
+
+extension View {
+    func screenWidth() -> UIScreen? {
+        guard let window = UIApplication.shared.connectedScenes.first as? UIWindowScene else {
+            return self.screenWidth()
+        }
+        
+        return window.screen
+    }
 }

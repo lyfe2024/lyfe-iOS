@@ -8,6 +8,7 @@
 
 import SwiftUI
 import Kingfisher
+import DesignSystem
 
 // 글쓴이 뷰
 struct PostUserComponent: View {
@@ -17,13 +18,17 @@ struct PostUserComponent: View {
         HStack {
             HStack(spacing: 8) {
                 HStack(spacing: 4){
-                    Image("BlackWine")
-                    Text("\(viewModel.realPostUser?.whiskyCount ?? 0)")
+                    LyfeCommon.ic_black_whiskey_empty
+                        .resizable()
+                        .frame(width: 24, height: 24)
+                    Text("\(viewModel.postData?.whiskyCount ?? 0)")
                 }
                 HStack(spacing: 2) {
-                    Image("BlackComment")
+                    LyfeCommon.ic_black_comment
+                        .resizable()
+                        .frame(width: 24, height: 24)
                     Text("댓글")
-                    Text("\(viewModel.realPostUser?.commentCount ?? 0)")
+                    Text("\(viewModel.postData?.commentCount ?? 0)")
                 }
             }
             .font(.semiBold(14))
@@ -31,7 +36,7 @@ struct PostUserComponent: View {
             
             Spacer()
             HStack(spacing: 8) {
-                if let profileURLString = viewModel.realPostUser?.user?.profile,
+                if let profileURLString = viewModel.postData?.user?.profile,
                    let profileURL = URL(string: profileURLString) {
                     KFImage(profileURL)
                         .resizable()
@@ -39,14 +44,17 @@ struct PostUserComponent: View {
                         .frame(width: 32, height: 32)
                         .clipShape(Circle())
                 } else {
-                    // 기본 이미지 ??
+                    LyfeCommon.ic_gray_none_user
+                        .resizable()
+                        .frame(width: 32, height: 32)
+                        .clipShape(Circle())
                 }
                     
                 VStack(alignment: .leading, spacing: 0){
-                    Text(viewModel.realPostUser?.user?.username ?? "")
+                    Text(viewModel.postData?.user?.username ?? "")
                         .font(.bold(14))
                         .padding(.vertical, 4)
-                    Text(viewModel.realPostUser?.updateAt ?? "몇 분전")
+                    Text(viewModel.postData?.updateAt ?? "몇 분전")
                         .font(.regular(10))
                         .padding(.vertical, 3)
                         .foregroundColor(.GrayC6C6C6)

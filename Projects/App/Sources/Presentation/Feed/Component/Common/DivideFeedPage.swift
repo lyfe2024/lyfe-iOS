@@ -24,7 +24,7 @@ enum FeedType: String, CaseIterable {
 }
 
 struct DivideFeedPage: View {
-    @ObservedObject var viewModel: FeedGridSectionModel
+    @ObservedObject var viewModel: FeedMainView
     
     var body: some View {
         HStack {
@@ -46,9 +46,11 @@ struct DivideFeedPage: View {
                 .animation(.easeInOut, value: viewModel.feedType)
             }
         }
+        .background(Color.white)
+        .ignoresSafeArea(edges: .top)
     }
 }
 
 #Preview {
-    DivideFeedPage(viewModel: FeedGridSectionModel())
+    DivideFeedPage(viewModel: FeedMainView())
 }
