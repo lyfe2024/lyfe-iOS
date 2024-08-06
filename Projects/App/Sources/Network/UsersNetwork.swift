@@ -10,6 +10,7 @@ import Foundation
 
 protocol UsersNetworkInterface {
     func usersMe(completion: @escaping (Result<UsersMeResponseDTO, NetworkError>) -> Void)
+    func usersMePut(nickname: String, profileUrl: String, completion: @escaping (Result<UsersMePutResponseDTO, NetworkError>) -> Void)
     func userBoardList(_ cursorId: String, _ type: String, completion: @escaping (Result<BoardList, NetworkError>) -> Void) // 자신이 작성한 글
 }
 
@@ -18,6 +19,18 @@ final class UsersNetwork: NetworkService, UsersNetworkInterface {
         let endpoint = APIEndpoint.usersMe()
         
         request(endpoint, method: .get, needToken: true) { (result: Result<UsersMeResponseDTO, NetworkError>) in
+            completion(result)
+        }
+    }
+    
+    func usersMePut(nickname: String, profileUrl: String, completion: @escaping (Result<UsersMePutResponseDTO, NetworkError>) -> Void) {
+        let endpoint = APIEndpoint.usersMe()
+        let parameters: [String : Any] = [
+            "nickname" : nickname,
+            "profileUrl" : profileUrl
+        ]
+        
+        request(endpoint, method: .put, parameters: parameters, needToken: true) { (result: Result<UsersMePutResponseDTO, NetworkError>) in
             completion(result)
         }
     }
