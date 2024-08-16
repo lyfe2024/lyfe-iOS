@@ -22,8 +22,8 @@ class Router: ObservableObject {
         case mypage
         case setting
         case userExperience
+        case profileSetting
         case postDetail
-        case updateProfile(String, String)
     }
     
     // Used to programatically control our navigation stack
@@ -57,10 +57,10 @@ class Router: ObservableObject {
             UserSettingPage()
         case .userExperience:
             UserExperiencePage()
+        case .profileSetting:
+            UserProfileSettingPage()
         case .postDetail:
             ContentFeedDetailPage()
-        case .updateProfile(let profileImage, let userName):
-            UserProfileSettingPage(profileImage: profileImage, userName: userName)
         }
     }
     
